@@ -17,6 +17,8 @@ GO
 /* Eliminacion de Store Procedures */
 IF OBJECT_ID ('GGDP.alta_cliente') IS NOT NULL
     DROP PROCEDURE GGDP.alta_cliente
+IF OBJECT_ID ('GGDP.baja_cliente') IS NOT NULL
+    DROP PROCEDURE GGDP.baja_cliente
 GO
 
 /* Eliminacion de Tablas */
@@ -141,3 +143,23 @@ BEGIN
 END
 GO
 */
+CREATE PROCEDURE GGDP.baja_cliente
+(
+	@cliente_id INT
+) AS
+BEGIN
+	BEGIN TRY
+		BEGIN TRANSACTION
+			DECLARE @deshabilitado BIT
+
+			SET @deshabilitado = 0
+			/* TODO FALTA VERIFICAR QUE EXISTA */
+			UPDATE GGDP.Cliente SET clie_habilitado = @deshabilitado WHERE clie_id = @cliente_id
+		COMMIT TRANSACTION
+	END TRY
+	BEGIN CATCH
+		ROLLBACK TRANSACTION
+			SELECT -1
+	END CATCH
+END
+GO
