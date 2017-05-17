@@ -9,6 +9,11 @@ IF EXISTS (SELECT NAME FROM sys.indexes WHERE NAME = N'IX_Chofer')
 	DROP INDEX IX_Chofer ON GGDP.Chofer;
 GO
 
+/* Eliminacion de Functions */
+IF (OBJECT_ID ('GGDP.existe_cliente') IS NOT NULL)
+  DROP FUNCTION GGDP.existe_cliente
+GO
+
 /* Eliminacion de Triggers */
 IF OBJECT_ID ('GGDP.T_Cliente_telefono_unico','TR') IS NOT NULL
    DROP TRIGGER GGDP.T_Cliente_telefono_unico;
@@ -19,6 +24,8 @@ IF OBJECT_ID ('GGDP.alta_cliente') IS NOT NULL
     DROP PROCEDURE GGDP.alta_cliente
 IF OBJECT_ID ('GGDP.baja_cliente') IS NOT NULL
     DROP PROCEDURE GGDP.baja_cliente
+IF OBJECT_ID ('GGDP.modificacion_cliente') IS NOT NULL
+    DROP PROCEDURE GGDP.modificacion_cliente
 GO
 
 /* Eliminacion de Tablas */
@@ -84,13 +91,22 @@ GO
 
 /* Insercion de datos */
 INSERT INTO GGDP.Cliente(clie_dni, clie_nombre, clie_apellido, clie_telefono, clie_direccion, clie_codigo_postal, clie_mail, clie_fecha_nacimiento, clie_habilitado, clie_usuario)
-SELECT DISTINCT([Cliente_Dni]), [Cliente_Nombre], [Cliente_Apellido], [Cliente_Telefono], [Cliente_Direccion], 1, [Cliente_Mail], [Cliente_Fecha_Nac], 1, 1 FROM [gd_esquema].[Maestra]
+SELECT DISTINCT(Cliente_Dni), Cliente_Nombre, Cliente_Apellido, Cliente_Telefono, Cliente_Direccion, 1, Cliente_Mail, Cliente_Fecha_Nac, 1, 1 FROM [gd_esquema].[Maestra]
 GO
 /* TODO FALTA EL FK REAL DE CLIE_USUARIO */
 INSERT INTO GGDP.Chofer(chof_mail, chof_nombre, chof_apellido, chof_dni, chof_telefono, chof_direccion, chof_codigo_postal, chof_fecha_nacimiento, chof_habilitado, chof_usuario)
-SELECT DISTINCT ([Chofer_Mail]), [Chofer_Nombre], [Chofer_Apellido], [Chofer_Dni], [Chofer_Telefono], [Chofer_Direccion], 1, [Chofer_Fecha_Nac], 1, 1 FROM [gd_esquema].[Maestra]
+SELECT DISTINCT (Chofer_Mail), Chofer_Nombre, Chofer_Apellido, Chofer_Dni, Chofer_Telefono, Chofer_Direccion, 1, Chofer_Fecha_Nac, 1, 1 FROM [gd_esquema].[Maestra]
 GO
 /* TODO FALTA EL FK REAL DE CHOF_USUARIO */
+
+/* Creacion de Functions*/
+CREATE FUNCTION GGDP.existe_cliente(@cliente_id INT) RETURNS BIT
+BEGIN
+	IF EXISTS(SELECT 1 FROM GGDP.Cliente WHERE clie_id = @cliente_id)
+		RETURN 1
+	RETURN 0
+END
+GO
 
 /* Creacion de Triggers */
 /*
@@ -124,14 +140,17 @@ BEGIN
 	BEGIN TRY
 		BEGIN TRANSACTION
 		DECLARE @codigo_usuario INT
+		DECLARE @habilitado BIT
+		SET @habilitado = 1 */
 		/* TODO FALTA EL SP ALTA USUARIO */
+		/*
 		EXEC @codigo_usuario = GGDP.alta_usuario(@usuario, @password, @rol)
 
 		IF @codigo_usuario = -1
 			RAISERROR('El usuario ya existe', 16, 1)
 
 		INSERT INTO GGDP.Cliente(clie_nombre, clie_apellido, clie_dni, clie_mail, clie_telefono, clie_direccion, clie_codigo_postal, clie_fecha_nacimiento, clie_habilitado, clie_usuario)
-		VALUES(@nombre, @apellido, @dni, @mail, @telefono, @direccion, @codigo_postal, @fecha_nacimiento, 1, @codigo_usuario)
+		VALUES(@nombre, @apellido, @dni, @mail, @telefono, @direccion, @codigo_postal, @fecha_nacimiento, @habilitado, @codigo_usuario)
 
 		COMMIT TRANSACTION
 			SELECT @codigo_usuario
@@ -143,23 +162,58 @@ BEGIN
 END
 GO
 */
-CREATE PROCEDURE GGDP.baja_cliente
-(
-	@cliente_id INT
-) AS
-BEGIN
-	BEGIN TRY
-		BEGIN TRANSACTION
-			DECLARE @deshabilitado BIT
+CREATE PROCEDURE GGDP.baja_cliente(@cliente_id INT) AS
+	BEGIN
+		BEGIN TRY
+			BEGIN TRANSACTION
+				DECLARE @deshabilitado BIT
+				SET @deshabilitado = 0
 
-			SET @deshabilitado = 0
-			/* TODO FALTA VERIFICAR QUE EXISTA */
-			UPDATE GGDP.Cliente SET clie_habilitado = @deshabilitado WHERE clie_id = @cliente_id
-		COMMIT TRANSACTION
-	END TRY
-	BEGIN CATCH
-		ROLLBACK TRANSACTION
-			SELECT -1
-	END CATCH
-END
+				IF GGDP.existe_cliente(@cliente_id) = 0
+					RAISERROR('El cliente no existe', 16, 1)
+
+				UPDATE GGDP.Cliente SET clie_habilitado = @deshabilitado WHERE clie_id = @cliente_id
+			COMMIT TRANSACTION
+			SELECT @cliente_id
+		END TRY
+		BEGIN CATCH
+			ROLLBACK TRANSACTION
+				SELECT -1
+		END CATCH
+	END
+GO
+CREATE PROCEDURE GGDP.modificacion_cliente
+(
+	@cliente_id INT,
+	@nombre VARCHAR(255),
+	@apellido VARCHAR(255),
+	@dni NUMERIC(18, 0),
+	@mail VARCHAR(255),
+	@telefono NUMERIC(18, 0),
+	@direccion VARCHAR(255),
+	@codigo_postal VARCHAR(8),
+	@fecha_nacimiento DATETIME
+) AS
+	BEGIN
+		BEGIN TRY
+			BEGIN TRANSACTION
+				IF GGDP.existe_cliente(@cliente_id) = 0
+					RAISERROR('El cliente no existe', 16, 1)
+				UPDATE GGDP.Cliente SET
+					clie_nombre = @nombre,
+					clie_apellido = @apellido,
+					clie_dni = @dni,
+					clie_mail = @mail,
+					clie_telefono = @telefono,
+					clie_direccion = @direccion,
+					clie_codigo_postal = @codigo_postal,
+					clie_fecha_nacimiento = @fecha_nacimiento
+				WHERE clie_id = @cliente_id
+			COMMIT TRANSACTION
+		END TRY
+		BEGIN CATCH
+			ROLLBACK TRANSACTION
+				SELECT -1
+		END CATCH
+	END
 GO
