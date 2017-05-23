@@ -5,6 +5,8 @@ GO
 /* Eliminacion de Indices */
 IF EXISTS (SELECT NAME FROM sys.indexes WHERE NAME = N'IX_Cliente')  
 	DROP INDEX IX_Cliente ON GGDP.Cliente;
+IF EXISTS (SELECT NAME FROM sys.indexes WHERE NAME = N'IX_Automovil')  
+	DROP INDEX IX_Automovil ON GGDP.Automovil;
 IF EXISTS (SELECT NAME FROM sys.indexes WHERE NAME = N'IX_Chofer')  
 	DROP INDEX IX_Chofer ON GGDP.Chofer;
 GO
@@ -31,6 +33,10 @@ GO
 /* Eliminacion de Tablas */
 IF OBJECT_ID('GGDP.Cliente') IS NOT NULL
     DROP TABLE GGDP.Cliente;
+IF OBJECT_ID('GGDP.Automovil') IS NOT NULL
+    DROP TABLE GGDP.Automovil;
+IF OBJECT_ID('GGDP.Marca') IS NOT NULL
+    DROP TABLE GGDP.Marca;
 IF OBJECT_ID('GGDP.Chofer') IS NOT NULL
     DROP TABLE GGDP.Chofer;
 GO
@@ -56,7 +62,23 @@ CREATE TABLE GGDP.Cliente(
 	clie_codigo_postal VARCHAR(8) NOT NULL,
 	clie_fecha_nacimiento datetime NOT NULL,
     clie_habilitado BIT,
-	clie_usuario INT NOT NULL);
+	clie_usuario INT NOT NULL
+);
+
+CREATE TABLE GGDP.Automovil(
+	auto_id INT IDENTITY PRIMARY KEY,
+	auto_marca INT,
+	auto_modelo VARCHAR(255),
+	auto_patente VARCHAR(10) UNIQUE,
+	auto_turno INT,
+	auto_chofer INT,
+	auto_habilitado BIT
+);
+
+CREATE TABLE GGDP.Marca(
+	marc_id INT IDENTITY PRIMARY KEY,
+	marc_nombre VARCHAR(255)
+);
 
 CREATE TABLE GGDP.Chofer(
     chof_id INT IDENTITY PRIMARY KEY,
@@ -69,23 +91,29 @@ CREATE TABLE GGDP.Chofer(
 	chof_codigo_postal VARCHAR(8) NOT NULL,
 	chof_fecha_nacimiento datetime NOT NULL,
     chof_habilitado BIT,
-	chof_usuario INT NOT NULL);
+	chof_usuario INT NOT NULL
+);
 GO
 
 /* Creacion de los FK */
 /* TODO FALTA LA TABLA CLIENTE
 ALTER TABLE GGDP.Cliente
-	ADD CONSTRAINT clie_usuario
-	FOREIGN KEY (usua_id) REFERENCES GGDP.Usuario
-
+	ADD CONSTRAINT fk_clie_usuario
+	FOREIGN KEY (usua_id) REFERENCES GGDP.Usuario(usua_id)
+*/
+ALTER TABLE GGDP.Automovil
+	ADD CONSTRAINT fk_auto_chofer
+	FOREIGN KEY (auto_chofer) REFERENCES GGDP.Chofer(chof_id)
+/*
 ALTER TABLE GGDP.Chofer
-	ADD CONSTRAINT chof_usuario
-	FOREIGN KEY (usua_id) REFERENCES GGDP.Usuario
+	ADD CONSTRAINT fk_chof_usuario
+	FOREIGN KEY (chof_usuario) REFERENCES GGDP.Usuario(usua_id)
 GO
 */
 
 /* Creacion de Indices */
 CREATE INDEX IX_Cliente ON GGDP.Cliente (clie_nombre, clie_apellido, clie_dni)
+CREATE INDEX IX_Automovil ON GGDP.Automovil(auto_marca, auto_modelo, auto_patente, auto_chofer)
 CREATE INDEX IX_Chofer ON GGDP.Chofer (chof_nombre, chof_apellido, chof_dni)
 GO
 
