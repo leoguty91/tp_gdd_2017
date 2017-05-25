@@ -198,6 +198,9 @@ INSERT INTO GGDP.Chofer(chof_mail, chof_nombre, chof_apellido, chof_dni, chof_te
 SELECT DISTINCT (Chofer_Mail), Chofer_Nombre, Chofer_Apellido, Chofer_Dni, Chofer_Telefono, Chofer_Direccion, 1, Chofer_Fecha_Nac, 1, 1 FROM [gd_esquema].[Maestra]
 GO
 /* TODO FALTA EL FK REAL DE CHOF_USUARIO */
+/* TODO Terminar la insercion de datos de automovil
+INSERT INTO GGDP.Automovil(auto_marca, auto_modelo, auto_patente, auto_turno, auto_chofer, auto_habilitado)
+*/
 
 /* Creacion de Functions*/
 CREATE FUNCTION GGDP.existe_cliente(@cliente_id INT) RETURNS BIT
