@@ -39,6 +39,15 @@ IF OBJECT_ID('GGDP.Marca') IS NOT NULL
     DROP TABLE GGDP.Marca;
 IF OBJECT_ID('GGDP.Chofer') IS NOT NULL
     DROP TABLE GGDP.Chofer;
+
+IF OBJECT_ID('GGDP.Viaje') IS NOT NULL
+    DROP TABLE GGDP.Viaje;
+IF OBJECT_ID('GGDP.Rendicion') IS NOT NULL
+    DROP TABLE GGDP.Rendicion;
+IF OBJECT_ID('GGDP.Turno') IS NOT NULL
+    DROP TABLE GGDP.Turno;
+IF OBJECT_ID('GGDP.Factura') IS NOT NULL
+    DROP TABLE GGDP.Factura;
 GO
 
 /* Eliminacion del Eschema Principal */
@@ -93,6 +102,48 @@ CREATE TABLE GGDP.Chofer(
     chof_habilitado BIT,
 	chof_usuario INT NOT NULL
 );
+
+CREATE TABLE GGDP.Viaje(
+    viaj_id int not null,
+	viaj_automovil int not null,
+	viaj_chofer int not null, 
+	viaj_turno int not null,
+	viaj_cantidad_kilometros numeric(18,0) not null,
+	viaj_fecha_inicio datetime not null,
+	viaj_fecha_fin datetime not null,
+	viaj_client int not null,
+	CONSTRAINT viaj_pk PRIMARY KEY (viaj_id)
+);
+
+CREATE TABLE GGDP.Rendicion(
+	rend_id int not null,
+	rend_chofer int not null ,
+	rend_turno int not null,
+	rend_importe numeric(18,2) not null,
+	rend_viaje int not null,
+	CONSTRAINT rend_pk PRIMARY KEY (rend_id)
+);
+	
+CREATE TABLE GGDP.Turno (
+    turn_id int not null,
+    tuno_viaje int not null,
+	turn_hora_inicio numeric(18,0) not null,
+	turn_hora_fin numeric(18,0) not null,
+	turn_descripcion varchar(255) not null,
+	turn_valor_kilometro numeric(18,2) not null,
+	turn_habilitado BIT,
+	CONSTRAINT turn_pk PRIMARY KEY (turn_id)
+);
+
+CREATE TABLE GGDP.Factura (
+    fact_id int not null,
+	fact_fecha_inicio datetime,
+	fact_fecha_fin datetime,
+	fact_cliente int,
+	fact_importe decimal (12,2),
+	fact_viajes_facturados numeric(18,0),
+	CONSTRAINT fact_pk PRIMARY KEY (fact_id)
+);
 GO
 
 /* Creacion de los FK */
@@ -104,6 +155,27 @@ ALTER TABLE GGDP.Cliente
 ALTER TABLE GGDP.Automovil
 	ADD CONSTRAINT fk_auto_chofer
 	FOREIGN KEY (auto_chofer) REFERENCES GGDP.Chofer(chof_id)
+
+ALTER TABLE GGDP.Viaje
+	ADD CONSTRAINT fk_chofer FOREIGN KEY (viaj_chofer) REFERENCES GGDP.Chofer(chof_id)
+ALTER TABLE GGDP.Viaje
+    ADD	CONSTRAINT fk_viaj_automovil FOREIGN KEY (viaj_automovil) REFERENCES GGDP.Automovil(auto_id)
+ALTER TABLE GGDP.Viaje
+    ADD CONSTRAINT fk_viaj_turno FOREIGN KEY (viaj_turno) REFERENCES GGDP.Turno(turn_id)
+ALTER TABLE GGDP.Viaje
+    ADD	CONSTRAINT fk_viaj_cliente FOREIGN KEY (viaj_cliente) REFERENCES GGDP.Cliente(clie_id)
+
+ALTER TABLE GGDP.Rendicion
+	ADD CONSTRAINT fk_rend_chofer FOREIGN KEY (rend_chofer) REFERENCES GGDP.Cliente(clie_id)
+ALTER TABLE GGDP.Rendicion
+	ADD CONSTRAINT fk_rend_turno FOREIGN KEY (rend_turno) REFERENCES GGDP.Turno(turn_id)
+ALTER TABLE GGDP.Rendicion
+	ADD CONSTRAINT fk_rend_viaje FOREIGN KEY (rend_viaje) REFERENCES GGDP.Viaje(viaj_id)
+ALTER TABLE GGDP.Turno
+	ADD CONSTRAINT fk_viaj_turno FOREIGN KEY (tuno_viaje) REFERENCES GGDP.Viaje(viaj_id)
+ALTER TABLE GGDP.Factura
+	ADD CONSTRAINT fk_fact_cliente FOREIGN KEY (fact_cliente) REFERENCES GGDP.Cliente(clie_id)
+
 /*
 ALTER TABLE GGDP.Chofer
 	ADD CONSTRAINT fk_chof_usuario
