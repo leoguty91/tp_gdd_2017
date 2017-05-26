@@ -142,6 +142,17 @@ CREATE TABLE GGDP.Factura (
 	fact_viajes_facturados numeric(18,0),
 	CONSTRAINT fact_pk PRIMARY KEY (fact_id)
 );
+
+
+CREATE TABLE GDD.FacturaPorViaje (
+    fxv_factura INT IDENTITY PRIMARY KEY NOT NULL,
+    fxv_viaje INT IDENTITY PRIMARY KEY NOT NULL,
+);
+
+CREATE TABLE GDD.RendicionPorViaje (
+    rxv_rendicion INT IDENTITY PRIMARY KEY NOT NULL,
+    frxv_viaje INT IDENTITY PRIMARY KEY NOT NULL,
+);
 GO
 
 /* Creacion de los FK */
@@ -171,6 +182,23 @@ ALTER TABLE GGDP.Rendicion
 	ADD CONSTRAINT fk_rend_viaje FOREIGN KEY (rend_viaje) REFERENCES GGDP.Viaje(viaj_id)
 ALTER TABLE GGDP.Factura
 	ADD CONSTRAINT fk_fact_cliente FOREIGN KEY (fact_cliente) REFERENCES GGDP.Cliente(clie_id)
+	
+	
+ALTER TABLE GGDP.FacturaPorViaje
+	ADD CONSTRAINT fk_fxv_factura
+	FOREIGN KEY (fxv_factura) REFERENCES GGDP.Factura(fact_id)
+	
+ALTER TABLE GGDP.FacturaPorViaje
+	ADD CONSTRAINT fk_fxv_viaje
+	FOREIGN KEY (fxv_viaje) REFERENCES GGDP.Viaje(viaj_id)
+	
+ALTER TABLE GGDP.RendicionPorViaje
+	ADD CONSTRAINT fk_rxv_rendicion
+	FOREIGN KEY (rxv_rendicion) REFERENCES GGDP.Rendicion(rend_id)
+	
+ALTER TABLE GGDP.RendicionPorViaje
+	ADD CONSTRAINT fk_rxv_viaje
+	FOREIGN KEY (rxv_viaje) REFERENCES GGDP.Viaje(viaj_id)
 
 /*
 ALTER TABLE GGDP.Chofer
@@ -251,13 +279,10 @@ BEGIN
 		/* TODO FALTA EL SP ALTA USUARIO */
 		/*
 		EXEC @codigo_usuario = GGDP.alta_usuario(@usuario, @password, @rol)
-
 		IF @codigo_usuario = -1
 			RAISERROR('El usuario ya existe', 16, 1)
-
 		INSERT INTO GGDP.Cliente(clie_nombre, clie_apellido, clie_dni, clie_mail, clie_telefono, clie_direccion, clie_codigo_postal, clie_fecha_nacimiento, clie_habilitado, clie_usuario)
 		VALUES(@nombre, @apellido, @dni, @mail, @telefono, @direccion, @codigo_postal, @fecha_nacimiento, @habilitado, @codigo_usuario)
-
 		COMMIT TRANSACTION
 			SELECT @codigo_usuario
 	END TRY
@@ -275,10 +300,8 @@ CREATE PROCEDURE GGDP.baja_cliente(@cliente_id INT) AS
 			BEGIN TRANSACTION
 				DECLARE @deshabilitado BIT
 				SET @deshabilitado = 0
-
 				IF GGDP.existe_cliente(@cliente_id) = 0
 					RAISERROR('El cliente no existe', 16, 1)
-
 				UPDATE GGDP.Cliente SET clie_habilitado = @deshabilitado WHERE clie_id = @cliente_id
 			COMMIT TRANSACTION
 			SELECT @cliente_id
