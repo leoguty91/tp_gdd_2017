@@ -151,9 +151,33 @@ CREATE TABLE GDD.FacturaPorViaje (
 
 CREATE TABLE GDD.RendicionPorViaje (
     rxv_rendicion INT IDENTITY PRIMARY KEY NOT NULL,
-    frxv_viaje INT IDENTITY PRIMARY KEY NOT NULL,
+    rxv_viaje INT IDENTITY PRIMARY KEY NOT NULL,
 );
+
+CREATE TABLE GDD.Rol (
+	rol INT IDENTITY PRIMARY KEY NOT NULL,
+	rol_nombre VARCHAR(255) NOT NULL,
+	rol_habilitado BIT NOT NULL,
+);
+
+CREATE TABLE GDD.RolPorUsuario (
+	rxu_rol INT IDENTITY PRIMARY KEY NOT NULL, 
+	rxu_usuario INT IDENTITY PRIMARY KEY NOT NULL,
+);
+
+CREATE TABLE RolPorFuncionalidad (
+	rxf_rol INT IDENTITY PRIMARY KEY NOT NULL,
+	rxf_funcionalidad INT IDENTITY PRIMARY KEY,
+);
+
+CREATE TABLE Funcionalidad (
+	func_id INT IDENTITY PRIMARY KEY NOT NULL,
+	func_nombre VARCHAR(255) NOT NULL,
+);
+
 GO
+
+
 
 /* Creacion de los FK */
 /* TODO FALTA LA TABLA CLIENTE
