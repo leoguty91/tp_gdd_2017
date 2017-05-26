@@ -104,15 +104,14 @@ CREATE TABLE GGDP.Chofer(
 );
 
 CREATE TABLE GGDP.Viaje(
-    viaj_id int not null,
+    viaj_id INT IDENTITY PRIMARY KEY NOT NULL,
 	viaj_automovil int not null,
 	viaj_chofer int not null, 
 	viaj_turno int not null,
 	viaj_cantidad_kilometros numeric(18,0) not null,
 	viaj_fecha_inicio datetime not null,
 	viaj_fecha_fin datetime not null,
-	viaj_client int not null,
-	CONSTRAINT viaj_pk PRIMARY KEY (viaj_id)
+	viaj_cliente int not null
 );
 
 CREATE TABLE GGDP.Rendicion(
@@ -125,14 +124,13 @@ CREATE TABLE GGDP.Rendicion(
 );
 	
 CREATE TABLE GGDP.Turno (
-    turn_id int not null,
+    turn_id INT IDENTITY PRIMARY KEY NOT NULL,
     tuno_viaje int not null,
 	turn_hora_inicio numeric(18,0) not null,
 	turn_hora_fin numeric(18,0) not null,
 	turn_descripcion varchar(255) not null,
 	turn_valor_kilometro numeric(18,2) not null,
-	turn_habilitado BIT,
-	CONSTRAINT turn_pk PRIMARY KEY (turn_id)
+	turn_habilitado BIT
 );
 
 CREATE TABLE GGDP.Factura (
@@ -171,8 +169,6 @@ ALTER TABLE GGDP.Rendicion
 	ADD CONSTRAINT fk_rend_turno FOREIGN KEY (rend_turno) REFERENCES GGDP.Turno(turn_id)
 ALTER TABLE GGDP.Rendicion
 	ADD CONSTRAINT fk_rend_viaje FOREIGN KEY (rend_viaje) REFERENCES GGDP.Viaje(viaj_id)
-ALTER TABLE GGDP.Turno
-	ADD CONSTRAINT fk_viaj_turno FOREIGN KEY (tuno_viaje) REFERENCES GGDP.Viaje(viaj_id)
 ALTER TABLE GGDP.Factura
 	ADD CONSTRAINT fk_fact_cliente FOREIGN KEY (fact_cliente) REFERENCES GGDP.Cliente(clie_id)
 
@@ -192,17 +188,23 @@ GO
 /* Insercion de datos */
 INSERT INTO GGDP.Cliente(clie_dni, clie_nombre, clie_apellido, clie_telefono, clie_direccion, clie_codigo_postal, clie_mail, clie_fecha_nacimiento, clie_habilitado, clie_usuario)
 SELECT DISTINCT(Cliente_Dni), Cliente_Nombre, Cliente_Apellido, Cliente_Telefono, Cliente_Direccion, 1, Cliente_Mail, Cliente_Fecha_Nac, 1, 1 FROM [gd_esquema].[Maestra]
-GO
 /* TODO FALTA EL FK REAL DE CLIE_USUARIO */
+GO
+
 INSERT INTO GGDP.Chofer(chof_mail, chof_nombre, chof_apellido, chof_dni, chof_telefono, chof_direccion, chof_codigo_postal, chof_fecha_nacimiento, chof_habilitado, chof_usuario)
 SELECT DISTINCT (Chofer_Mail), Chofer_Nombre, Chofer_Apellido, Chofer_Dni, Chofer_Telefono, Chofer_Direccion, 1, Chofer_Fecha_Nac, 1, 1 FROM [gd_esquema].[Maestra]
-GO
 /* TODO FALTA EL FK REAL DE CHOF_USUARIO */
+GO
+
+INSERT INTO GGDP.Marca(marc_nombre)
+SELECT DISTINCT Auto_Marca FROM [gd_esquema].[Maestra]
+
 /* TODO Terminar la insercion de datos de automovil
 INSERT INTO GGDP.Automovil(auto_marca, auto_modelo, auto_patente, auto_turno, auto_chofer, auto_habilitado)
 */
 
 /* Creacion de Functions*/
+/*
 CREATE FUNCTION GGDP.existe_cliente(@cliente_id INT) RETURNS BIT
 BEGIN
 	IF EXISTS(SELECT 1 FROM GGDP.Cliente WHERE clie_id = @cliente_id)
@@ -210,6 +212,7 @@ BEGIN
 	RETURN 0
 END
 GO
+*/
 
 /* Creacion de Triggers */
 /*
@@ -265,6 +268,7 @@ BEGIN
 END
 GO
 */
+/*
 CREATE PROCEDURE GGDP.baja_cliente(@cliente_id INT) AS
 	BEGIN
 		BEGIN TRY
@@ -320,3 +324,4 @@ CREATE PROCEDURE GGDP.modificacion_cliente
 		END CATCH
 	END
 GO
+*/
