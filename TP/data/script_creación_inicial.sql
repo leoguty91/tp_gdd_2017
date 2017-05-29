@@ -195,7 +195,6 @@ CREATE TABLE GGDP.Factura (
 	fact_viajes_facturados numeric(18,0)
 );
 
-
 CREATE TABLE GGDP.FacturaPorViaje (
     fxv_factura INT NOT NULL,
     fxv_viaje INT NOT NULL,
@@ -226,14 +225,12 @@ CREATE TABLE GGDP.Funcionalidad (
 	func_id INT IDENTITY PRIMARY KEY NOT NULL,
 	func_nombre VARCHAR(255) NOT NULL,
 );
-
 GO
 
 /* Creacion de los FK */
 /* TODO FALTA LA TABLA CLIENTE
 ALTER TABLE GGDP.Cliente
-	ADD CONSTRAINT fk_clie_usuario
-	FOREIGN KEY (usua_id) REFERENCES GGDP.Usuario(usua_id)
+	ADD CONSTRAINT fk_clie_usuario FOREIGN KEY (usua_id) REFERENCES GGDP.Usuario(usua_id)
 */
 ALTER TABLE GGDP.Automovil
 	ADD CONSTRAINT fk_auto_chofer FOREIGN KEY (auto_chofer) REFERENCES GGDP.Chofer(chof_id)
@@ -284,24 +281,24 @@ ALTER TABLE GGDP.RolPorFuncionalidad
 	FOREIGN KEY (rxf_funcionalidad) REFERENCES GGDP.Funcionalidad(func_id)
 /*
 ALTER TABLE GGDP.Chofer
-	ADD CONSTRAINT fk_chof_usuario
-	FOREIGN KEY (chof_usuario) REFERENCES GGDP.Usuario(usua_id)
-GO
+	ADD CONSTRAINT fk_chof_usuario FOREIGN KEY (chof_usuario) REFERENCES GGDP.Usuario(usua_id)
 */
+GO
 
 /* Creacion de Indices */
 CREATE INDEX IX_Cliente ON GGDP.Cliente (clie_nombre, clie_apellido, clie_dni)
 CREATE INDEX IX_Automovil ON GGDP.Automovil(auto_marca, auto_modelo, auto_patente, auto_chofer)
 CREATE INDEX IX_Chofer ON GGDP.Chofer (chof_nombre, chof_apellido, chof_dni)
+CREATE INDEX IX_Marca ON GGDP.Marca(marc_nombre)
 GO
 
 /* Insercion de datos */
-/* TODO Falta clie_usuario */
+-- TODO Falta clie_usuario
 INSERT INTO GGDP.Cliente(clie_dni, clie_nombre, clie_apellido, clie_telefono, clie_direccion, clie_codigo_postal, clie_mail, clie_fecha_nacimiento, clie_habilitado, clie_usuario)
 SELECT DISTINCT(Cliente_Dni), Cliente_Nombre, Cliente_Apellido, Cliente_Telefono, Cliente_Direccion, 1, Cliente_Mail, Cliente_Fecha_Nac, 1, 1 FROM [gd_esquema].[Maestra]
 GO
 
-/* TODO Falta chof_usuario */
+-- TODO Falta chof_usuario
 INSERT INTO GGDP.Chofer(chof_mail, chof_nombre, chof_apellido, chof_dni, chof_telefono, chof_direccion, chof_codigo_postal, chof_fecha_nacimiento, chof_habilitado, chof_usuario)
 SELECT DISTINCT (Chofer_Mail), Chofer_Nombre, Chofer_Apellido, Chofer_Dni, Chofer_Telefono, Chofer_Direccion, 1, Chofer_Fecha_Nac, 1, 1 FROM [gd_esquema].[Maestra]
 GO
@@ -309,7 +306,7 @@ GO
 INSERT INTO GGDP.Marca(marc_nombre)
 SELECT DISTINCT Auto_Marca FROM [gd_esquema].[Maestra]
 
-/* TODO Falta auto_turno */
+-- TODO Falta auto_turno
 INSERT INTO GGDP.Automovil(auto_patente, auto_marca, auto_modelo, auto_turno, auto_chofer, auto_habilitado)
 SELECT DISTINCT ([Auto_Patente]), GGDP.Marca.marc_id, [Auto_Modelo], 1, GGDP.Chofer.chof_id, 1
 FROM [gd_esquema].[Maestra]
