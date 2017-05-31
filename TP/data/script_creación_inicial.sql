@@ -284,11 +284,11 @@ ALTER TABLE GGDP.Intentos_Fallidos
 	
 	
 	/* TODO Falta tabla GGDP.Usuario */
-/*
+
 ALTER TABLE GGDP.RolPorUsuario
 	ADD CONSTRAINT fk_rxu_usuario
 	FOREIGN KEY (rxu_usuario) REFERENCES GGDP.Usuario(usuario_id)
-*/
+
 ALTER TABLE GGDP.RolPorFuncionalidad
 	ADD CONSTRAINT fk_rxf_rol
 	FOREIGN KEY (rxf_rol) REFERENCES GGDP.Rol(rol_id)
@@ -328,6 +328,14 @@ SELECT DISTINCT ([Auto_Patente]), GGDP.Marca.marc_id, [Auto_Modelo], 1, GGDP.Cho
 FROM [gd_esquema].[Maestra]
 	JOIN GGDP.Marca ON gd_esquema.Maestra.Auto_Marca = GGDP.Marca.marc_nombre
 	JOIN GGDP.Chofer ON gd_esquema.Maestra.Chofer_Dni = GGDP.Chofer.chof_dni 
+	
+INSERT INTO GGDP.RolPorUsuario(rxu_rol, rxu_usuario)
+SELECT DISTINCT ([Rxu_Rol], [Rxu_Usuario])
+FROM [gd_esquema].[Maestra]
+	JOIN GGDP.Rol ON gd_esquema.Maestra.Rxu_rol = GGDP.Rol.rol_nombre
+	JOIN GGDP.Usuario ON gd_esquema.Maestra.Usuario = GGDP.Usuario.usua_usuario
+	
+
 
 /* Creacion de Functions*/
 /*
