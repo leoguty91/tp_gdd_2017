@@ -273,7 +273,7 @@ SELECT DISTINCT ([Auto_Patente]), GGDP.Marca.marc_id, [Auto_Modelo], 1, GGDP.Cho
 FROM [gd_esquema].[Maestra]
 	JOIN GGDP.Marca ON gd_esquema.Maestra.Auto_Marca = GGDP.Marca.marc_nombre
 	JOIN GGDP.Chofer ON gd_esquema.Maestra.Chofer_Dni = GGDP.Chofer.chof_dni 
-
+GO
 -- TODO Esta tabla tiene un error de sintaxis, REVISAR
 /*
 INSERT INTO GGDP.RolPorUsuario(rxu_rol, rxu_usuario)
@@ -285,15 +285,15 @@ FROM [gd_esquema].[Maestra]
 
 
 /* Creacion de Functions*/
-/*
 CREATE FUNCTION GGDP.existe_cliente(@cliente_id INT) RETURNS BIT
+AS
 BEGIN
 	IF EXISTS(SELECT 1 FROM GGDP.Cliente WHERE clie_id = @cliente_id)
 		RETURN 1
 	RETURN 0
 END
 GO
-*/
+
 
 /* Creacion de Triggers */
 /*
