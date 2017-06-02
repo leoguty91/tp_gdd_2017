@@ -12,14 +12,16 @@ IF EXISTS (SELECT NAME FROM sys.indexes WHERE NAME = N'IX_Chofer')
 GO
 
 /* Eliminacion de Functions */
-IF (OBJECT_ID ('GGDP.existe_cliente') IS NOT NULL)
-  DROP FUNCTION GGDP.existe_cliente
+IF (OBJECT_ID ('GGDP.fu_existe_cliente') IS NOT NULL)
+  DROP FUNCTION GGDP.fu_existe_cliente
 GO
 
 /* Eliminacion de Triggers */
-IF OBJECT_ID ('GGDP.T_Cliente_telefono_unico','TR') IS NOT NULL
-   DROP TRIGGER GGDP.T_Cliente_telefono_unico;
+/*
+IF OBJECT_ID ('GGDP.tr_cliente_telefono_unico','TR') IS NOT NULL
+   DROP TRIGGER GGDP.tr_cliente_telefono_unico;
 GO
+*/
 
 /* Eliminacion de Store Procedures */
 IF OBJECT_ID ('GGDP.alta_cliente') IS NOT NULL
@@ -294,7 +296,7 @@ FROM [gd_esquema].[Maestra]
 
 
 /* Creacion de Functions*/
-CREATE FUNCTION GGDP.existe_cliente(@cliente_id INT) RETURNS BIT
+CREATE FUNCTION GGDP.fu_existe_cliente(@cliente_id INT) RETURNS BIT
 AS
 BEGIN
 	IF EXISTS(SELECT 1 FROM GGDP.Cliente WHERE clie_id = @cliente_id)
@@ -306,7 +308,7 @@ GO
 
 /* Creacion de Triggers */
 /*
-CREATE TRIGGER GGDP.T_Cliente_telefono_unico ON GGDP.Cliente INSTEAD OF INSERT
+CREATE TRIGGER GGDP.tr_cliente_telefono_unico ON GGDP.Cliente INSTEAD OF INSERT
 AS IF EXISTS (SELECT * FROM GGDP.Cliente c, inserted i WHERE c.clie_telefono = i.clie_telefono)
 BEGIN
 	PRINT('El telefono ya existe');
@@ -362,7 +364,7 @@ CREATE PROCEDURE GGDP.baja_cliente(@cliente_id INT) AS
 			BEGIN TRANSACTION
 				DECLARE @deshabilitado BIT
 				SET @deshabilitado = 0
-				IF GGDP.existe_cliente(@cliente_id) = 0
+				IF GGDP.fu_existe_cliente(@cliente_id) = 0
 					RAISERROR('El cliente no existe', 16, 1)
 				UPDATE GGDP.Cliente SET clie_habilitado = @deshabilitado WHERE clie_id = @cliente_id
 			COMMIT TRANSACTION
@@ -389,7 +391,7 @@ CREATE PROCEDURE GGDP.modificacion_cliente
 	BEGIN
 		BEGIN TRY
 			BEGIN TRANSACTION
-				IF GGDP.existe_cliente(@cliente_id) = 0
+				IF GGDP.fu_existe_cliente(@cliente_id) = 0
 					RAISERROR('El cliente no existe', 16, 1)
 				UPDATE GGDP.Cliente SET
 					clie_nombre = @nombre,
