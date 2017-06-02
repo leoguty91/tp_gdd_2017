@@ -30,43 +30,6 @@ IF OBJECT_ID ('GGDP.modificacion_cliente') IS NOT NULL
     DROP PROCEDURE GGDP.modificacion_cliente
 GO
 
-/* Eliminacion de los FK */
-/*
-IF OBJECT_ID ('fk_auto_chofer', 'F') IS NOT NULL
-	ALTER TABLE GGDP.Automovil DROP CONSTRAINT fk_auto_chofer;
-IF OBJECT_ID ('fk_viaj_chofer', 'F') IS NOT NULL
-	ALTER TABLE GGDP.Viaje DROP CONSTRAINT fk_viaj_chofer;
-IF OBJECT_ID ('fk_viaj_automovil', 'F') IS NOT NULL
-	ALTER TABLE GGDP.Viaje DROP CONSTRAINT fk_viaj_automovil;
-IF OBJECT_ID ('fk_viaj_turno', 'F') IS NOT NULL
-	ALTER TABLE GGDP.Viaje DROP CONSTRAINT fk_viaj_turno;
-IF OBJECT_ID ('fk_viaj_cliente', 'F') IS NOT NULL
-	ALTER TABLE GGDP.Viaje DROP CONSTRAINT fk_viaj_cliente;
-IF OBJECT_ID ('fk_rend_chofer', 'F') IS NOT NULL
-	ALTER TABLE GGDP.Rendicion DROP CONSTRAINT fk_rend_chofer;
-IF OBJECT_ID ('fk_rend_turno', 'F') IS NOT NULL
-	ALTER TABLE GGDP.Rendicion DROP CONSTRAINT fk_rend_turno;
-IF OBJECT_ID ('fk_rend_viaje', 'F') IS NOT NULL
-	ALTER TABLE GGDP.Rendicion DROP CONSTRAINT fk_rend_viaje;
-IF OBJECT_ID ('fk_fact_cliente', 'F') IS NOT NULL
-	ALTER TABLE GGDP.Factura DROP CONSTRAINT fk_fact_cliente;
-IF OBJECT_ID ('fk_fxv_factura', 'F') IS NOT NULL
-	ALTER TABLE GGDP.FacturaPorViaje DROP CONSTRAINT fk_fxv_factura;
-IF OBJECT_ID ('fk_fxv_viaje') IS NOT NULL
-	ALTER TABLE GGDP.FacturaPorViaje DROP CONSTRAINT fk_fxv_viaje;
-IF OBJECT_ID ('fk_rxv_rendicion', 'F') IS NOT NULL
-	ALTER TABLE GGDP.RendicionPorViaje DROP CONSTRAINT fk_rxv_rendicion;
-IF OBJECT_ID ('fk_rxv_viaje', 'F') IS NOT NULL
-	ALTER TABLE GGDP.RendicionPorViaje DROP CONSTRAINT fk_rxv_viaje;
-IF OBJECT_ID ('fk_rxu_rol', 'F') IS NOT NULL
-	ALTER TABLE GGDP.RolPorUsuario DROP CONSTRAINT fk_rxu_rol;
-IF OBJECT_ID ('fk_rxf_rol', 'F') IS NOT NULL
-	ALTER TABLE GGDP.RolPorFuncionalidad DROP CONSTRAINT fk_rxf_rol;
-IF OBJECT_ID ('fk_rxf_funcionalidad', 'F') IS NOT NULL
-	ALTER TABLE GGDP.RolPorFuncionalidad DROP CONSTRAINT fk_rxf_funcionalidad;
-GO
-*/
-
 /* Eliminacion de Tablas */
 IF OBJECT_ID('GGDP.FacturaPorViaje') IS NOT NULL
     DROP TABLE GGDP.FacturaPorViaje;
@@ -96,6 +59,8 @@ IF OBJECT_ID('GGDP.Funcionalidad') IS NOT NULL
     DROP TABLE GGDP.Funcionalidad;
 IF OBJECT_ID('GGDP.Rol') IS NOT NULL
     DROP TABLE GGDP.Rol;
+IF OBJECT_ID('GGDP.Usuario') IS NOT NULL
+    DROP TABLE GGDP.Usuario;
 GO
 
 /* Eliminacion del Eschema Principal */
@@ -206,10 +171,9 @@ CREATE TABLE GGDP.Rol (
 
 CREATE TABLE GGDP.RolPorUsuario (
 	rxu_rol INT NOT NULL, 
-	rxu_usuario varchar(255) NOT NULL,
-	CONSTRAINT PK_Rol_Por_Usuario PRIMARY KEY CLUSTERED (rxu_rol ASC, rxu_usuario ASC)
+	rxu_usuario INT NOT NULL,
+	CONSTRAINT pk_rol_por_usuario PRIMARY KEY CLUSTERED (rxu_rol ASC, rxu_usuario ASC)
 );
-
 
 CREATE TABLE GGDP.RolPorFuncionalidad (
 	rxf_rol INT NOT NULL,
@@ -221,25 +185,19 @@ CREATE TABLE GGDP.Funcionalidad (
 	func_nombre VARCHAR(255) NOT NULL,
 );
 
-CREATE TABLE GGDP.Intentos_Fallidos(
-intento_id INT NOT NULL IDENTITY PRIMARY KEY,
-int_fecha datetime ,
-int_username varchar(255) ,
-);
-
 CREATE TABLE GGDP.Usuario(
-username_id varchar(255) NOT NULL,
-usuario_password varbinary NOT NULL, 
-Habilitado bit NOT NULL,
-CONSTRAINT PK_Usuario_Username PRIMARY KEY CLUSTERED (username_id ASC)
-
+	usua_id INT IDENTITY PRIMARY KEY NOT NULL,
+	usua_usuario VARCHAR(255) NOT NULL,
+	usua_password VARBINARY NOT NULL,
+	usua_intentos INT NOT NULL,
+	usua_habilitado BIT NOT NULL
 );
 GO
 
 /* Creacion de los FK */
-/* TODO FALTA LA TABLA CLIENTE
+/*
 ALTER TABLE GGDP.Cliente
-	ADD CONSTRAINT fk_clie_usuario FOREIGN KEY (usua_id) REFERENCES GGDP.Usuario(usua_id)
+	ADD CONSTRAINT fk_clie_usuario FOREIGN KEY (clie_usuario) REFERENCES GGDP.Usuario(usua_id)
 */
 ALTER TABLE GGDP.Automovil
 	ADD CONSTRAINT fk_auto_chofer FOREIGN KEY (auto_chofer) REFERENCES GGDP.Chofer(chof_id)
@@ -274,27 +232,14 @@ ALTER TABLE GGDP.RendicionPorViaje
 	ADD CONSTRAINT fk_rxv_viaje FOREIGN KEY (rxv_viaje) REFERENCES GGDP.Viaje(viaj_id)
 
 ALTER TABLE GGDP.RolPorUsuario
-   ADD CONSTRAINT FK_Usuario_Username  FOREIGN KEY (rxu_usuario) REFERENCES GGDP.Usuario(username_id) 
-
+	ADD CONSTRAINT fk_rxu_usuario  FOREIGN KEY (rxu_usuario) REFERENCES GGDP.Usuario(usua_id) 
 ALTER TABLE GGDP.RolPorUsuario
-    ADD CONSTRAINT FK_Rol_Id  FOREIGN KEY (rxu_rol) REFERENCES GGDP.Rol(rol_id) 
-
-ALTER TABLE GGDP.Intentos_Fallidos 
-  ADD CONSTRAINT FK_Intentos_Fallidos_Username  FOREIGN KEY (int_username) REFERENCES GGDP.Usuario(username_id) 
-	
-	
-	/* TODO Falta tabla GGDP.Usuario */
-
-ALTER TABLE GGDP.RolPorUsuario
-	ADD CONSTRAINT fk_rxu_usuario
-	FOREIGN KEY (rxu_usuario) REFERENCES GGDP.Usuario(usuario_id)
+	ADD CONSTRAINT fk_rxu_rol  FOREIGN KEY (rxu_rol) REFERENCES GGDP.Rol(rol_id) 
 
 ALTER TABLE GGDP.RolPorFuncionalidad
-	ADD CONSTRAINT fk_rxf_rol
-	FOREIGN KEY (rxf_rol) REFERENCES GGDP.Rol(rol_id)
+	ADD CONSTRAINT fk_rxf_rol FOREIGN KEY (rxf_rol) REFERENCES GGDP.Rol(rol_id)
 ALTER TABLE GGDP.RolPorFuncionalidad
-	ADD CONSTRAINT fk_rxf_funcionalidad
-	FOREIGN KEY (rxf_funcionalidad) REFERENCES GGDP.Funcionalidad(func_id)
+	ADD CONSTRAINT fk_rxf_funcionalidad FOREIGN KEY (rxf_funcionalidad) REFERENCES GGDP.Funcionalidad(func_id)
 /*
 ALTER TABLE GGDP.Chofer
 	ADD CONSTRAINT fk_chof_usuario FOREIGN KEY (chof_usuario) REFERENCES GGDP.Usuario(usua_id)
@@ -328,13 +273,15 @@ SELECT DISTINCT ([Auto_Patente]), GGDP.Marca.marc_id, [Auto_Modelo], 1, GGDP.Cho
 FROM [gd_esquema].[Maestra]
 	JOIN GGDP.Marca ON gd_esquema.Maestra.Auto_Marca = GGDP.Marca.marc_nombre
 	JOIN GGDP.Chofer ON gd_esquema.Maestra.Chofer_Dni = GGDP.Chofer.chof_dni 
-	
+
+-- TODO Esta tabla tiene un error de sintaxis, REVISAR
+/*
 INSERT INTO GGDP.RolPorUsuario(rxu_rol, rxu_usuario)
 SELECT DISTINCT ([Rxu_Rol], [Rxu_Usuario])
 FROM [gd_esquema].[Maestra]
 	JOIN GGDP.Rol ON gd_esquema.Maestra.Rxu_rol = GGDP.Rol.rol_nombre
 	JOIN GGDP.Usuario ON gd_esquema.Maestra.Usuario = GGDP.Usuario.usua_usuario
-	
+*/	
 
 
 /* Creacion de Functions*/
