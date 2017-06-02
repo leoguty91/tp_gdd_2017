@@ -74,6 +74,7 @@
             // usua_usuario
             // 
             this.usua_usuario.Location = new System.Drawing.Point(28, 65);
+            this.usua_usuario.MaxLength = 255;
             this.usua_usuario.Name = "usua_usuario";
             this.usua_usuario.Size = new System.Drawing.Size(204, 26);
             this.usua_usuario.TabIndex = 2;
@@ -81,7 +82,9 @@
             // usua_password
             // 
             this.usua_password.Location = new System.Drawing.Point(28, 129);
+            this.usua_password.MaxLength = 255;
             this.usua_password.Name = "usua_password";
+            this.usua_password.PasswordChar = '*';
             this.usua_password.Size = new System.Drawing.Size(204, 26);
             this.usua_password.TabIndex = 3;
             // 
