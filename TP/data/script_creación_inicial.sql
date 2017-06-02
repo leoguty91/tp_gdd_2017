@@ -274,6 +274,15 @@ FROM [gd_esquema].[Maestra]
 	JOIN GGDP.Marca ON gd_esquema.Maestra.Auto_Marca = GGDP.Marca.marc_nombre
 	JOIN GGDP.Chofer ON gd_esquema.Maestra.Chofer_Dni = GGDP.Chofer.chof_dni 
 GO
+
+-- Insercion usuario admin
+DECLARE @usua_password VARBINARY
+SELECT @usua_password = HASHBYTES('SHA2_256', 'w23e');
+
+INSERT INTO GGDP.Usuario(usua_usuario, usua_password, usua_intentos, usua_habilitado)
+VALUES ('admin', @usua_password, 0, 1)
+GO
+
 -- TODO Esta tabla tiene un error de sintaxis, REVISAR
 /*
 INSERT INTO GGDP.RolPorUsuario(rxu_rol, rxu_usuario)
