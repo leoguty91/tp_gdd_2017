@@ -16,5 +16,10 @@ namespace UberFrba
         {
             InitializeComponent();
         }
+
+        private void btn_ingresar_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }

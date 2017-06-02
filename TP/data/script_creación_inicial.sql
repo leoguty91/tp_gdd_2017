@@ -12,6 +12,9 @@ IF EXISTS (SELECT NAME FROM sys.indexes WHERE NAME = N'IX_Chofer')
 GO
 
 /* Eliminacion de Functions */
+IF (OBJECT_ID ('GGDP.fu_existe_usuario') IS NOT NULL)
+  DROP FUNCTION GGDP.fu_existe_usuario
+GO
 IF (OBJECT_ID ('GGDP.fu_existe_cliente') IS NOT NULL)
   DROP FUNCTION GGDP.fu_existe_cliente
 GO
@@ -24,12 +27,16 @@ GO
 */
 
 /* Eliminacion de Store Procedures */
-IF OBJECT_ID ('GGDP.alta_cliente') IS NOT NULL
-    DROP PROCEDURE GGDP.alta_cliente
-IF OBJECT_ID ('GGDP.baja_cliente') IS NOT NULL
-    DROP PROCEDURE GGDP.baja_cliente
+IF (OBJECT_ID ('GGDP.sp_login') IS NOT NULL)
+	DROP PROCEDURE GGDP.sp_login
+IF (OBJECT_ID ('GGDP.sp_login_fallido') IS NOT NULL)
+	DROP PROCEDURE GGDP.sp_login_fallido
+IF OBJECT_ID ('GGDP.sp_alta_cliente') IS NOT NULL
+    DROP PROCEDURE GGDP.sp_alta_cliente
+IF OBJECT_ID ('GGDP.sp_baja_cliente') IS NOT NULL
+    DROP PROCEDURE GGDP.sp_baja_cliente
 IF OBJECT_ID ('GGDP.modificacion_cliente') IS NOT NULL
-    DROP PROCEDURE GGDP.modificacion_cliente
+    DROP PROCEDURE GGDP.sp_modificacion_cliente
 GO
 
 /* Eliminacion de Tablas */
@@ -296,15 +303,19 @@ FROM [gd_esquema].[Maestra]
 
 
 /* Creacion de Functions*/
-CREATE FUNCTION GGDP.fu_existe_cliente(@cliente_id INT) RETURNS BIT
-AS
-BEGIN
-	IF EXISTS(SELECT 1 FROM GGDP.Cliente WHERE clie_id = @cliente_id)
+CREATE FUNCTION GGDP.fu_existe_usuario(@usuario VARCHAR(255)) RETURNS BIT AS BEGIN
+	IF EXISTS(SELECT 1 FROM GGDP.Usuario WHERE usua_usuario = @usuario)
 		RETURN 1
 	RETURN 0
 END
 GO
 
+CREATE FUNCTION GGDP.fu_existe_cliente(@cliente_id INT) RETURNS BIT AS BEGIN
+	IF EXISTS(SELECT 1 FROM GGDP.Cliente WHERE clie_id = @cliente_id)
+		RETURN 1
+	RETURN 0
+END
+GO
 
 /* Creacion de Triggers */
 /*
@@ -319,6 +330,39 @@ GO
 */
 
 /* Creacion de Store Procedures */
+CREATE PROCEDURE GGDP.sp_login_fallido(@usuario VARCHAR(255)) AS BEGIN
+	UPDATE GGDP.Usuario
+		SET usua_intentos = usua_intentos + 1
+		WHERE usua_usuario = @usuario
+	UPDATE GGDP.Usuario
+		SET usua_habilitado = 0
+		WHERE usua_usuario = @usuario
+		AND usua_intentos = 3
+END
+GO
+
+CREATE PROCEDURE GGDP.sp_login(@usuario VARCHAR(255), @password VARCHAR(255)) AS BEGIN
+	DECLARE @usuario_login_ok BIT
+	IF GGDP.fu_existe_usuario(@usuario) = 0 BEGIN
+		RETURN -1
+	END
+
+	SELECT @usuario_login_ok=COUNT(*) FROM GGDP.Usuario
+		WHERE usua_usuario = @usuario
+		AND usua_password = HASHBYTES('SHA2_256', @password)
+		AND usua_habilitado = 1
+
+	IF @usuario_login_ok = 0 BEGIN
+		EXEC GGDP.sp_login_fallido @usuario
+		RETURN -1
+	END
+	ELSE BEGIN
+		SELECT usua_id FROM GGDP.Usuario WHERE usua_usuario = @usuario
+	END
+END
+GO
+
+
 /*
 CREATE PROCEDURE GGDP.alta_cliente
 (
