@@ -23,8 +23,9 @@ namespace UberFrba.Helpers
                 store_procedure.Parameters.Add(new SqlParameter("@password", password));
                 DataTable respuesta_consulta = conexion.EjecutarConsultar(store_procedure);
                 if (respuesta_consulta.Rows.Count == 0)
-                    return null;
+                    MessageBox.Show("Combinacion de usuario/password incorrecta", " Login erroneo", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 Usuario user = MapearUsuario(respuesta_consulta);
+                MessageBox.Show("Login correcto", " Login ok", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 return user;
             }
             catch (Exception) { return null; }
