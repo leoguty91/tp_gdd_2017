@@ -84,6 +84,7 @@
     <Compile Include="Abm Rol\Form1.Designer.cs">
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
+    <Compile Include="Entidades\Usuario.cs" />
     <Compile Include="Facturacion\Form1.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -102,6 +103,7 @@
       <DependentUpon>GD1C2017DataSet.xsd</DependentUpon>
     </Compile>
     <Compile Include="Helpers\Conexion.cs" />
+    <Compile Include="Helpers\Login.cs" />
     <Compile Include="Helpers\Utils.cs" />
     <Compile Include="Listado Estadistico\Form1.cs">
       <SubType>Form</SubType>

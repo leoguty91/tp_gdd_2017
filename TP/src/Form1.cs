@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using UberFrba.Helpers;
 
 namespace UberFrba
 {
@@ -19,7 +20,15 @@ namespace UberFrba
 
         private void btn_ingresar_Click(object sender, EventArgs e)
         {
-
+            if (ValidateChildren())
+            {
+                try
+                {
+                    Login login = new Login();
+                    login.ObtenerUsuario(usua_usuario.Text, usua_password.Text);
+                }
+                catch (Exception) { }
+            }
         }
     }
 }

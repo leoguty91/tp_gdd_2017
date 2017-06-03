@@ -197,7 +197,7 @@ CREATE TABLE GGDP.Funcionalidad (
 CREATE TABLE GGDP.Usuario(
 	usua_id INT IDENTITY PRIMARY KEY NOT NULL,
 	usua_usuario VARCHAR(255) NOT NULL,
-	usua_password VARBINARY NOT NULL,
+	usua_password VARCHAR(255) NOT NULL,
 	usua_intentos INT NOT NULL,
 	usua_habilitado BIT NOT NULL
 );
@@ -285,7 +285,7 @@ FROM [gd_esquema].[Maestra]
 GO
 
 -- Insercion usuario admin
-DECLARE @usua_password VARBINARY
+DECLARE @usua_password VARCHAR(255);
 SELECT @usua_password = HASHBYTES('SHA2_256', 'w23e');
 
 INSERT INTO GGDP.Usuario(usua_usuario, usua_password, usua_intentos, usua_habilitado)
