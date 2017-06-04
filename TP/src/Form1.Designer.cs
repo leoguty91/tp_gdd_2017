@@ -29,7 +29,6 @@
         private void InitializeComponent()
         {
             this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.btn_registrar = new System.Windows.Forms.Button();
             this.btn_ingresar = new System.Windows.Forms.Button();
             this.usua_password = new System.Windows.Forms.TextBox();
             this.usua_usuario = new System.Windows.Forms.TextBox();
@@ -40,7 +39,6 @@
             // 
             // groupBox1
             // 
-            this.groupBox1.Controls.Add(this.btn_registrar);
             this.groupBox1.Controls.Add(this.btn_ingresar);
             this.groupBox1.Controls.Add(this.usua_password);
             this.groupBox1.Controls.Add(this.usua_usuario);
@@ -55,22 +53,12 @@
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Log in";
             // 
-            // btn_registrar
-            // 
-            this.btn_registrar.Location = new System.Drawing.Point(86, 113);
-            this.btn_registrar.Margin = new System.Windows.Forms.Padding(2);
-            this.btn_registrar.Name = "btn_registrar";
-            this.btn_registrar.Size = new System.Drawing.Size(70, 25);
-            this.btn_registrar.TabIndex = 5;
-            this.btn_registrar.Text = "Registrar";
-            this.btn_registrar.UseVisualStyleBackColor = true;
-            // 
             // btn_ingresar
             // 
             this.btn_ingresar.Location = new System.Drawing.Point(19, 113);
             this.btn_ingresar.Margin = new System.Windows.Forms.Padding(2);
             this.btn_ingresar.Name = "btn_ingresar";
-            this.btn_ingresar.Size = new System.Drawing.Size(63, 25);
+            this.btn_ingresar.Size = new System.Drawing.Size(137, 25);
             this.btn_ingresar.TabIndex = 4;
             this.btn_ingresar.Text = "Ingresar";
             this.btn_ingresar.UseVisualStyleBackColor = true;
@@ -134,7 +122,6 @@
         #endregion
 
         private System.Windows.Forms.GroupBox groupBox1;
-        private System.Windows.Forms.Button btn_registrar;
         private System.Windows.Forms.Button btn_ingresar;
         private System.Windows.Forms.TextBox usua_password;
         private System.Windows.Forms.TextBox usua_usuario;
