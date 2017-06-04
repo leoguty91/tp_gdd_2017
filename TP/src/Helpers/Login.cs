@@ -64,7 +64,7 @@ namespace UberFrba.Helpers
             {
                 List<Rol> roles = new List<Rol>();
                 Conexion conexion = new Conexion();
-                SqlCommand store_procedure = conexion.IniciarStoreProcedure("sp_obtener_roles");
+                SqlCommand store_procedure = conexion.IniciarStoreProcedure("sp_obtener_roles_usuario");
                 store_procedure.Parameters.Add(new SqlParameter("@usuario", usuario));
                 DataTable respuesta_consulta = conexion.EjecutarConsultar(store_procedure);
                 foreach (DataRow row in respuesta_consulta.Rows)

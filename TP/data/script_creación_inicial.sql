@@ -37,6 +37,8 @@ IF (OBJECT_ID ('GGDP.sp_obtener_roles_usuario') IS NOT NULL)
 	DROP PROCEDURE GGDP.sp_obtener_roles_usuario
 IF (OBJECT_ID ('GGDP.sp_obtener_funcionalidades') IS NOT NULL)
 	DROP PROCEDURE GGDP.sp_obtener_funcionalidades
+IF (OBJECT_ID ('GGDP.sp_alta_rol') IS NOT NULL)
+	DROP PROCEDURE GGDP.sp_alta_rol
 IF OBJECT_ID ('GGDP.sp_alta_cliente') IS NOT NULL
     DROP PROCEDURE GGDP.sp_alta_cliente
 IF OBJECT_ID ('GGDP.sp_baja_cliente') IS NOT NULL
@@ -298,6 +300,11 @@ INSERT INTO GGDP.Usuario(usua_usuario, usua_password, usua_intentos, usua_habili
 VALUES ('admin', @usua_password, 0, 1)
 GO
 
+-- Insercion roles
+INSERT INTO GGDP.Rol(rol_nombre, rol_habilitado)
+VALUES ('Administrador', 1), ('Cliente', 1), ('Chofer', 1)
+GO
+
 -- TODO Esta tabla tiene un error de sintaxis, REVISAR
 /*
 INSERT INTO GGDP.RolPorUsuario(rxu_rol, rxu_usuario)
@@ -388,6 +395,19 @@ CREATE PROCEDURE GGDP.sp_obtener_funcionalidades(@rol VARCHAR(255)) AS BEGIN
 	FROM GGDP.Funcionalidad
 	JOIN GGDP.RolPorFuncionalidad ON func_id = rxf_funcionalidad
 	WHERE rxf_rol = @rol
+END
+GO
+
+CREATE PROCEDURE GGDP.sp_alta_rol(@nombre VARCHAR(255)) AS BEGIN
+	BEGIN TRY
+		BEGIN TRANSACTION
+		INSERT GGDP.Rol(rol_nombre, rol_habilitado) VALUES (@nombre, 1)
+		COMMIT TRANSACTION
+	END TRY
+	BEGIN CATCH
+		ROLLBACK TRANSACTION
+		SELECT -1
+	END CATCH
 END
 GO
 /*
