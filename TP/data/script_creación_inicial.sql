@@ -44,6 +44,10 @@ IF (OBJECT_ID ('GGDP.sp_alta_rol') IS NOT NULL)
 	DROP PROCEDURE GGDP.sp_alta_rol
 IF (OBJECT_ID ('GGDP.sp_baja_rol') IS NOT NULL)
 	DROP PROCEDURE GGDP.sp_baja_rol
+IF (OBJECT_ID ('GGDP.sp_modificacion_rol') IS NOT NULL)
+	DROP PROCEDURE GGDP.sp_modificacion_rol
+IF (OBJECT_ID ('GGDP.sp_habilitacion_rol') IS NOT NULL)
+	DROP PROCEDURE GGDP.sp_habilitacion_rol
 IF OBJECT_ID ('GGDP.sp_alta_cliente') IS NOT NULL
     DROP PROCEDURE GGDP.sp_alta_cliente
 IF OBJECT_ID ('GGDP.sp_baja_cliente') IS NOT NULL
@@ -432,6 +436,41 @@ CREATE PROCEDURE GGDP.sp_baja_rol(@rol INT) AS BEGIN
 		END
 		UPDATE GGDP.Rol SET rol_habilitado = 0 WHERE rol_id = @rol
 		DELETE FROM GGDP.RolPorUsuario WHERE rxu_rol = @rol 
+		COMMIT TRANSACTION
+	END TRY
+	BEGIN CATCH
+		ROLLBACK TRANSACTION
+		SELECT -1
+	END CATCH
+END
+GO
+
+CREATE PROCEDURE GGDP.sp_modificacion_rol(@rol INT, @nombre VARCHAR(255)) AS BEGIN
+	BEGIN TRY
+		BEGIN TRANSACTION
+		IF GGDP.fu_existe_rol(@rol) = 0
+		BEGIN
+			RAISERROR('El rol seleccionado no existe', 16, 1)
+		END
+		UPDATE GGDP.Rol SET rol_nombre = ISNULL(@nombre, rol_nombre) WHERE rol_id = @rol
+		-- TODO Falta la lista de funcionalidades
+		COMMIT TRANSACTION
+	END TRY
+	BEGIN CATCH
+		ROLLBACK TRANSACTION
+		SELECT -1
+	END CATCH
+END
+GO
+
+CREATE PROCEDURE GGDP.sp_habilitacion_rol(@rol INT) AS BEGIN
+	BEGIN TRY
+		BEGIN TRANSACTION
+		IF GGDP.fu_existe_rol(@rol) = 0
+		BEGIN
+			RAISERROR('El rol seleccionado no existe', 16, 1)
+		END
+		UPDATE GGDP.Rol SET rol_habilitado = 1 WHERE rol_id = @rol
 		COMMIT TRANSACTION
 	END TRY
 	BEGIN CATCH
