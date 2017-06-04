@@ -18,6 +18,9 @@ GO
 IF (OBJECT_ID ('GGDP.fu_existe_cliente') IS NOT NULL)
   DROP FUNCTION GGDP.fu_existe_cliente
 GO
+IF (OBJECT_ID ('GGDP.fu_existe_rol') IS NOT NULL)
+  DROP FUNCTION GGDP.fu_existe_rol
+GO
 
 /* Eliminacion de Triggers */
 /*
@@ -39,6 +42,8 @@ IF (OBJECT_ID ('GGDP.sp_obtener_funcionalidades') IS NOT NULL)
 	DROP PROCEDURE GGDP.sp_obtener_funcionalidades
 IF (OBJECT_ID ('GGDP.sp_alta_rol') IS NOT NULL)
 	DROP PROCEDURE GGDP.sp_alta_rol
+IF (OBJECT_ID ('GGDP.sp_baja_rol') IS NOT NULL)
+	DROP PROCEDURE GGDP.sp_baja_rol
 IF OBJECT_ID ('GGDP.sp_alta_cliente') IS NOT NULL
     DROP PROCEDURE GGDP.sp_alta_cliente
 IF OBJECT_ID ('GGDP.sp_baja_cliente') IS NOT NULL
@@ -330,6 +335,13 @@ CREATE FUNCTION GGDP.fu_existe_cliente(@cliente_id INT) RETURNS BIT AS BEGIN
 END
 GO
 
+CREATE FUNCTION GGDP.fu_existe_rol(@rol INT) RETURNS BIT AS BEGIN
+	IF EXISTS(SELECT 1 FROM GGDP.Rol WHERE rol_id = @rol)
+		RETURN 1
+	RETURN 0
+END
+GO
+
 /* Creacion de Triggers */
 /*
 CREATE TRIGGER GGDP.tr_cliente_telefono_unico ON GGDP.Cliente INSTEAD OF INSERT
@@ -386,7 +398,7 @@ CREATE PROCEDURE GGDP.sp_obtener_roles_usuario(@usuario VARCHAR(255)) AS BEGIN
 	SELECT rol_nombre, rol_habilitado, rol_id
 	FROM GGDP.Rol
 	JOIN GGDP.RolPorUsuario ON rol_id = rxu_rol
-	WHERE rxu_usuario = @usuario AND rol_habilitado = 1
+	WHERE rxu_usuario = @usuario
 END
 GO
 
@@ -402,6 +414,24 @@ CREATE PROCEDURE GGDP.sp_alta_rol(@nombre VARCHAR(255)) AS BEGIN
 	BEGIN TRY
 		BEGIN TRANSACTION
 		INSERT GGDP.Rol(rol_nombre, rol_habilitado) VALUES (@nombre, 1)
+		COMMIT TRANSACTION
+	END TRY
+	BEGIN CATCH
+		ROLLBACK TRANSACTION
+		SELECT -1
+	END CATCH
+END
+GO
+
+CREATE PROCEDURE GGDP.sp_baja_rol(@rol INT) AS BEGIN
+	BEGIN TRY
+		BEGIN TRANSACTION
+		IF GGDP.fu_existe_rol(@rol) = 0
+		BEGIN
+			RAISERROR('El rol seleccionado no existe', 16, 1)
+		END
+		UPDATE GGDP.Rol SET rol_habilitado = 0 WHERE rol_id = @rol
+		DELETE FROM GGDP.RolPorUsuario WHERE rxu_rol = @rol 
 		COMMIT TRANSACTION
 	END TRY
 	BEGIN CATCH
