@@ -6,11 +6,10 @@ using System.Threading.Tasks;
 
 namespace UberFrba.Entidades
 {
-    class Usuario
+    class Rol
     {
-        public int id { get; set; }
-        public string usuario { get; set; }
+        public string nombre { get; set; }
+        public List<String> funcionalidades { get; set; }
         public bool habilitado { get; set; }
-        public List<Rol> roles { get; set; }
     }
 }

@@ -47,12 +47,58 @@ namespace UberFrba.Helpers
                     {
                         id = (int)row.ItemArray[0],
                         usuario = row.ItemArray[1].ToString(),
-                        habilitado = (bool)row.ItemArray[2]
+                        habilitado = (bool)row.ItemArray[2],
+                        roles = MapearRoles((int)row.ItemArray[0])
                     };
                 }
                 throw new Exception("Hubo un error al mapear al usuario");
             }
             catch(Exception exception)
+            {
+                throw new Exception(exception.Message);
+            }
+        }
+        private List<Rol> MapearRoles(int usuario)
+        {
+            try
+            {
+                List<Rol> roles = new List<Rol>();
+                Conexion conexion = new Conexion();
+                SqlCommand store_procedure = conexion.IniciarStoreProcedure("sp_obtener_roles");
+                store_procedure.Parameters.Add(new SqlParameter("@usuario", usuario));
+                DataTable respuesta_consulta = conexion.EjecutarConsultar(store_procedure);
+                foreach (DataRow row in respuesta_consulta.Rows)
+                {
+                    roles.Add(new Rol
+                    {
+                        nombre = row.ItemArray[0].ToString(),
+                        habilitado = (bool)row.ItemArray[1],
+                        funcionalidades = MapearFuncionalidades((int)row.ItemArray[2])
+                    });
+                }
+                return roles;
+            }
+            catch (Exception exception)
+            {
+                throw new Exception(exception.Message);
+            }
+        }
+        private List<string> MapearFuncionalidades(int rol)
+        {
+            try
+            {
+                List<string> funcionalidades = new List<string>();
+                Conexion conexion = new Conexion();
+                SqlCommand store_procedure = conexion.IniciarStoreProcedure("sp_obtener_funcionalidades");
+                store_procedure.Parameters.Add(new SqlParameter("@rol", rol));
+                DataTable respuesta_consulta = conexion.EjecutarConsultar(store_procedure);
+                foreach (DataRow row in respuesta_consulta.Rows)
+                {
+                    funcionalidades.Add(row.ItemArray[0].ToString());
+                }
+                return funcionalidades;
+            }
+            catch (Exception exception)
             {
                 throw new Exception(exception.Message);
             }
