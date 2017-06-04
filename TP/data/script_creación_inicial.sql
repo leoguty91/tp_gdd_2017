@@ -33,6 +33,8 @@ IF (OBJECT_ID ('GGDP.sp_login_fallido') IS NOT NULL)
 	DROP PROCEDURE GGDP.sp_login_fallido
 IF (OBJECT_ID ('GGDP.sp_obtener_roles') IS NOT NULL)
 	DROP PROCEDURE GGDP.sp_obtener_roles
+IF (OBJECT_ID ('GGDP.sp_obtener_roles_usuario') IS NOT NULL)
+	DROP PROCEDURE GGDP.sp_obtener_roles_usuario
 IF (OBJECT_ID ('GGDP.sp_obtener_funcionalidades') IS NOT NULL)
 	DROP PROCEDURE GGDP.sp_obtener_funcionalidades
 IF OBJECT_ID ('GGDP.sp_alta_cliente') IS NOT NULL
@@ -366,7 +368,14 @@ CREATE PROCEDURE GGDP.sp_login(@usuario VARCHAR(255), @password VARCHAR(255)) AS
 END
 GO
 
-CREATE PROCEDURE GGDP.sp_obtener_roles(@usuario VARCHAR(255)) AS BEGIN
+CREATE PROCEDURE GGDP.sp_obtener_roles AS BEGIN
+	SELECT rol_nombre, rol_habilitado, rol_id
+	FROM GGDP.Rol
+	JOIN GGDP.RolPorUsuario ON rol_id = rxu_rol
+END
+GO
+
+CREATE PROCEDURE GGDP.sp_obtener_roles_usuario(@usuario VARCHAR(255)) AS BEGIN
 	SELECT rol_nombre, rol_habilitado, rol_id
 	FROM GGDP.Rol
 	JOIN GGDP.RolPorUsuario ON rol_id = rxu_rol
