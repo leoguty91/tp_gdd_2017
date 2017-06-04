@@ -50,6 +50,7 @@ namespace UberFrba.Helpers
                         habilitado = (bool)row.ItemArray[2]
                     };
                 }
+                throw new Exception("Hubo un error al mapear al usuario");
             }
             catch(Exception exception)
             {
