@@ -39,7 +39,7 @@ namespace UberFrba
                 {
                     Login login = new Login();
                     login.ObtenerUsuario(usua_usuario.Text, usua_password.Text);
-                    UberFrba.Abm_Rol.Form1 abm_rol = new UberFrba.Abm_Rol.Form1();
+                    UberFrba.Menu.FormInicio menu = new UberFrba.Menu.FormInicio();
                     Hide();
                 }
                 catch (Exception exception)

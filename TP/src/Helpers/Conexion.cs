@@ -36,7 +36,7 @@ namespace UberFrba.Helpers
             }
             catch (SqlException sql_exception)
             {
-                throw new Exception(String.Format("Error al ejecutar la consulta {0} con mensaje de error {1}", cmd.ToString(), sql_exception.Message));
+                throw new Exception(String.Format("Error al ejecutar la consulta, mensaje de error {0}", sql_exception.Message));
             }
             finally
             {
