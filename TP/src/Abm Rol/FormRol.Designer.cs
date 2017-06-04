@@ -1,6 +1,6 @@
 ﻿namespace UberFrba.Abm_Rol
 {
-    partial class Form1
+    partial class FormRol
     {
         /// <summary>
         /// Required designer variable.
@@ -30,17 +30,18 @@
         {
             this.SuspendLayout();
             // 
-            // Form1
+            // FormRol
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(284, 262);
-            this.Name = "Form1";
-            this.Text = "ABM Roles";
+            this.Name = "FormRol";
+            this.Text = "FormRol";
             this.ResumeLayout(false);
 
         }
 
         #endregion
+
     }
 }

@@ -38,6 +38,10 @@ namespace UberFrba.Helpers
             {
                 throw new Exception(String.Format("Error al ejecutar la consulta {0} con mensaje de error {1}", cmd.ToString(), sql_exception.Message));
             }
+            finally
+            {
+                if (Connector.State == ConnectionState.Open) Connector.Close();
+            }
         }
 
         public SqlCommand IniciarStoreProcedure(string nombre_sp)

@@ -367,7 +367,7 @@ END
 GO
 
 CREATE PROCEDURE GGDP.sp_obtener_roles(@usuario VARCHAR(255)) AS BEGIN
-	SELECT rol_id, rol_nombre, rol_habilitado
+	SELECT rol_nombre, rol_habilitado, rol_id
 	FROM GGDP.Rol
 	JOIN GGDP.RolPorUsuario ON rol_id = rxu_rol
 	WHERE rxu_usuario = @usuario AND rol_habilitado = 1
