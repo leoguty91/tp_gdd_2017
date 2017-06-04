@@ -20,18 +20,18 @@ namespace UberFrba
 
         private void btn_ingresar_Click(object sender, EventArgs e)
         {
-            make_login();
+            HacerLogin();
         }
 
         private void usua_password_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.KeyCode == Keys.Return)
             {
-                make_login();
+                HacerLogin();
             }
         }
 
-        private void make_login()
+        private void HacerLogin()
         {
             if (ValidateChildren())
             {
