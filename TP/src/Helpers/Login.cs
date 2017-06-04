@@ -22,37 +22,39 @@ namespace UberFrba.Helpers
                 store_procedure.Parameters.Add(new SqlParameter("@usuario", usuario));
                 store_procedure.Parameters.Add(new SqlParameter("@password", password));
                 DataTable respuesta_consulta = conexion.EjecutarConsultar(store_procedure);
-                if (respuesta_consulta.Rows.Count == 0)
-                    MessageBox.Show("Combinacion de usuario/password incorrecta", " Login erroneo", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                if (respuesta_consulta.Rows.Count == 0) {
+                    throw new Exception("Combinacion de usuario/password incorrecta");
+                }
                 Usuario user = MapearUsuario(respuesta_consulta);
+                if (!user.habilitado) {
+                    throw new Exception("El usuario se encuentra deshabilitado");
+                }
                 MessageBox.Show("Login correcto", " Login ok", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 return user;
             }
-            catch (Exception) { return null; }
+            catch (Exception exception)
+            {
+                throw new Exception(exception.Message);
+            }
         }
         private Usuario MapearUsuario(DataTable data_table)
         {
-            List<Usuario> usuarios = new List<Usuario>();
             try
             {
                 foreach (DataRow row in data_table.Rows)
                 {
-                    foreach (var item in row.ItemArray)
+                    return new Usuario
                     {
-                        usuarios.Add(new Usuario
-                        {
-                            usuario = item.ToString(),
-                            habilitado = true
-                        });
-                    }
-
+                        id = (int)row.ItemArray[0],
+                        usuario = row.ItemArray[1].ToString(),
+                        habilitado = (bool)row.ItemArray[2]
+                    };
                 }
             }
-            catch(Exception)
+            catch(Exception exception)
             {
-                MessageBox.Show("Ocurrió un error al hacer login. Por favor, intente nuevamente.", "Error Login", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                throw new Exception(exception.Message);
             }
-            return usuarios.First();
         }
     }
 }

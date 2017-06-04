@@ -350,14 +350,14 @@ CREATE PROCEDURE GGDP.sp_login(@usuario VARCHAR(255), @password VARCHAR(255)) AS
 	SELECT @usuario_login_ok=COUNT(*) FROM GGDP.Usuario
 		WHERE usua_usuario = @usuario
 		AND usua_password = HASHBYTES('SHA2_256', @password)
-		AND usua_habilitado = 1
 
 	IF @usuario_login_ok = 0 BEGIN
 		EXEC GGDP.sp_login_fallido @usuario
 		RETURN -1
 	END
 	ELSE BEGIN
-		SELECT usua_id FROM GGDP.Usuario WHERE usua_usuario = @usuario
+		UPDATE GGDP.Usuario SET usua_intentos = 0 WHERE usua_usuario = @usuario
+		SELECT usua_id, usua_usuario, usua_habilitado FROM GGDP.Usuario WHERE usua_usuario = @usuario
 	END
 END
 GO

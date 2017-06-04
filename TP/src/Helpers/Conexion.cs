@@ -34,10 +34,9 @@ namespace UberFrba.Helpers
                     return dt;
                 }
             }
-            catch (SqlException)
+            catch (SqlException sql_exception)
             {
-                MessageBox.Show("Error al ejecutar la consulta", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return null;
+                throw new Exception(String.Format("Error al ejecutar la consulta {0} con mensaje de error {1}", cmd.ToString(), sql_exception.Message));
             }
         }
 

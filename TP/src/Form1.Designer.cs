@@ -47,9 +47,9 @@
             this.groupBox1.Controls.Add(this.label2);
             this.groupBox1.Controls.Add(this.label1);
             this.groupBox1.Location = new System.Drawing.Point(8, 8);
-            this.groupBox1.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.groupBox1.Margin = new System.Windows.Forms.Padding(2);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Padding = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.groupBox1.Padding = new System.Windows.Forms.Padding(2);
             this.groupBox1.Size = new System.Drawing.Size(171, 156);
             this.groupBox1.TabIndex = 0;
             this.groupBox1.TabStop = false;
@@ -58,7 +58,7 @@
             // btn_registrar
             // 
             this.btn_registrar.Location = new System.Drawing.Point(86, 113);
-            this.btn_registrar.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.btn_registrar.Margin = new System.Windows.Forms.Padding(2);
             this.btn_registrar.Name = "btn_registrar";
             this.btn_registrar.Size = new System.Drawing.Size(70, 25);
             this.btn_registrar.TabIndex = 5;
@@ -68,7 +68,7 @@
             // btn_ingresar
             // 
             this.btn_ingresar.Location = new System.Drawing.Point(19, 113);
-            this.btn_ingresar.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.btn_ingresar.Margin = new System.Windows.Forms.Padding(2);
             this.btn_ingresar.Name = "btn_ingresar";
             this.btn_ingresar.Size = new System.Drawing.Size(63, 25);
             this.btn_ingresar.TabIndex = 4;
@@ -79,17 +79,18 @@
             // usua_password
             // 
             this.usua_password.Location = new System.Drawing.Point(19, 84);
-            this.usua_password.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.usua_password.Margin = new System.Windows.Forms.Padding(2);
             this.usua_password.MaxLength = 255;
             this.usua_password.Name = "usua_password";
             this.usua_password.PasswordChar = '*';
             this.usua_password.Size = new System.Drawing.Size(137, 20);
             this.usua_password.TabIndex = 3;
+            this.usua_password.KeyDown += new System.Windows.Forms.KeyEventHandler(this.usua_password_KeyDown);
             // 
             // usua_usuario
             // 
             this.usua_usuario.Location = new System.Drawing.Point(19, 42);
-            this.usua_usuario.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.usua_usuario.Margin = new System.Windows.Forms.Padding(2);
             this.usua_usuario.MaxLength = 255;
             this.usua_usuario.Name = "usua_usuario";
             this.usua_usuario.Size = new System.Drawing.Size(137, 20);
@@ -121,7 +122,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(187, 172);
             this.Controls.Add(this.groupBox1);
-            this.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.Margin = new System.Windows.Forms.Padding(2);
             this.Name = "Form1";
             this.Text = "Uber GGDP";
             this.groupBox1.ResumeLayout(false);

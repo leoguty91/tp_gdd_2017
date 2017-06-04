@@ -20,6 +20,19 @@ namespace UberFrba
 
         private void btn_ingresar_Click(object sender, EventArgs e)
         {
+            make_login();
+        }
+
+        private void usua_password_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Return)
+            {
+                make_login();
+            }
+        }
+
+        private void make_login()
+        {
             if (ValidateChildren())
             {
                 try
@@ -27,7 +40,10 @@ namespace UberFrba
                     Login login = new Login();
                     login.ObtenerUsuario(usua_usuario.Text, usua_password.Text);
                 }
-                catch (Exception) { }
+                catch (Exception exception)
+                {
+                    MessageBox.Show(exception.Message, " Login erroneo", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
             }
         }
     }
