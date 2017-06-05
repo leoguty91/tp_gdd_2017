@@ -31,7 +31,6 @@
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.menuToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.aBMDeRolToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
-            this.cerrarSesionToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.loginYSeguridadToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.registroDeUsuarioToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.aBMDeClienteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -41,6 +40,7 @@
             this.rendicionDeCuentaDelChoferToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.facturacionAClienteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.listadoEstadisticoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.cerrarSesionToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -80,13 +80,6 @@
             this.aBMDeRolToolStripMenuItem1.Text = "ABM de Rol";
             this.aBMDeRolToolStripMenuItem1.Click += new System.EventHandler(this.aBMDeRolToolStripMenuItem1_Click);
             // 
-            // cerrarSesionToolStripMenuItem
-            // 
-            this.cerrarSesionToolStripMenuItem.Name = "cerrarSesionToolStripMenuItem";
-            this.cerrarSesionToolStripMenuItem.Size = new System.Drawing.Size(88, 20);
-            this.cerrarSesionToolStripMenuItem.Text = "Cerrar Sesion";
-            this.cerrarSesionToolStripMenuItem.Click += new System.EventHandler(this.cerrarSesionToolStripMenuItem_Click);
-            // 
             // loginYSeguridadToolStripMenuItem
             // 
             this.loginYSeguridadToolStripMenuItem.Name = "loginYSeguridadToolStripMenuItem";
@@ -104,42 +97,56 @@
             this.aBMDeClienteToolStripMenuItem.Name = "aBMDeClienteToolStripMenuItem";
             this.aBMDeClienteToolStripMenuItem.Size = new System.Drawing.Size(238, 22);
             this.aBMDeClienteToolStripMenuItem.Text = "ABM de Cliente";
+            this.aBMDeClienteToolStripMenuItem.Click += new System.EventHandler(this.aBMDeClienteToolStripMenuItem_Click);
             // 
             // aBMDeAutomovilToolStripMenuItem
             // 
             this.aBMDeAutomovilToolStripMenuItem.Name = "aBMDeAutomovilToolStripMenuItem";
             this.aBMDeAutomovilToolStripMenuItem.Size = new System.Drawing.Size(238, 22);
             this.aBMDeAutomovilToolStripMenuItem.Text = "ABM de Automovil";
+            this.aBMDeAutomovilToolStripMenuItem.Click += new System.EventHandler(this.aBMDeAutomovilToolStripMenuItem_Click);
             // 
             // aBMDeChoferToolStripMenuItem
             // 
             this.aBMDeChoferToolStripMenuItem.Name = "aBMDeChoferToolStripMenuItem";
             this.aBMDeChoferToolStripMenuItem.Size = new System.Drawing.Size(238, 22);
             this.aBMDeChoferToolStripMenuItem.Text = "ABM de Chofer";
+            this.aBMDeChoferToolStripMenuItem.Click += new System.EventHandler(this.aBMDeChoferToolStripMenuItem_Click);
             // 
             // registroDeViajesToolStripMenuItem
             // 
             this.registroDeViajesToolStripMenuItem.Name = "registroDeViajesToolStripMenuItem";
             this.registroDeViajesToolStripMenuItem.Size = new System.Drawing.Size(238, 22);
             this.registroDeViajesToolStripMenuItem.Text = "Registro de Viajes";
+            this.registroDeViajesToolStripMenuItem.Click += new System.EventHandler(this.registroDeViajesToolStripMenuItem_Click);
             // 
             // rendicionDeCuentaDelChoferToolStripMenuItem
             // 
             this.rendicionDeCuentaDelChoferToolStripMenuItem.Name = "rendicionDeCuentaDelChoferToolStripMenuItem";
             this.rendicionDeCuentaDelChoferToolStripMenuItem.Size = new System.Drawing.Size(238, 22);
             this.rendicionDeCuentaDelChoferToolStripMenuItem.Text = "Rendicion de cuenta del chofer";
+            this.rendicionDeCuentaDelChoferToolStripMenuItem.Click += new System.EventHandler(this.rendicionDeCuentaDelChoferToolStripMenuItem_Click);
             // 
             // facturacionAClienteToolStripMenuItem
             // 
             this.facturacionAClienteToolStripMenuItem.Name = "facturacionAClienteToolStripMenuItem";
             this.facturacionAClienteToolStripMenuItem.Size = new System.Drawing.Size(238, 22);
             this.facturacionAClienteToolStripMenuItem.Text = "Facturacion a Cliente";
+            this.facturacionAClienteToolStripMenuItem.Click += new System.EventHandler(this.facturacionAClienteToolStripMenuItem_Click);
             // 
             // listadoEstadisticoToolStripMenuItem
             // 
             this.listadoEstadisticoToolStripMenuItem.Name = "listadoEstadisticoToolStripMenuItem";
             this.listadoEstadisticoToolStripMenuItem.Size = new System.Drawing.Size(238, 22);
             this.listadoEstadisticoToolStripMenuItem.Text = "Listado Estadistico";
+            this.listadoEstadisticoToolStripMenuItem.Click += new System.EventHandler(this.listadoEstadisticoToolStripMenuItem_Click);
+            // 
+            // cerrarSesionToolStripMenuItem
+            // 
+            this.cerrarSesionToolStripMenuItem.Name = "cerrarSesionToolStripMenuItem";
+            this.cerrarSesionToolStripMenuItem.Size = new System.Drawing.Size(88, 20);
+            this.cerrarSesionToolStripMenuItem.Text = "Cerrar Sesion";
+            this.cerrarSesionToolStripMenuItem.Click += new System.EventHandler(this.cerrarSesionToolStripMenuItem_Click);
             // 
             // FormPrincipal
             // 

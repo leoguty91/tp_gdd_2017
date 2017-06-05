@@ -15,6 +15,7 @@ namespace UberFrba.Rendicion_Viajes
         public Form1()
         {
             InitializeComponent();
+            Show();
         }
     }
 }

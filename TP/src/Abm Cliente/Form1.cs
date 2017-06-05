@@ -15,6 +15,7 @@ namespace UberFrba.Abm_Cliente
         public Form1()
         {
             InitializeComponent();
+            Show();
         }
     }
 }

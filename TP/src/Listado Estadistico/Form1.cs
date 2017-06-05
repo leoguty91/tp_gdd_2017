@@ -15,6 +15,7 @@ namespace UberFrba.Listado_Estadistico
         public Form1()
         {
             InitializeComponent();
+            Show();
         }
     }
 }

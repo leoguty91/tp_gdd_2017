@@ -15,6 +15,7 @@ namespace UberFrba.Registro_Viajes
         public Form1()
         {
             InitializeComponent();
+            Show();
         }
     }
 }

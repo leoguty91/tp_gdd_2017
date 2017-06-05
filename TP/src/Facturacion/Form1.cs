@@ -15,6 +15,7 @@ namespace UberFrba.Facturacion
         public Form1()
         {
             InitializeComponent();
+            Show();
         }
     }
 }

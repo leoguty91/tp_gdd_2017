@@ -15,6 +15,7 @@ namespace UberFrba.Abm_Automovil
         public Form1()
         {
             InitializeComponent();
+            Show();
         }
     }
 }

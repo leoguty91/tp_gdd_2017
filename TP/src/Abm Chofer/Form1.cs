@@ -15,6 +15,7 @@ namespace UberFrba.Abm_Chofer
         public Form1()
         {
             InitializeComponent();
+            Show();
         }
     }
 }

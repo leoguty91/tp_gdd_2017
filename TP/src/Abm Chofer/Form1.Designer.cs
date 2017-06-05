@@ -80,7 +80,7 @@
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.bt_crear);
             this.Name = "Form1";
-            this.Text = "Form1";
+            this.Text = "ABM de Choferes";
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
             this.ResumeLayout(false);
