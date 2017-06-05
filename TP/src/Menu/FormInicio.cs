@@ -17,5 +17,13 @@ namespace UberFrba.Menu
             InitializeComponent();
             Show();
         }
+
+        private void cerrarSesionToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Dispose();
+            UberFrba.Form1 login = new UberFrba.Form1();
+            login.Show();
+        }
+
     }
 }
