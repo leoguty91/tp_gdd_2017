@@ -11,9 +11,9 @@ using UberFrba.Helpers;
 
 namespace UberFrba
 {
-    public partial class Form1 : Form
+    public partial class Login : Form
     {
-        public Form1()
+        public Login()
         {
             InitializeComponent();
         }
@@ -37,7 +37,7 @@ namespace UberFrba
             {
                 try
                 {
-                    Login login = new Login();
+                    LoginHelper login = new LoginHelper();
                     login.ObtenerUsuario(usua_usuario.Text, usua_password.Text);
                     UberFrba.Menu.FormInicio menu = new UberFrba.Menu.FormInicio();
                     Hide();

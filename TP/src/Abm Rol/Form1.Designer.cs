@@ -1,6 +1,6 @@
 ﻿namespace UberFrba.Abm_Rol
 {
-    partial class Form1
+    partial class ABMRol
     {
         /// <summary>
         /// Required designer variable.
@@ -120,13 +120,13 @@
             // 
             this.rolTableAdapter.ClearBeforeFill = true;
             // 
-            // Form1
+            // ABMRol
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(290, 365);
             this.Controls.Add(this.groupBox1);
-            this.Name = "Form1";
+            this.Name = "ABMRol";
             this.Text = "ABM Roles";
             this.Load += new System.EventHandler(this.Form1_Load);
             this.groupBox1.ResumeLayout(false);

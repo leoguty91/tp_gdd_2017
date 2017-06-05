@@ -21,9 +21,13 @@ namespace UberFrba.Menu
         private void cerrarSesionToolStripMenuItem_Click(object sender, EventArgs e)
         {
             Dispose();
-            UberFrba.Form1 login = new UberFrba.Form1();
+            Login login = new Login();
             login.Show();
         }
 
+        private void aBMDeRolToolStripMenuItem1_Click(object sender, EventArgs e)
+        {
+            Abm_Rol.ABMRol rol = new Abm_Rol.ABMRol();
+        }
     }
 }

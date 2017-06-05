@@ -29,7 +29,7 @@
         private void InitializeComponent()
         {
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
-            this.aBMDeRolToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.menuToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.aBMDeRolToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.cerrarSesionToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.loginYSeguridadToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -47,7 +47,7 @@
             // menuStrip1
             // 
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.aBMDeRolToolStripMenuItem,
+            this.menuToolStripMenuItem,
             this.cerrarSesionToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
@@ -55,9 +55,10 @@
             this.menuStrip1.TabIndex = 0;
             this.menuStrip1.Text = "menuStrip1";
             // 
-            // aBMDeRolToolStripMenuItem
+            // menuToolStripMenuItem
             // 
-            this.aBMDeRolToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.menuToolStripMenuItem.AutoToolTip = true;
+            this.menuToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.aBMDeRolToolStripMenuItem1,
             this.loginYSeguridadToolStripMenuItem,
             this.registroDeUsuarioToolStripMenuItem,
@@ -68,15 +69,16 @@
             this.rendicionDeCuentaDelChoferToolStripMenuItem,
             this.facturacionAClienteToolStripMenuItem,
             this.listadoEstadisticoToolStripMenuItem});
-            this.aBMDeRolToolStripMenuItem.Name = "aBMDeRolToolStripMenuItem";
-            this.aBMDeRolToolStripMenuItem.Size = new System.Drawing.Size(50, 20);
-            this.aBMDeRolToolStripMenuItem.Text = "Menu";
+            this.menuToolStripMenuItem.Name = "menuToolStripMenuItem";
+            this.menuToolStripMenuItem.Size = new System.Drawing.Size(50, 20);
+            this.menuToolStripMenuItem.Text = "Menu";
             // 
             // aBMDeRolToolStripMenuItem1
             // 
             this.aBMDeRolToolStripMenuItem1.Name = "aBMDeRolToolStripMenuItem1";
             this.aBMDeRolToolStripMenuItem1.Size = new System.Drawing.Size(238, 22);
             this.aBMDeRolToolStripMenuItem1.Text = "ABM de Rol";
+            this.aBMDeRolToolStripMenuItem1.Click += new System.EventHandler(this.aBMDeRolToolStripMenuItem1_Click);
             // 
             // cerrarSesionToolStripMenuItem
             // 
@@ -158,7 +160,7 @@
         #endregion
 
         private System.Windows.Forms.MenuStrip menuStrip1;
-        private System.Windows.Forms.ToolStripMenuItem aBMDeRolToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem menuToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem aBMDeRolToolStripMenuItem1;
         private System.Windows.Forms.ToolStripMenuItem loginYSeguridadToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem registroDeUsuarioToolStripMenuItem;

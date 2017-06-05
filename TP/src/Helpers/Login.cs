@@ -10,7 +10,7 @@ using UberFrba.Entidades;
 
 namespace UberFrba.Helpers
 {
-    class Login
+    class LoginHelper
     {
         public Usuario ObtenerUsuario(string usuario, string password)
         {
