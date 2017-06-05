@@ -31,8 +31,6 @@
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.menuToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.aBMDeRolToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
-            this.loginYSeguridadToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.registroDeUsuarioToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.aBMDeClienteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.aBMDeAutomovilToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.aBMDeChoferToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -60,8 +58,6 @@
             this.menuToolStripMenuItem.AutoToolTip = true;
             this.menuToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.aBMDeRolToolStripMenuItem1,
-            this.loginYSeguridadToolStripMenuItem,
-            this.registroDeUsuarioToolStripMenuItem,
             this.aBMDeClienteToolStripMenuItem,
             this.aBMDeAutomovilToolStripMenuItem,
             this.aBMDeChoferToolStripMenuItem,
@@ -79,18 +75,6 @@
             this.aBMDeRolToolStripMenuItem1.Size = new System.Drawing.Size(238, 22);
             this.aBMDeRolToolStripMenuItem1.Text = "ABM de Rol";
             this.aBMDeRolToolStripMenuItem1.Click += new System.EventHandler(this.aBMDeRolToolStripMenuItem1_Click);
-            // 
-            // loginYSeguridadToolStripMenuItem
-            // 
-            this.loginYSeguridadToolStripMenuItem.Name = "loginYSeguridadToolStripMenuItem";
-            this.loginYSeguridadToolStripMenuItem.Size = new System.Drawing.Size(238, 22);
-            this.loginYSeguridadToolStripMenuItem.Text = "Login y Seguridad";
-            // 
-            // registroDeUsuarioToolStripMenuItem
-            // 
-            this.registroDeUsuarioToolStripMenuItem.Name = "registroDeUsuarioToolStripMenuItem";
-            this.registroDeUsuarioToolStripMenuItem.Size = new System.Drawing.Size(238, 22);
-            this.registroDeUsuarioToolStripMenuItem.Text = "Registro de Usuario";
             // 
             // aBMDeClienteToolStripMenuItem
             // 
@@ -169,8 +153,6 @@
         private System.Windows.Forms.MenuStrip menuStrip1;
         private System.Windows.Forms.ToolStripMenuItem menuToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem aBMDeRolToolStripMenuItem1;
-        private System.Windows.Forms.ToolStripMenuItem loginYSeguridadToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem registroDeUsuarioToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem aBMDeClienteToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem aBMDeAutomovilToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem aBMDeChoferToolStripMenuItem;

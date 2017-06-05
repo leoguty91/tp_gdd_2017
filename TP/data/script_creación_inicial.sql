@@ -221,10 +221,9 @@ CREATE TABLE GGDP.Usuario(
 GO
 
 /* Creacion de los FK */
-/*
 ALTER TABLE GGDP.Cliente
 	ADD CONSTRAINT fk_clie_usuario FOREIGN KEY (clie_usuario) REFERENCES GGDP.Usuario(usua_id)
-*/
+
 ALTER TABLE GGDP.Automovil
 	ADD CONSTRAINT fk_auto_chofer FOREIGN KEY (auto_chofer) REFERENCES GGDP.Chofer(chof_id)
 
@@ -266,10 +265,9 @@ ALTER TABLE GGDP.RolPorFuncionalidad
 	ADD CONSTRAINT fk_rxf_rol FOREIGN KEY (rxf_rol) REFERENCES GGDP.Rol(rol_id)
 ALTER TABLE GGDP.RolPorFuncionalidad
 	ADD CONSTRAINT fk_rxf_funcionalidad FOREIGN KEY (rxf_funcionalidad) REFERENCES GGDP.Funcionalidad(func_id)
-/*
+
 ALTER TABLE GGDP.Chofer
 	ADD CONSTRAINT fk_chof_usuario FOREIGN KEY (chof_usuario) REFERENCES GGDP.Usuario(usua_id)
-*/
 GO
 
 /* Creacion de Indices */
@@ -280,35 +278,6 @@ CREATE INDEX IX_Marca ON GGDP.Marca(marc_nombre)
 GO
 
 /* Insercion de datos */
--- TODO Falta clie_usuario
-INSERT INTO GGDP.Cliente(clie_dni, clie_nombre, clie_apellido, clie_telefono, clie_direccion, clie_codigo_postal, clie_mail, clie_fecha_nacimiento, clie_habilitado, clie_usuario)
-SELECT DISTINCT(Cliente_Dni), Cliente_Nombre, Cliente_Apellido, Cliente_Telefono, Cliente_Direccion, 1, Cliente_Mail, Cliente_Fecha_Nac, 1, 1 FROM [gd_esquema].[Maestra]
-GO
-
--- TODO Falta chof_usuario
-INSERT INTO GGDP.Chofer(chof_mail, chof_nombre, chof_apellido, chof_dni, chof_telefono, chof_direccion, chof_codigo_postal, chof_fecha_nacimiento, chof_habilitado, chof_usuario)
-SELECT DISTINCT (Chofer_Mail), Chofer_Nombre, Chofer_Apellido, Chofer_Dni, Chofer_Telefono, Chofer_Direccion, 1, Chofer_Fecha_Nac, 1, 1 FROM [gd_esquema].[Maestra]
-GO
-
-INSERT INTO GGDP.Marca(marc_nombre)
-SELECT DISTINCT Auto_Marca FROM [gd_esquema].[Maestra]
-
--- TODO Falta auto_turno
-INSERT INTO GGDP.Automovil(auto_patente, auto_marca, auto_modelo, auto_turno, auto_chofer, auto_habilitado)
-SELECT DISTINCT ([Auto_Patente]), GGDP.Marca.marc_id, [Auto_Modelo], 1, GGDP.Chofer.chof_id, 1
-FROM [gd_esquema].[Maestra]
-	JOIN GGDP.Marca ON gd_esquema.Maestra.Auto_Marca = GGDP.Marca.marc_nombre
-	JOIN GGDP.Chofer ON gd_esquema.Maestra.Chofer_Dni = GGDP.Chofer.chof_dni 
-GO
-
--- Insercion usuario admin
-DECLARE @usua_password VARCHAR(255);
-SELECT @usua_password = HASHBYTES('SHA2_256', 'w23e');
-
-INSERT INTO GGDP.Usuario(usua_usuario, usua_password, usua_intentos, usua_habilitado)
-VALUES ('admin', @usua_password, 0, 1)
-GO
-
 -- Insercion roles
 INSERT INTO GGDP.Rol(rol_nombre, rol_habilitado)
 VALUES ('Administrador', 1), ('Cliente', 1), ('Chofer', 1)
@@ -322,6 +291,56 @@ GO
 -- Insercion roles y funcionalidades
 INSERT INTO GGDP.RolPorFuncionalidad(rxf_funcionalidad, rxf_rol)
 SELECT func_id, rol_id FROM GGDP.Funcionalidad, GGDP.Rol WHERE rol_nombre = 'Administrador'
+GO
+
+-- Insercion usuario admin
+INSERT INTO GGDP.Usuario(usua_usuario, usua_password, usua_intentos, usua_habilitado)
+VALUES ('admin', HASHBYTES('SHA2_256', 'w23e'), 0, 1)
+GO
+INSERT INTO GGDP.RolPorUsuario(rxu_rol, rxu_usuario)
+SELECT rol_id, usua_id FROM GGDP.Rol, GGDP.Usuario
+WHERE rol_nombre = 'Administrador' AND usua_usuario = 'admin'
+GO
+
+-- Insercion de usuarios clientes
+INSERT INTO GGDP.Usuario(usua_usuario, usua_password, usua_intentos, usua_habilitado)
+SELECT DISTINCT(Cliente_Dni), HASHBYTES('SHA2_256', CAST(Cliente_Dni as varchar(255))), 0, 1 FROM [gd_esquema].[Maestra]
+GO
+INSERT INTO GGDP.RolPorUsuario(rxu_rol, rxu_usuario)
+SELECT rol_id, usua_id FROM GGDP.Rol, GGDP.Usuario
+WHERE rol_nombre = 'Cliente' AND usua_usuario IN (SELECT DISTINCT(CAST(Cliente_Dni AS varchar(255))) FROM [gd_esquema].[Maestra])
+GO
+
+-- Insercion de usuarios choferes
+INSERT INTO GGDP.Usuario(usua_usuario, usua_password, usua_intentos, usua_habilitado)
+SELECT DISTINCT(Chofer_Dni), HASHBYTES('SHA2_256', CAST(Chofer_Dni as varchar(255))), 0, 1 FROM [gd_esquema].[Maestra]
+GO
+INSERT INTO GGDP.RolPorUsuario(rxu_rol, rxu_usuario)
+SELECT rol_id, usua_id FROM GGDP.Rol, GGDP.Usuario
+WHERE rol_nombre = 'Chofer' AND usua_usuario IN (SELECT DISTINCT(CAST(Chofer_Dni AS varchar(255))) FROM [gd_esquema].[Maestra])
+GO
+
+-- Insercion de clientes
+INSERT INTO GGDP.Cliente(clie_dni, clie_nombre, clie_apellido, clie_telefono, clie_direccion, clie_codigo_postal, clie_mail, clie_fecha_nacimiento, clie_habilitado, clie_usuario)
+SELECT DISTINCT(Cliente_Dni), Cliente_Nombre, Cliente_Apellido, Cliente_Telefono, Cliente_Direccion, 1, Cliente_Mail, Cliente_Fecha_Nac, 1, usua_id FROM [gd_esquema].[Maestra], GGDP.Usuario WHERE usua_usuario = CAST(Cliente_Dni AS varchar(255))
+GO
+
+-- Insercion de choferes
+INSERT INTO GGDP.Chofer(chof_mail, chof_nombre, chof_apellido, chof_dni, chof_telefono, chof_direccion, chof_codigo_postal, chof_fecha_nacimiento, chof_habilitado, chof_usuario)
+SELECT DISTINCT (Chofer_Mail), Chofer_Nombre, Chofer_Apellido, Chofer_Dni, Chofer_Telefono, Chofer_Direccion, 1, Chofer_Fecha_Nac, 1, usua_id FROM [gd_esquema].[Maestra], GGDP.Usuario WHERE usua_usuario = CAST(Chofer_Dni AS varchar(255))
+GO
+
+-- Insercion de marcas de autos
+INSERT INTO GGDP.Marca(marc_nombre)
+SELECT DISTINCT Auto_Marca FROM [gd_esquema].[Maestra]
+
+-- Insercion de automoviles
+-- TODO Falta auto_turno
+INSERT INTO GGDP.Automovil(auto_patente, auto_marca, auto_modelo, auto_turno, auto_chofer, auto_habilitado)
+SELECT DISTINCT ([Auto_Patente]), GGDP.Marca.marc_id, [Auto_Modelo], 1, GGDP.Chofer.chof_id, 1
+FROM [gd_esquema].[Maestra]
+	JOIN GGDP.Marca ON gd_esquema.Maestra.Auto_Marca = GGDP.Marca.marc_nombre
+	JOIN GGDP.Chofer ON gd_esquema.Maestra.Chofer_Dni = GGDP.Chofer.chof_dni 
 GO
 
 -- TODO Esta tabla tiene un error de sintaxis, REVISAR
