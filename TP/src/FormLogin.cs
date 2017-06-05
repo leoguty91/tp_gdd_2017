@@ -43,7 +43,7 @@ namespace UberFrba
             {
                 LoginHelper login = new LoginHelper();
                 login.ObtenerUsuario(usua_usuario.Text, usua_password.Text);
-                UberFrba.Menu.FormPrincipal menu = new UberFrba.Menu.FormPrincipal();
+                new UberFrba.Menu.FormPrincipal();
                 Hide();
             }
             catch (Exception exception)

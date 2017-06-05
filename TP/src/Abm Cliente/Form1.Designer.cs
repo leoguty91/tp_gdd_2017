@@ -28,9 +28,15 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.components = new System.ComponentModel.Container();
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.SuspendLayout();
+            // 
+            // Form1
+            // 
+            this.ClientSize = new System.Drawing.Size(284, 262);
+            this.Name = "Form1";
             this.Text = "Form1";
+            this.ResumeLayout(false);
+
         }
 
         #endregion
