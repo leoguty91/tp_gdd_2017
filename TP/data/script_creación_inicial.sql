@@ -314,6 +314,16 @@ INSERT INTO GGDP.Rol(rol_nombre, rol_habilitado)
 VALUES ('Administrador', 1), ('Cliente', 1), ('Chofer', 1)
 GO
 
+-- Insercion funcionalidades
+INSERT INTO GGDP.Funcionalidad(func_nombre)
+VALUES ('ABM de Rol'), ('Login y Seguridad'), ('Registro de Usuario'), ('ABM de Cliente'), ('ABM de Automovil'), ('ABM de Chofer'), ('Registro de Viajes'), ('Rendcion de cuenta del chofer'), ('Facturacion a Cliente'), ('Listado Estadistico')
+GO
+
+-- Insercion roles y funcionalidades
+INSERT INTO GGDP.RolPorFuncionalidad(rxf_funcionalidad, rxf_rol)
+SELECT func_id, rol_id FROM GGDP.Funcionalidad, GGDP.Rol WHERE rol_nombre = 'Administrador'
+GO
+
 -- TODO Esta tabla tiene un error de sintaxis, REVISAR
 /*
 INSERT INTO GGDP.RolPorUsuario(rxu_rol, rxu_usuario)
