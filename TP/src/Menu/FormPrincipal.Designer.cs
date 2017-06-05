@@ -1,6 +1,6 @@
 ﻿namespace UberFrba.Menu
 {
-    partial class FormInicio
+    partial class FormPrincipal
     {
         /// <summary>
         /// Required designer variable.
@@ -141,14 +141,14 @@
             this.listadoEstadisticoToolStripMenuItem.Size = new System.Drawing.Size(238, 22);
             this.listadoEstadisticoToolStripMenuItem.Text = "Listado Estadistico";
             // 
-            // FormInicio
+            // FormPrincipal
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(284, 262);
             this.Controls.Add(this.menuStrip1);
             this.MainMenuStrip = this.menuStrip1;
-            this.Name = "FormInicio";
+            this.Name = "FormPrincipal";
             this.Text = "Uber GGDP";
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();

@@ -1,6 +1,6 @@
 ﻿namespace UberFrba
 {
-    partial class Login
+    partial class FormLogin
     {
         /// <summary>
         /// Variable del diseñador requerida.
@@ -104,14 +104,14 @@
             this.label1.TabIndex = 0;
             this.label1.Text = "Usuario";
             // 
-            // Login
+            // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(187, 172);
             this.Controls.Add(this.groupBox1);
             this.Margin = new System.Windows.Forms.Padding(2);
-            this.Name = "Login";
+            this.Name = "Form1";
             this.Text = "Uber GGDP";
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();

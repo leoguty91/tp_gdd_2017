@@ -10,9 +10,9 @@ using System.Windows.Forms;
 
 namespace UberFrba.Menu
 {
-    public partial class FormInicio : Form
+    public partial class FormPrincipal : Form
     {
-        public FormInicio()
+        public FormPrincipal()
         {
             InitializeComponent();
             Show();
@@ -21,13 +21,13 @@ namespace UberFrba.Menu
         private void cerrarSesionToolStripMenuItem_Click(object sender, EventArgs e)
         {
             Dispose();
-            Login login = new Login();
+            FormLogin login = new FormLogin();
             login.Show();
         }
 
         private void aBMDeRolToolStripMenuItem1_Click(object sender, EventArgs e)
         {
-            Abm_Rol.ABMRol rol = new Abm_Rol.ABMRol();
+            Abm_Rol.Form1 rol = new Abm_Rol.Form1();
         }
     }
 }
