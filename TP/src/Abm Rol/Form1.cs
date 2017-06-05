@@ -23,5 +23,17 @@ namespace UberFrba.Abm_Rol
             // TODO: esta línea de código carga datos en la tabla 'gD1C2017DataSet.Rol' Puede moverla o quitarla según sea necesario.
             this.rolTableAdapter.Fill(this.gD1C2017DataSet.Rol);
         }
+
+        private void dataGridView1_CellContentDoubleClick(object sender, DataGridViewCellEventArgs e)
+        {
+            int rol_id = getRolId();
+            new Abm_Rol.FormRol(rol_id);
+        }
+        private int getRolId()
+        {
+            int selected_row_index = this.dataGridView1.SelectedCells[0].RowIndex;
+            DataGridViewRow selected_row = dataGridView1.Rows[selected_row_index];
+            return Convert.ToInt32(selected_row.Cells[0].Value);
+        }
     }
 }

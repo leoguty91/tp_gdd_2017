@@ -12,9 +12,30 @@ namespace UberFrba.Abm_Rol
 {
     public partial class FormRol : Form
     {
-        public FormRol()
+        public FormRol(int rol)
         {
             InitializeComponent();
+            Show();
+        }
+
+        private void FormRol_Load(object sender, EventArgs e)
+        {
+            // TODO: esta línea de código carga datos en la tabla 'gD1C2017DataSet.Funcionalidad' Puede moverla o quitarla según sea necesario.
+            this.funcionalidadTableAdapter.Fill(this.gD1C2017DataSet.Funcionalidad);
+
+        }
+
+        private void fillByToolStripButton_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                this.funcionalidadTableAdapter.FillBy(this.gD1C2017DataSet.Funcionalidad);
+            }
+            catch (System.Exception ex)
+            {
+                System.Windows.Forms.MessageBox.Show(ex.Message);
+            }
+
         }
     }
 }
