@@ -8,17 +8,28 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using UberFrba.Entidades;
 using UberFrba.Helpers;
 
 namespace UberFrba.Abm_Rol
 {
     public partial class FormRol : Form
     {
+        private Rol rol { get; set; }
         public FormRol(int rol)
         {
             InitializeComponent();
-            this.dataGridView1.DataSource = getFuncionalidades(rol);
+            loadComponents(rol);
             Show();
+        }
+
+        private void loadComponents(int rol_id)
+        {
+            this.dataGridView1.DataSource = getFuncionalidades(rol_id);
+            Rol rol_mapper = new Rol();
+            this.rol = rol_mapper.Mapear(rol_id);
+            this.textBox1.Text = rol.nombre;
+            this.checkBox1.Checked = rol.habilitado;
         }
 
         private void FormRol_Load(object sender, EventArgs e)
@@ -28,10 +39,33 @@ namespace UberFrba.Abm_Rol
 
         private DataTable getFuncionalidades(int rol)
         {
-            Conexion conexion = new Conexion();
-            SqlCommand store_procedure = conexion.IniciarStoreProcedure("sp_obtener_funcionalidades");
-            store_procedure.Parameters.Add(new SqlParameter("@rol", rol));
-            return conexion.EjecutarConsultar(store_procedure);
+            try
+            {
+                Conexion conexion = new Conexion();
+                SqlCommand store_procedure = conexion.IniciarStoreProcedure("sp_obtener_funcionalidades");
+                store_procedure.Parameters.Add(new SqlParameter("@rol", rol));
+                return conexion.EjecutarConsultar(store_procedure);
+            }
+            catch (Exception exception)
+            {
+                throw new Exception(exception.Message);
+            }
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                Conexion conexion = new Conexion();
+                SqlCommand store_procedure = conexion.IniciarStoreProcedure("sp_modificacion_rol");
+                store_procedure.Parameters.Add(new SqlParameter("@rol", rol.id));
+                store_procedure.Parameters.Add(new SqlParameter("@nombre", textBox1.Text));
+                store_procedure.Parameters.Add(new SqlParameter("@habilitado", checkBox1.Checked));
+                conexion.EjecutarConsultar(store_procedure);
+            }
+            catch (Exception exception)
+            {
+            }
         }
     }
 }

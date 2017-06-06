@@ -7,11 +7,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using UberFrba.Entidades;
 
 namespace UberFrba.Menu
 {
     public partial class FormPrincipal : Form
     {
+        //private Usuario usuario { get; set; }
         public FormPrincipal()
         {
             InitializeComponent();

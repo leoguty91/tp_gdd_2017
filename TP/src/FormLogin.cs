@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using UberFrba.Entidades;
 using UberFrba.Helpers;
 
 namespace UberFrba
@@ -16,6 +17,7 @@ namespace UberFrba
         public FormLogin()
         {
             InitializeComponent();
+            Show();
         }
 
         private void btn_ingresar_Click(object sender, EventArgs e)
@@ -42,7 +44,7 @@ namespace UberFrba
             try
             {
                 LoginHelper login = new LoginHelper();
-                login.ObtenerUsuario(usua_usuario.Text, usua_password.Text);
+                Usuario usuario = login.ObtenerUsuario(usua_usuario.Text, usua_password.Text);
                 new UberFrba.Menu.FormPrincipal();
                 Hide();
             }

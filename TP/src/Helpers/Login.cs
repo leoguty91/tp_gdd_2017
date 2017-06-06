@@ -29,7 +29,6 @@ namespace UberFrba.Helpers
                 if (!user.habilitado) {
                     throw new Exception("El usuario se encuentra deshabilitado");
                 }
-                MessageBox.Show("Login correcto", " Login ok", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 return user;
             }
             catch (Exception exception)
@@ -48,7 +47,7 @@ namespace UberFrba.Helpers
                         id = (int)row.ItemArray[0],
                         usuario = row.ItemArray[1].ToString(),
                         habilitado = (bool)row.ItemArray[2],
-                        roles = MapearRoles((int)row.ItemArray[0])
+                        //roles = MapearRoles((int)row.ItemArray[0])
                     };
                 }
                 throw new Exception("Hubo un error al mapear al usuario");
@@ -69,12 +68,12 @@ namespace UberFrba.Helpers
                 DataTable respuesta_consulta = conexion.EjecutarConsultar(store_procedure);
                 foreach (DataRow row in respuesta_consulta.Rows)
                 {
-                    roles.Add(new Rol
+                    /*roles.Add(new Rol
                     {
                         nombre = row.ItemArray[0].ToString(),
                         habilitado = (bool)row.ItemArray[1],
                         funcionalidades = MapearFuncionalidades((int)row.ItemArray[2])
-                    });
+                    });*/
                 }
                 return roles;
             }
