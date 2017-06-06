@@ -21,28 +21,43 @@ namespace UberFrba.Abm_Rol
         {
             InitializeComponent();
             nuevoRol();
-            Show();
         }
         public FormRol(int rol)
         {
             InitializeComponent();
             editarRol(rol);
-            Show();
         }
         private void nuevoRol()
         {
-            this.nuevo_rol = true;
-            this.dataGridView1.DataSource = getFuncionalidades();
+            try
+            {
+                this.nuevo_rol = true;
+                this.dataGridView1.DataSource = getFuncionalidades();
+                Show();
+            }
+            catch (Exception exception)
+            {
+                MessageBox.Show(String.Format("Se produjo un error al cargar las funcionalidad. {0}", exception.Message), "Error de carga", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
 
         private void editarRol(int rol_id)
         {
-            this.nuevo_rol = false;
-            this.dataGridView1.DataSource = getFuncionalidades(rol_id);
-            Rol rol_mapper = new Rol();
-            this.rol = rol_mapper.Mapear(rol_id);
-            this.textBox1.Text = rol.nombre;
-            this.checkBox1.Checked = rol.habilitado;
+            try
+            {
+                this.nuevo_rol = false;
+                this.dataGridView1.DataSource = getFuncionalidades(rol_id);
+                Rol rol_mapper = new Rol();
+                this.rol = rol_mapper.Mapear(rol_id);
+                this.textBox1.Text = rol.nombre;
+                this.checkBox1.Checked = rol.habilitado;
+                Show();
+            }
+            catch (Exception exception)
+            {
+                MessageBox.Show(String.Format("Se produjo un error al cargar las funcionalidad. {0}", exception.Message), "Error de carga", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+
         }
 
         private void FormRol_Load(object sender, EventArgs e)
