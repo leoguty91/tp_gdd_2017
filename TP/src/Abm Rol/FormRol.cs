@@ -65,6 +65,7 @@ namespace UberFrba.Abm_Rol
             }
             catch (Exception exception)
             {
+                MessageBox.Show(exception.Message, "Guardado de rol error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
     }
