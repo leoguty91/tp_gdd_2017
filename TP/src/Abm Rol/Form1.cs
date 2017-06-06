@@ -36,5 +36,10 @@ namespace UberFrba.Abm_Rol
             int rol_id = getRolId();
             new Abm_Rol.FormRol(rol_id);
         }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            new Abm_Rol.FormRol();
+        }
     }
 }

@@ -32,12 +32,12 @@
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.button1 = new System.Windows.Forms.Button();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
-            this.rolidDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.rolnombreDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.rolhabilitadoDataGridViewCheckBoxColumn = new System.Windows.Forms.DataGridViewCheckBoxColumn();
             this.rolBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.gD1C2017DataSet = new UberFrba.GD1C2017DataSet();
             this.rolTableAdapter = new UberFrba.GD1C2017DataSetTableAdapters.RolTableAdapter();
+            this.rolidDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.rolnombreDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.rolhabilitadoDataGridViewCheckBoxColumn = new System.Windows.Forms.DataGridViewCheckBoxColumn();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.rolBindingSource)).BeginInit();
@@ -50,7 +50,7 @@
             this.groupBox1.Controls.Add(this.dataGridView1);
             this.groupBox1.Location = new System.Drawing.Point(12, 12);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(269, 241);
+            this.groupBox1.Size = new System.Drawing.Size(287, 241);
             this.groupBox1.TabIndex = 0;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Rol";
@@ -59,10 +59,11 @@
             // 
             this.button1.Location = new System.Drawing.Point(23, 176);
             this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(213, 34);
+            this.button1.Size = new System.Drawing.Size(240, 34);
             this.button1.TabIndex = 1;
-            this.button1.Text = "Agregar Rol";
+            this.button1.Text = "Nuevo Rol";
             this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
             // dataGridView1
             // 
@@ -79,33 +80,9 @@
             this.dataGridView1.MultiSelect = false;
             this.dataGridView1.Name = "dataGridView1";
             this.dataGridView1.ReadOnly = true;
-            this.dataGridView1.Size = new System.Drawing.Size(213, 103);
+            this.dataGridView1.Size = new System.Drawing.Size(240, 103);
             this.dataGridView1.TabIndex = 0;
             this.dataGridView1.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView1_CellContentClick);
-            // 
-            // rolidDataGridViewTextBoxColumn
-            // 
-            this.rolidDataGridViewTextBoxColumn.DataPropertyName = "rol_id";
-            this.rolidDataGridViewTextBoxColumn.HeaderText = "rol_id";
-            this.rolidDataGridViewTextBoxColumn.Name = "rolidDataGridViewTextBoxColumn";
-            this.rolidDataGridViewTextBoxColumn.ReadOnly = true;
-            this.rolidDataGridViewTextBoxColumn.Visible = false;
-            // 
-            // rolnombreDataGridViewTextBoxColumn
-            // 
-            this.rolnombreDataGridViewTextBoxColumn.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.rolnombreDataGridViewTextBoxColumn.DataPropertyName = "rol_nombre";
-            this.rolnombreDataGridViewTextBoxColumn.HeaderText = "Selecciones Rol a Modificar";
-            this.rolnombreDataGridViewTextBoxColumn.Name = "rolnombreDataGridViewTextBoxColumn";
-            this.rolnombreDataGridViewTextBoxColumn.ReadOnly = true;
-            // 
-            // rolhabilitadoDataGridViewCheckBoxColumn
-            // 
-            this.rolhabilitadoDataGridViewCheckBoxColumn.DataPropertyName = "rol_habilitado";
-            this.rolhabilitadoDataGridViewCheckBoxColumn.HeaderText = "rol_habilitado";
-            this.rolhabilitadoDataGridViewCheckBoxColumn.Name = "rolhabilitadoDataGridViewCheckBoxColumn";
-            this.rolhabilitadoDataGridViewCheckBoxColumn.ReadOnly = true;
-            this.rolhabilitadoDataGridViewCheckBoxColumn.Visible = false;
             // 
             // rolBindingSource
             // 
@@ -121,11 +98,35 @@
             // 
             this.rolTableAdapter.ClearBeforeFill = true;
             // 
+            // rolidDataGridViewTextBoxColumn
+            // 
+            this.rolidDataGridViewTextBoxColumn.DataPropertyName = "rol_id";
+            this.rolidDataGridViewTextBoxColumn.HeaderText = "rol_id";
+            this.rolidDataGridViewTextBoxColumn.Name = "rolidDataGridViewTextBoxColumn";
+            this.rolidDataGridViewTextBoxColumn.ReadOnly = true;
+            this.rolidDataGridViewTextBoxColumn.Visible = false;
+            // 
+            // rolnombreDataGridViewTextBoxColumn
+            // 
+            this.rolnombreDataGridViewTextBoxColumn.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.rolnombreDataGridViewTextBoxColumn.DataPropertyName = "rol_nombre";
+            this.rolnombreDataGridViewTextBoxColumn.HeaderText = "Seleccione Rol a Modificar";
+            this.rolnombreDataGridViewTextBoxColumn.Name = "rolnombreDataGridViewTextBoxColumn";
+            this.rolnombreDataGridViewTextBoxColumn.ReadOnly = true;
+            // 
+            // rolhabilitadoDataGridViewCheckBoxColumn
+            // 
+            this.rolhabilitadoDataGridViewCheckBoxColumn.DataPropertyName = "rol_habilitado";
+            this.rolhabilitadoDataGridViewCheckBoxColumn.HeaderText = "rol_habilitado";
+            this.rolhabilitadoDataGridViewCheckBoxColumn.Name = "rolhabilitadoDataGridViewCheckBoxColumn";
+            this.rolhabilitadoDataGridViewCheckBoxColumn.ReadOnly = true;
+            this.rolhabilitadoDataGridViewCheckBoxColumn.Visible = false;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(293, 265);
+            this.ClientSize = new System.Drawing.Size(311, 265);
             this.Controls.Add(this.groupBox1);
             this.Name = "Form1";
             this.Text = "ABM de Roles";

@@ -15,16 +15,28 @@ namespace UberFrba.Abm_Rol
 {
     public partial class FormRol : Form
     {
+        private bool nuevo_rol { get; set; }
         private Rol rol { get; set; }
+        public FormRol()
+        {
+            InitializeComponent();
+            nuevoRol();
+            Show();
+        }
         public FormRol(int rol)
         {
             InitializeComponent();
-            loadComponents(rol);
+            editarRol(rol);
             Show();
         }
-
-        private void loadComponents(int rol_id)
+        private void nuevoRol()
         {
+            this.nuevo_rol = true;
+        }
+
+        private void editarRol(int rol_id)
+        {
+            this.nuevo_rol = false;
             this.dataGridView1.DataSource = getFuncionalidades(rol_id);
             Rol rol_mapper = new Rol();
             this.rol = rol_mapper.Mapear(rol_id);
@@ -37,12 +49,26 @@ namespace UberFrba.Abm_Rol
             // TODO: esta línea de código carga datos en la tabla 'gD1C2017DataSet.Funcionalidad' Puede moverla o quitarla según sea necesario.
         }
 
-        private DataTable getFuncionalidades(int rol)
+        private DataTable getFuncionalidades()
         {
             try
             {
                 Conexion conexion = new Conexion();
                 SqlCommand store_procedure = conexion.IniciarStoreProcedure("sp_obtener_funcionalidades");
+                return conexion.EjecutarConsultar(store_procedure);
+            }
+            catch (Exception exception)
+            {
+                throw new Exception(exception.Message);
+            }
+        }
+
+        private DataTable getFuncionalidades(int rol)
+        {
+            try
+            {
+                Conexion conexion = new Conexion();
+                SqlCommand store_procedure = conexion.IniciarStoreProcedure("sp_obtener_funcionalidades_rol");
                 store_procedure.Parameters.Add(new SqlParameter("@rol", rol));
                 return conexion.EjecutarConsultar(store_procedure);
             }
@@ -54,18 +80,29 @@ namespace UberFrba.Abm_Rol
 
         private void button1_Click(object sender, EventArgs e)
         {
-            try
+            if (ValidateChildren())
             {
-                Conexion conexion = new Conexion();
-                SqlCommand store_procedure = conexion.IniciarStoreProcedure("sp_modificacion_rol");
-                store_procedure.Parameters.Add(new SqlParameter("@rol", rol.id));
-                store_procedure.Parameters.Add(new SqlParameter("@nombre", textBox1.Text));
-                store_procedure.Parameters.Add(new SqlParameter("@habilitado", checkBox1.Checked));
-                conexion.EjecutarConsultar(store_procedure);
-            }
-            catch (Exception exception)
-            {
-                MessageBox.Show(exception.Message, "Guardado de rol error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                try
+                {
+                    Conexion conexion = new Conexion();
+                    SqlCommand store_procedure;
+                    if (this.nuevo_rol)
+                    {
+                        store_procedure = conexion.IniciarStoreProcedure("sp_alta_rol");
+                    }
+                    else
+                    {
+                        store_procedure = conexion.IniciarStoreProcedure("sp_modificacion_rol");
+                        store_procedure.Parameters.Add(new SqlParameter("@rol", rol.id));
+                    }
+                    store_procedure.Parameters.Add(new SqlParameter("@nombre", textBox1.Text));
+                    store_procedure.Parameters.Add(new SqlParameter("@habilitado", checkBox1.Checked));
+                    conexion.EjecutarConsultar(store_procedure);
+                }
+                catch (Exception exception)
+                {
+                    MessageBox.Show(exception.Message, "Guardado de rol error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
             }
         }
     }

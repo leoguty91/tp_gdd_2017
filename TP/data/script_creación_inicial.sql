@@ -40,6 +40,8 @@ IF (OBJECT_ID ('GGDP.sp_obtener_roles_usuario') IS NOT NULL)
 	DROP PROCEDURE GGDP.sp_obtener_roles_usuario
 IF (OBJECT_ID ('GGDP.sp_obtener_funcionalidades') IS NOT NULL)
 	DROP PROCEDURE GGDP.sp_obtener_funcionalidades
+IF (OBJECT_ID ('GGDP.sp_obtener_funcionalidades_rol') IS NOT NULL)
+	DROP PROCEDURE GGDP.sp_obtener_funcionalidades_rol
 IF (OBJECT_ID ('GGDP.sp_obtener_rol') IS NOT NULL)
 	DROP PROCEDURE GGDP.sp_obtener_rol
 IF (OBJECT_ID ('GGDP.sp_alta_rol') IS NOT NULL)
@@ -296,6 +298,9 @@ GO
 INSERT INTO GGDP.RolPorFuncionalidad(rxf_funcionalidad, rxf_rol)
 SELECT func_id, rol_id FROM GGDP.Funcionalidad, GGDP.Rol WHERE rol_nombre = 'Administrador'
 GO
+INSERT INTO GGDP.RolPorFuncionalidad(rxf_funcionalidad, rxf_rol)
+SELECT func_id, rol_id FROM GGDP.Funcionalidad, GGDP.Rol WHERE rol_nombre = 'Chofer' AND func_nombre = 'Registro de Viajes'
+GO
 
 -- Insercion usuario admin
 INSERT INTO GGDP.Usuario(usua_usuario, usua_password, usua_intentos, usua_habilitado)
@@ -346,16 +351,6 @@ FROM [gd_esquema].[Maestra]
 	JOIN GGDP.Marca ON gd_esquema.Maestra.Auto_Marca = GGDP.Marca.marc_nombre
 	JOIN GGDP.Chofer ON gd_esquema.Maestra.Chofer_Dni = GGDP.Chofer.chof_dni 
 GO
-
--- TODO Esta tabla tiene un error de sintaxis, REVISAR
-/*
-INSERT INTO GGDP.RolPorUsuario(rxu_rol, rxu_usuario)
-SELECT DISTINCT ([Rxu_Rol], [Rxu_Usuario])
-FROM [gd_esquema].[Maestra]
-	JOIN GGDP.Rol ON gd_esquema.Maestra.Rxu_rol = GGDP.Rol.rol_nombre
-	JOIN GGDP.Usuario ON gd_esquema.Maestra.Usuario = GGDP.Usuario.usua_usuario
-*/	
-
 
 /* Creacion de Functions*/
 CREATE FUNCTION GGDP.fu_existe_usuario(@usuario VARCHAR(255)) RETURNS BIT AS BEGIN
@@ -439,7 +434,13 @@ CREATE PROCEDURE GGDP.sp_obtener_roles_usuario(@usuario VARCHAR(255)) AS BEGIN
 END
 GO
 
-CREATE PROCEDURE GGDP.sp_obtener_funcionalidades(@rol VARCHAR(255)) AS BEGIN
+CREATE PROCEDURE GGDP.sp_obtener_funcionalidades AS BEGIN
+	SELECT func_nombre
+	FROM GGDP.Funcionalidad
+END
+GO
+
+CREATE PROCEDURE GGDP.sp_obtener_funcionalidades_rol(@rol VARCHAR(255)) AS BEGIN
 	SELECT func_nombre, (SELECT COUNT(*) FROM GGDP.RolPorFuncionalidad WHERE func_id = rxf_funcionalidad AND rol_id = rxf_rol)  as func_habilitado
 	FROM GGDP.Funcionalidad, GGDP.Rol
 	WHERE rol_id = @rol
@@ -451,10 +452,10 @@ CREATE PROCEDURE GGDP.sp_obtener_rol(@rol VARCHAR(255)) AS BEGIN
 END
 GO
 
-CREATE PROCEDURE GGDP.sp_alta_rol(@nombre VARCHAR(255)) AS BEGIN
+CREATE PROCEDURE GGDP.sp_alta_rol(@nombre VARCHAR(255), @habilitado BIT) AS BEGIN
 
 		BEGIN TRANSACTION
-		INSERT GGDP.Rol(rol_nombre, rol_habilitado) VALUES (@nombre, 1)
+		INSERT GGDP.Rol(rol_nombre, rol_habilitado) VALUES (@nombre, @habilitado)
 		COMMIT TRANSACTION
 
 END
