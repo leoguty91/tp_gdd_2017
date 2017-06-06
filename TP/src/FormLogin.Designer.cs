@@ -104,14 +104,14 @@
             this.label1.TabIndex = 0;
             this.label1.Text = "Usuario";
             // 
-            // Form1
+            // FormLogin
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(187, 172);
             this.Controls.Add(this.groupBox1);
             this.Margin = new System.Windows.Forms.Padding(2);
-            this.Name = "Form1";
+            this.Name = "FormLogin";
             this.Text = "Uber GGDP";
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();

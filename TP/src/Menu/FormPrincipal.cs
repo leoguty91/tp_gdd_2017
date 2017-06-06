@@ -13,6 +13,10 @@ namespace UberFrba.Menu
 {
     public partial class FormPrincipal : Form
     {
+        protected override void OnClosing(CancelEventArgs e)
+        {
+            Application.Exit();
+        }
         //private Usuario usuario { get; set; }
         public FormPrincipal()
         {

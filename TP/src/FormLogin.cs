@@ -14,6 +14,11 @@ namespace UberFrba
 {
     public partial class FormLogin : Form
     {
+        protected override void OnClosing(CancelEventArgs e)
+        {
+            Application.Exit();
+        }
+
         public FormLogin()
         {
             InitializeComponent();
