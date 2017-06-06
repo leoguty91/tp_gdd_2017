@@ -380,7 +380,6 @@ BEGIN
 	IF (SELECT COUNT(*) FROM inserted WHERE rol_nombre = '') > 0
 	BEGIN
 		RAISERROR('El rol nuevo no puede tener un nombre vacio', 16, 1)
-		ROLLBACK TRANSACTION
 	END
 	COMMIT TRANSACTION
 END
