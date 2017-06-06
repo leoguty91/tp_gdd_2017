@@ -32,6 +32,7 @@ namespace UberFrba.Abm_Rol
         private void nuevoRol()
         {
             this.nuevo_rol = true;
+            this.dataGridView1.DataSource = getFuncionalidades();
         }
 
         private void editarRol(int rol_id)

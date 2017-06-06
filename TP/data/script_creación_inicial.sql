@@ -23,11 +23,9 @@ IF (OBJECT_ID ('GGDP.fu_existe_rol') IS NOT NULL)
 GO
 
 /* Eliminacion de Triggers */
-/*
-IF OBJECT_ID ('GGDP.tr_cliente_telefono_unico','TR') IS NOT NULL
-   DROP TRIGGER GGDP.tr_cliente_telefono_unico;
+IF OBJECT_ID ('GGDP.tr_rol','TR') IS NOT NULL
+   DROP TRIGGER GGDP.tr_rol;
 GO
-*/
 
 /* Eliminacion de Store Procedures */
 IF (OBJECT_ID ('GGDP.sp_login') IS NOT NULL)
@@ -375,16 +373,18 @@ END
 GO
 
 /* Creacion de Triggers */
-/*
-CREATE TRIGGER GGDP.tr_cliente_telefono_unico ON GGDP.Cliente INSTEAD OF INSERT
-AS IF EXISTS (SELECT * FROM GGDP.Cliente c, inserted i WHERE c.clie_telefono = i.clie_telefono)
+CREATE TRIGGER GGDP.tr_rol ON GGDP.Rol AFTER INSERT, UPDATE
+AS
 BEGIN
-	PRINT('El telefono ya existe');
-	ROLLBACK TRANSACTION;
-	RETURN;
+	BEGIN TRANSACTION
+	IF (SELECT COUNT(*) FROM inserted WHERE rol_nombre = '') > 0
+	BEGIN
+		RAISERROR('El rol nuevo no puede tener un nombre vacio', 16, 1)
+		ROLLBACK TRANSACTION
+	END
 END;
 GO
-*/
+
 
 /* Creacion de Store Procedures */
 CREATE PROCEDURE GGDP.sp_login_fallido(@usuario VARCHAR(255)) AS BEGIN
@@ -422,7 +422,6 @@ GO
 CREATE PROCEDURE GGDP.sp_obtener_roles AS BEGIN
 	SELECT rol_nombre, rol_habilitado, rol_id
 	FROM GGDP.Rol
-	JOIN GGDP.RolPorUsuario ON rol_id = rxu_rol
 END
 GO
 
