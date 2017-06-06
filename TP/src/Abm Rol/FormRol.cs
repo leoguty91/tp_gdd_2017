@@ -99,6 +99,16 @@ namespace UberFrba.Abm_Rol
                     store_procedure.Parameters.Add(new SqlParameter("@nombre", textBox1.Text));
                     store_procedure.Parameters.Add(new SqlParameter("@habilitado", checkBox1.Checked));
                     conexion.EjecutarConsultar(store_procedure);
+                    string mensaje_ok;
+                    if (this.nuevo_rol)
+                    {
+                        mensaje_ok = String.Format("Se ha creado el rol {0}", textBox1.Text);
+                    }
+                    else
+                    {
+                        mensaje_ok = String.Format("Se ha modificado el rol {0}", textBox1.Text);
+                    }
+                    MessageBox.Show(mensaje_ok, "Guardado de rol", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
                 }
                 catch (Exception exception)
                 {
