@@ -50,11 +50,13 @@ IF (OBJECT_ID ('GGDP.sp_modificacion_rol') IS NOT NULL)
 	DROP PROCEDURE GGDP.sp_modificacion_rol
 IF (OBJECT_ID ('GGDP.sp_habilitacion_rol') IS NOT NULL)
 	DROP PROCEDURE GGDP.sp_habilitacion_rol
-IF OBJECT_ID ('GGDP.sp_alta_cliente') IS NOT NULL
+IF (OBJECT_ID ('GGDP.sp_alta_usuario') IS NOT NULL)
+    DROP PROCEDURE GGDP.sp_alta_usuario
+IF (OBJECT_ID ('GGDP.sp_alta_cliente') IS NOT NULL)
     DROP PROCEDURE GGDP.sp_alta_cliente
-IF OBJECT_ID ('GGDP.sp_baja_cliente') IS NOT NULL
+IF (OBJECT_ID ('GGDP.sp_baja_cliente') IS NOT NULL)
     DROP PROCEDURE GGDP.sp_baja_cliente
-IF OBJECT_ID ('GGDP.modificacion_cliente') IS NOT NULL
+IF (OBJECT_ID ('GGDP.sp_modificacion_cliente') IS NOT NULL)
     DROP PROCEDURE GGDP.sp_modificacion_cliente
 GO
 
@@ -502,8 +504,21 @@ CREATE PROCEDURE GGDP.sp_habilitacion_rol(@rol INT) AS BEGIN
 
 END
 GO
-/*
-CREATE PROCEDURE GGDP.alta_cliente
+
+CREATE PROCEDURE GGDP.sp_alta_usuario(@usuario VARCHAR(255), @password VARCHAR(255), @rol VARCHAR(255)) AS BEGIN
+	BEGIN TRANSACTION
+	INSERT INTO GGDP.Usuario(usua_usuario, usua_password, usua_intentos, usua_habilitado)
+	VALUES (@usuario, HASHBYTES('SHA2_256', @password), 0, 1)
+	
+	INSERT INTO GGDP.RolPorUsuario(rxu_rol, rxu_usuario)
+	SELECT rol_id, usua_id FROM GGDP.Rol, GGDP.Usuario
+	WHERE rol_nombre = @rol AND usua_usuario = @usuario
+	COMMIT TRANSACTION
+	SELECT usua_id FROM GGDP.Usuario WHERE usua_usuario = @usuario
+END
+GO
+
+CREATE PROCEDURE GGDP.sp_alta_cliente
 (
 	@usuario VARCHAR(255),
 	@password VARCHAR(255),
@@ -518,48 +533,42 @@ CREATE PROCEDURE GGDP.alta_cliente
 	@fecha_nacimiento DATETIME
 ) AS
 BEGIN
-	BEGIN TRY
+
 		BEGIN TRANSACTION
-		DECLARE @codigo_usuario INT
 		DECLARE @habilitado BIT
-		SET @habilitado = 1 */
-		/* TODO FALTA EL SP ALTA USUARIO */
-		/*
-		EXEC @codigo_usuario = GGDP.alta_usuario(@usuario, @password, @rol)
-		IF @codigo_usuario = -1
+		DECLARE @codigo_usuario INT
+		SET @habilitado = 1 
+		
+		IF GGDP.fu_existe_usuario(@usuario) = 1
+		BEGIN
 			RAISERROR('El usuario ya existe', 16, 1)
+		END
+		EXEC @codigo_usuario = GGDP.sp_alta_usuario @usuario, @password, @rol
+
 		INSERT INTO GGDP.Cliente(clie_nombre, clie_apellido, clie_dni, clie_mail, clie_telefono, clie_direccion, clie_codigo_postal, clie_fecha_nacimiento, clie_habilitado, clie_usuario)
 		VALUES(@nombre, @apellido, @dni, @mail, @telefono, @direccion, @codigo_postal, @fecha_nacimiento, @habilitado, @codigo_usuario)
 		COMMIT TRANSACTION
-			SELECT @codigo_usuario
-	END TRY
-	BEGIN CATCH
-		ROLLBACK TRANSACTION
-			SELECT -1
-	END CATCH
+
 END
 GO
-*/
-/*
-CREATE PROCEDURE GGDP.baja_cliente(@cliente_id INT) AS
+
+CREATE PROCEDURE GGDP.sp_baja_cliente(@cliente_id INT) AS
 	BEGIN
-		BEGIN TRY
+
 			BEGIN TRANSACTION
 				DECLARE @deshabilitado BIT
 				SET @deshabilitado = 0
 				IF GGDP.fu_existe_cliente(@cliente_id) = 0
+				BEGIN
 					RAISERROR('El cliente no existe', 16, 1)
+				END
 				UPDATE GGDP.Cliente SET clie_habilitado = @deshabilitado WHERE clie_id = @cliente_id
 			COMMIT TRANSACTION
 			SELECT @cliente_id
-		END TRY
-		BEGIN CATCH
-			ROLLBACK TRANSACTION
-				SELECT -1
-		END CATCH
+
 	END
 GO
-CREATE PROCEDURE GGDP.modificacion_cliente
+CREATE PROCEDURE GGDP.sp_modificacion_cliente
 (
 	@cliente_id INT,
 	@nombre VARCHAR(255),
@@ -572,26 +581,23 @@ CREATE PROCEDURE GGDP.modificacion_cliente
 	@fecha_nacimiento DATETIME
 ) AS
 	BEGIN
-		BEGIN TRY
+
 			BEGIN TRANSACTION
 				IF GGDP.fu_existe_cliente(@cliente_id) = 0
+				BEGIN
 					RAISERROR('El cliente no existe', 16, 1)
+				END
 				UPDATE GGDP.Cliente SET
-					clie_nombre = @nombre,
-					clie_apellido = @apellido,
-					clie_dni = @dni,
-					clie_mail = @mail,
-					clie_telefono = @telefono,
-					clie_direccion = @direccion,
-					clie_codigo_postal = @codigo_postal,
-					clie_fecha_nacimiento = @fecha_nacimiento
+					clie_nombre = ISNULL(@nombre, clie_nombre),
+					clie_apellido = ISNULL(@apellido, clie_apellido),
+					clie_dni = ISNULL(@dni, clie_dni),
+					clie_mail = ISNULL(@mail, clie_mail),
+					clie_telefono = ISNULL(@telefono, clie_telefono),
+					clie_direccion = ISNULL(@direccion, clie_direccion),
+					clie_codigo_postal = ISNULL(@codigo_postal, clie_codigo_postal),
+					clie_fecha_nacimiento = ISNULL(@fecha_nacimiento, clie_fecha_nacimiento)
 				WHERE clie_id = @cliente_id
 			COMMIT TRANSACTION
-		END TRY
-		BEGIN CATCH
-			ROLLBACK TRANSACTION
-				SELECT -1
-		END CATCH
+
 	END
 GO
-*/
