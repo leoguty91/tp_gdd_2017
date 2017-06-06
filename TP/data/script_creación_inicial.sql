@@ -436,10 +436,9 @@ END
 GO
 
 CREATE PROCEDURE GGDP.sp_obtener_funcionalidades(@rol VARCHAR(255)) AS BEGIN
-	SELECT func_nombre
-	FROM GGDP.Funcionalidad
-	JOIN GGDP.RolPorFuncionalidad ON func_id = rxf_funcionalidad
-	WHERE rxf_rol = @rol
+	SELECT func_nombre, (SELECT COUNT(*) FROM GGDP.RolPorFuncionalidad WHERE func_id = rxf_funcionalidad AND rol_id = rxf_rol)  as func_habilitado
+	FROM GGDP.Funcionalidad, GGDP.Rol
+	WHERE rol_id = @rol
 END
 GO
 

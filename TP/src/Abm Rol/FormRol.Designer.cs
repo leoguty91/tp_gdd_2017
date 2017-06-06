@@ -28,22 +28,15 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.components = new System.ComponentModel.Container();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
-            this.funcidDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.funcnombreDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.rol_funcionalidad = new System.Windows.Forms.DataGridViewCheckBoxColumn();
-            this.funcionalidadBindingSource = new System.Windows.Forms.BindingSource(this.components);
-            this.gD1C2017DataSet = new UberFrba.GD1C2017DataSet();
+            this.Column1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Column2 = new System.Windows.Forms.DataGridViewCheckBoxColumn();
             this.checkBox1 = new System.Windows.Forms.CheckBox();
             this.textBox1 = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
-            this.funcionalidadTableAdapter = new UberFrba.GD1C2017DataSetTableAdapters.FuncionalidadTableAdapter();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.funcionalidadBindingSource)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.gD1C2017DataSet)).BeginInit();
             this.SuspendLayout();
             // 
             // groupBox1
@@ -54,7 +47,7 @@
             this.groupBox1.Controls.Add(this.label1);
             this.groupBox1.Location = new System.Drawing.Point(12, 12);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(316, 337);
+            this.groupBox1.Size = new System.Drawing.Size(320, 428);
             this.groupBox1.TabIndex = 0;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Edicion de Rol";
@@ -63,53 +56,31 @@
             // 
             this.dataGridView1.AllowUserToAddRows = false;
             this.dataGridView1.AllowUserToDeleteRows = false;
-            this.dataGridView1.AutoGenerateColumns = false;
             this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dataGridView1.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.funcidDataGridViewTextBoxColumn,
-            this.funcnombreDataGridViewTextBoxColumn,
-            this.rol_funcionalidad});
-            this.dataGridView1.DataSource = this.funcionalidadBindingSource;
-            this.dataGridView1.Location = new System.Drawing.Point(15, 113);
+            this.Column1,
+            this.Column2});
+            this.dataGridView1.Location = new System.Drawing.Point(15, 122);
             this.dataGridView1.Name = "dataGridView1";
             this.dataGridView1.ReadOnly = true;
-            this.dataGridView1.Size = new System.Drawing.Size(279, 204);
-            this.dataGridView1.TabIndex = 3;
+            this.dataGridView1.Size = new System.Drawing.Size(278, 289);
+            this.dataGridView1.TabIndex = 4;
             // 
-            // funcidDataGridViewTextBoxColumn
+            // Column1
             // 
-            this.funcidDataGridViewTextBoxColumn.DataPropertyName = "func_id";
-            this.funcidDataGridViewTextBoxColumn.HeaderText = "func_id";
-            this.funcidDataGridViewTextBoxColumn.Name = "funcidDataGridViewTextBoxColumn";
-            this.funcidDataGridViewTextBoxColumn.ReadOnly = true;
-            this.funcidDataGridViewTextBoxColumn.Visible = false;
+            this.Column1.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.Column1.DataPropertyName = "func_nombre";
+            this.Column1.HeaderText = "Funcionalidad";
+            this.Column1.Name = "Column1";
+            this.Column1.ReadOnly = true;
             // 
-            // funcnombreDataGridViewTextBoxColumn
+            // Column2
             // 
-            this.funcnombreDataGridViewTextBoxColumn.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.funcnombreDataGridViewTextBoxColumn.DataPropertyName = "func_nombre";
-            this.funcnombreDataGridViewTextBoxColumn.HeaderText = "Funcionalidad";
-            this.funcnombreDataGridViewTextBoxColumn.Name = "funcnombreDataGridViewTextBoxColumn";
-            this.funcnombreDataGridViewTextBoxColumn.ReadOnly = true;
-            // 
-            // rol_funcionalidad
-            // 
-            this.rol_funcionalidad.HeaderText = "Habilitado";
-            this.rol_funcionalidad.Name = "rol_funcionalidad";
-            this.rol_funcionalidad.ReadOnly = true;
-            this.rol_funcionalidad.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-            this.rol_funcionalidad.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
-            this.rol_funcionalidad.Width = 70;
-            // 
-            // funcionalidadBindingSource
-            // 
-            this.funcionalidadBindingSource.DataMember = "Funcionalidad";
-            this.funcionalidadBindingSource.DataSource = this.gD1C2017DataSet;
-            // 
-            // gD1C2017DataSet
-            // 
-            this.gD1C2017DataSet.DataSetName = "GD1C2017DataSet";
-            this.gD1C2017DataSet.SchemaSerializationMode = System.Data.SchemaSerializationMode.IncludeSchema;
+            this.Column2.DataPropertyName = "func_habilitado";
+            this.Column2.HeaderText = "Habilitado";
+            this.Column2.Name = "Column2";
+            this.Column2.ReadOnly = true;
+            this.Column2.Width = 80;
             // 
             // checkBox1
             // 
@@ -137,15 +108,11 @@
             this.label1.TabIndex = 0;
             this.label1.Text = "Nombre";
             // 
-            // funcionalidadTableAdapter
-            // 
-            this.funcionalidadTableAdapter.ClearBeforeFill = true;
-            // 
             // FormRol
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(340, 349);
+            this.ClientSize = new System.Drawing.Size(344, 452);
             this.Controls.Add(this.groupBox1);
             this.Name = "FormRol";
             this.Text = "FormRol";
@@ -153,8 +120,6 @@
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.funcionalidadBindingSource)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.gD1C2017DataSet)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -166,12 +131,8 @@
         private System.Windows.Forms.TextBox textBox1;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.DataGridView dataGridView1;
-        private GD1C2017DataSet gD1C2017DataSet;
-        private System.Windows.Forms.BindingSource funcionalidadBindingSource;
-        private GD1C2017DataSetTableAdapters.FuncionalidadTableAdapter funcionalidadTableAdapter;
-        private System.Windows.Forms.DataGridViewTextBoxColumn funcidDataGridViewTextBoxColumn;
-        private System.Windows.Forms.DataGridViewTextBoxColumn funcnombreDataGridViewTextBoxColumn;
-        private System.Windows.Forms.DataGridViewCheckBoxColumn rol_funcionalidad;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Column1;
+        private System.Windows.Forms.DataGridViewCheckBoxColumn Column2;
 
     }
 }
