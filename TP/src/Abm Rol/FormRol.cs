@@ -46,6 +46,8 @@ namespace UberFrba.Abm_Rol
             try
             {
                 this.nuevo_rol = false;
+                //this.dataGridView1.Columns.Clear();
+                this.dataGridView1.ReadOnly = false;
                 this.dataGridView1.DataSource = getFuncionalidades(rol_id);
                 Rol rol_mapper = new Rol();
                 this.rol = rol_mapper.Mapear(rol_id);
@@ -62,7 +64,6 @@ namespace UberFrba.Abm_Rol
 
         private void FormRol_Load(object sender, EventArgs e)
         {
-            // TODO: esta línea de código carga datos en la tabla 'gD1C2017DataSet.Funcionalidad' Puede moverla o quitarla según sea necesario.
         }
 
         private DataTable getFuncionalidades()
@@ -71,7 +72,8 @@ namespace UberFrba.Abm_Rol
             {
                 Conexion conexion = new Conexion();
                 SqlCommand store_procedure = conexion.IniciarStoreProcedure("sp_obtener_funcionalidades");
-                return conexion.EjecutarConsultar(store_procedure);
+                DataTable datos = conexion.EjecutarConsultar(store_procedure);
+                return convertirColumnasBool(datos);
             }
             catch (Exception exception)
             {
@@ -86,7 +88,28 @@ namespace UberFrba.Abm_Rol
                 Conexion conexion = new Conexion();
                 SqlCommand store_procedure = conexion.IniciarStoreProcedure("sp_obtener_funcionalidades_rol");
                 store_procedure.Parameters.Add(new SqlParameter("@rol", rol));
-                return conexion.EjecutarConsultar(store_procedure);
+                DataTable datos = conexion.EjecutarConsultar(store_procedure);
+                return convertirColumnasBool(datos);
+            }
+            catch (Exception exception)
+            {
+                throw new Exception(exception.Message);
+            }
+        }
+
+        private DataTable convertirColumnasBool(DataTable tabla_original)
+        {
+            try
+            {
+                // Cuando traigo los datos de la base, me llega como 1/0, necesito convertirlos a bool
+                DataTable tabla_clonada = tabla_original.Clone();
+                tabla_clonada.Columns[0].ReadOnly = true;
+                tabla_clonada.Columns[1].DataType = typeof(Boolean);
+                foreach (DataRow row in tabla_original.Rows)
+                {
+                    tabla_clonada.ImportRow(row);
+                }
+                return tabla_clonada;
             }
             catch (Exception exception)
             {

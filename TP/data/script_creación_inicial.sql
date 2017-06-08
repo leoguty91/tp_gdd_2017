@@ -231,6 +231,10 @@ ALTER TABLE GGDP.Cliente
 
 ALTER TABLE GGDP.Automovil
 	ADD CONSTRAINT fk_auto_chofer FOREIGN KEY (auto_chofer) REFERENCES GGDP.Chofer(chof_id)
+ALTER TABLE GGDP.Automovil
+	ADD CONSTRAINT fk_auto_marca FOREIGN KEY (auto_marca) REFERENCES GGDP.Marca(marc_id)
+ALTER TABLE GGDP.Automovil
+	ADD CONSTRAINT fk_auto_turno FOREIGN KEY (auto_turno) REFERENCES GGDP.Turno(turn_id)
 
 ALTER TABLE GGDP.Viaje
 	ADD CONSTRAINT fk_viaj_chofer FOREIGN KEY (viaj_chofer) REFERENCES GGDP.Chofer(chof_id)
@@ -262,7 +266,7 @@ ALTER TABLE GGDP.RendicionPorViaje
 	ADD CONSTRAINT fk_rxv_viaje FOREIGN KEY (rxv_viaje) REFERENCES GGDP.Viaje(viaj_id)
 
 ALTER TABLE GGDP.RolPorUsuario
-	ADD CONSTRAINT fk_rxu_usuario  FOREIGN KEY (rxu_usuario) REFERENCES GGDP.Usuario(usua_id) 
+	ADD CONSTRAINT fk_rxu_usuario FOREIGN KEY (rxu_usuario) REFERENCES GGDP.Usuario(usua_id) 
 ALTER TABLE GGDP.RolPorUsuario
 	ADD CONSTRAINT fk_rxu_rol  FOREIGN KEY (rxu_rol) REFERENCES GGDP.Rol(rol_id) 
 
@@ -342,19 +346,21 @@ GO
 INSERT INTO GGDP.Marca(marc_nombre)
 SELECT DISTINCT Auto_Marca FROM [gd_esquema].[Maestra]
 
--- Insercion de automoviles
--- TODO Falta auto_turno
-INSERT INTO GGDP.Automovil(auto_patente, auto_marca, auto_modelo, auto_turno, auto_chofer, auto_habilitado)
-SELECT DISTINCT ([Auto_Patente]), GGDP.Marca.marc_id, [Auto_Modelo], 1, GGDP.Chofer.chof_id, 1
-FROM [gd_esquema].[Maestra]
-	JOIN GGDP.Marca ON gd_esquema.Maestra.Auto_Marca = GGDP.Marca.marc_nombre
-	JOIN GGDP.Chofer ON gd_esquema.Maestra.Chofer_Dni = GGDP.Chofer.chof_dni 
-GO
-
 -- Inserccion de Turnos (y agrego precio base a la tabla de Turno)
 INSERT INTO GGDP.Turno (turn_hora_inicio, turn_hora_fin, turn_descripcion, turn_valor_kilometro, turn_precio_base, turn_habilitado)
 SELECT DISTINCT Turno_Hora_Inicio, Turno_Hora_Fin, Turno_Descripcion, Turno_Valor_Kilometro, Turno_Precio_Base, 1 FROM [gd_esquema].[Maestra]
-WHERE (Turno_Hora_Fin - Turno_Hora_Inicio) BETWEEN 0 AND 8 
+WHERE (Turno_Hora_Fin - Turno_Hora_Inicio) BETWEEN 0 AND 8
+GO
+
+-- Insercion de automoviles
+INSERT INTO GGDP.Automovil(auto_patente, auto_marca, auto_modelo, auto_turno, auto_chofer, auto_habilitado)
+SELECT DISTINCT ([Auto_Patente]), marc_id, [Auto_Modelo], 1, chof_id, 1
+--SELECT DISTINCT ([Auto_Patente]), marc_id, [Auto_Modelo], turn_id, chof_id, 1 -- Un auto puede estar en varios turnos, ver como se resuelve esto
+FROM [gd_esquema].[Maestra]
+	JOIN GGDP.Marca ON gd_esquema.Maestra.Auto_Marca = GGDP.Marca.marc_nombre
+	JOIN GGDP.Chofer ON gd_esquema.Maestra.Chofer_Dni = GGDP.Chofer.chof_dni
+	JOIN GGDP.Turno ON gd_esquema.Maestra.Turno_Descripcion = GGDP.Turno.turn_descripcion
+GO
 
 /* Creacion de Functions*/
 CREATE FUNCTION GGDP.fu_existe_usuario(@usuario VARCHAR(255)) RETURNS BIT AS BEGIN
@@ -446,7 +452,7 @@ END
 GO
 
 CREATE PROCEDURE GGDP.sp_obtener_funcionalidades_rol(@rol VARCHAR(255)) AS BEGIN
-	SELECT func_nombre, (SELECT COUNT(*) FROM GGDP.RolPorFuncionalidad WHERE func_id = rxf_funcionalidad AND rol_id = rxf_rol)  as func_habilitado
+	SELECT func_nombre as Funcionalidad, (SELECT COUNT(*) FROM GGDP.RolPorFuncionalidad WHERE func_id = rxf_funcionalidad AND rol_id = rxf_rol) as Habilitado
 	FROM GGDP.Funcionalidad, GGDP.Rol
 	WHERE rol_id = @rol
 END
