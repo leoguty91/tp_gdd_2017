@@ -32,7 +32,6 @@ namespace UberFrba.Abm_Rol
             try
             {
                 this.nuevo_rol = true;
-                this.dataGridView1.ReadOnly = false;
                 this.dataGridView1.DataSource = getFuncionalidades();
                 Show();
             }
@@ -47,7 +46,6 @@ namespace UberFrba.Abm_Rol
             try
             {
                 this.nuevo_rol = false;
-                this.dataGridView1.ReadOnly = false;
                 this.dataGridView1.DataSource = getFuncionalidades(rol_id);
                 Rol rol_mapper = new Rol();
                 this.rol = rol_mapper.Mapear(rol_id);
