@@ -32,6 +32,7 @@ namespace UberFrba.Abm_Rol
             try
             {
                 this.nuevo_rol = true;
+                this.dataGridView1.ReadOnly = false;
                 this.dataGridView1.DataSource = getFuncionalidades();
                 Show();
             }
@@ -46,7 +47,6 @@ namespace UberFrba.Abm_Rol
             try
             {
                 this.nuevo_rol = false;
-                //this.dataGridView1.Columns.Clear();
                 this.dataGridView1.ReadOnly = false;
                 this.dataGridView1.DataSource = getFuncionalidades(rol_id);
                 Rol rol_mapper = new Rol();
@@ -137,6 +137,7 @@ namespace UberFrba.Abm_Rol
                     store_procedure.Parameters.Add(new SqlParameter("@nombre", textBox1.Text));
                     store_procedure.Parameters.Add(new SqlParameter("@habilitado", checkBox1.Checked));
                     conexion.EjecutarConsultar(store_procedure);
+                    actualizaFuncionalidades(textBox1.Text);
                     string mensaje_ok;
                     if (this.nuevo_rol)
                     {
@@ -152,6 +153,38 @@ namespace UberFrba.Abm_Rol
                 {
                     MessageBox.Show(exception.Message, "Guardado de rol error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
+            }
+        }
+        private void actualizaFuncionalidades(string rol_nombre)
+        {
+            try
+            {
+                Rol rol_mapper = new Rol();
+                Rol rol = rol_mapper.Mapear(rol_nombre);
+                Funcionalidad funcionalidad_mapper = new Funcionalidad();
+                Conexion conexion = new Conexion();
+                SqlCommand store_procedure;
+                foreach (DataGridViewRow row in dataGridView1.Rows)
+                {
+                    bool agrega_funcionalidad = (bool)row.Cells[1].Value;
+                    string funcionalidad_nombre = row.Cells[0].Value.ToString();
+                    Funcionalidad funcionalidad = funcionalidad_mapper.Mapear(funcionalidad_nombre);
+                    if (agrega_funcionalidad)
+                    {
+                        store_procedure = conexion.IniciarStoreProcedure("sp_alta_funcionalidad_rol");
+                    }
+                    else
+                    {
+                        store_procedure = conexion.IniciarStoreProcedure("sp_baja_funcionalidad_rol");
+                    }
+                    store_procedure.Parameters.Add(new SqlParameter("@funcionalidad", funcionalidad.id));
+                    store_procedure.Parameters.Add(new SqlParameter("@rol", rol.id));
+                    conexion.EjecutarConsultar(store_procedure);
+                }
+            }
+            catch (Exception exception)
+            {
+                throw new Exception(exception.Message);
             }
         }
     }

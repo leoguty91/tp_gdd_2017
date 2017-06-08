@@ -21,6 +21,9 @@ GO
 IF (OBJECT_ID ('GGDP.fu_existe_rol') IS NOT NULL)
   DROP FUNCTION GGDP.fu_existe_rol
 GO
+IF (OBJECT_ID ('GGDP.fu_existe_funcionalidad_rol') IS NOT NULL)
+  DROP FUNCTION GGDP.fu_existe_funcionalidad_rol
+GO
 
 /* Eliminacion de Triggers */
 IF OBJECT_ID ('GGDP.tr_rol','TR') IS NOT NULL
@@ -40,8 +43,14 @@ IF (OBJECT_ID ('GGDP.sp_obtener_funcionalidades') IS NOT NULL)
 	DROP PROCEDURE GGDP.sp_obtener_funcionalidades
 IF (OBJECT_ID ('GGDP.sp_obtener_funcionalidades_rol') IS NOT NULL)
 	DROP PROCEDURE GGDP.sp_obtener_funcionalidades_rol
+IF (OBJECT_ID ('GGDP.sp_alta_funcionalidad_rol') IS NOT NULL)
+	DROP PROCEDURE GGDP.sp_alta_funcionalidad_rol
+IF (OBJECT_ID ('GGDP.sp_baja_funcionalidad_rol') IS NOT NULL)
+	DROP PROCEDURE GGDP.sp_baja_funcionalidad_rol
 IF (OBJECT_ID ('GGDP.sp_obtener_rol') IS NOT NULL)
 	DROP PROCEDURE GGDP.sp_obtener_rol
+IF (OBJECT_ID ('GGDP.sp_obtener_rol_nombre') IS NOT NULL)
+	DROP PROCEDURE GGDP.sp_obtener_rol_nombre
 IF (OBJECT_ID ('GGDP.sp_alta_rol') IS NOT NULL)
 	DROP PROCEDURE GGDP.sp_alta_rol
 IF (OBJECT_ID ('GGDP.sp_baja_rol') IS NOT NULL)
@@ -50,6 +59,10 @@ IF (OBJECT_ID ('GGDP.sp_modificacion_rol') IS NOT NULL)
 	DROP PROCEDURE GGDP.sp_modificacion_rol
 IF (OBJECT_ID ('GGDP.sp_habilitacion_rol') IS NOT NULL)
 	DROP PROCEDURE GGDP.sp_habilitacion_rol
+IF (OBJECT_ID ('GGDP.sp_obtener_funcionalidad') IS NOT NULL)
+	DROP PROCEDURE GGDP.sp_obtener_funcionalidad
+IF (OBJECT_ID ('GGDP.sp_obtener_funcionalidad_nombre') IS NOT NULL)
+	DROP PROCEDURE GGDP.sp_obtener_funcionalidad_nombre	 
 IF (OBJECT_ID ('GGDP.sp_alta_usuario') IS NOT NULL)
     DROP PROCEDURE GGDP.sp_alta_usuario
 IF (OBJECT_ID ('GGDP.sp_alta_cliente') IS NOT NULL)
@@ -384,6 +397,13 @@ CREATE FUNCTION GGDP.fu_existe_rol(@rol INT) RETURNS BIT AS BEGIN
 END
 GO
 
+CREATE FUNCTION GGDP.fu_existe_funcionalidad_rol(@funcionalidad INT, @rol INT) RETURNS BIT AS BEGIN
+	IF EXISTS(SELECT 1 FROM GGDP.RolPorFuncionalidad WHERE rxf_funcionalidad = @funcionalidad AND rxf_rol = @rol)
+		RETURN 1
+	RETURN 0
+END
+GO
+
 /* Creacion de Triggers */
 CREATE TRIGGER GGDP.tr_rol ON GGDP.Rol AFTER INSERT
 AS
@@ -446,7 +466,7 @@ END
 GO
 
 CREATE PROCEDURE GGDP.sp_obtener_funcionalidades AS BEGIN
-	SELECT func_nombre
+	SELECT func_nombre as Funcionalidad, 0 as Habilitado
 	FROM GGDP.Funcionalidad
 END
 GO
@@ -458,16 +478,42 @@ CREATE PROCEDURE GGDP.sp_obtener_funcionalidades_rol(@rol VARCHAR(255)) AS BEGIN
 END
 GO
 
+CREATE PROCEDURE GGDP.sp_alta_funcionalidad_rol(@funcionalidad INT, @rol INT) AS BEGIN
+	IF GGDP.fu_existe_funcionalidad_rol(@funcionalidad, @rol) = 0
+	BEGIN
+		INSERT RolPorFuncionalidad(rxf_funcionalidad, rxf_rol) VALUES(@funcionalidad, @rol)
+	END
+END
+GO
+
+CREATE PROCEDURE GGDP.sp_baja_funcionalidad_rol(@funcionalidad INT, @rol INT) AS BEGIN
+	IF GGDP.fu_existe_funcionalidad_rol(@funcionalidad, @rol) = 1
+	BEGIN
+		DELETE FROM RolPorFuncionalidad WHERE rxf_funcionalidad = @funcionalidad AND rxf_rol = @rol
+	END
+END
+GO
+
 CREATE PROCEDURE GGDP.sp_obtener_rol(@rol VARCHAR(255)) AS BEGIN
 	SELECT rol_id, rol_nombre, rol_habilitado FROM GGDP.Rol WHERE rol_id = @rol
 END
 GO
 
-CREATE PROCEDURE GGDP.sp_alta_rol(@nombre VARCHAR(255), @habilitado BIT) AS BEGIN
+CREATE PROCEDURE GGDP.sp_obtener_rol_nombre(@rol_nombre VARCHAR(255)) AS BEGIN
+	SELECT rol_id, rol_nombre, rol_habilitado FROM GGDP.Rol WHERE rol_nombre = @rol_nombre
+END
+GO
 
+CREATE PROCEDURE GGDP.sp_alta_rol(@nombre VARCHAR(255), @habilitado BIT) AS BEGIN
+BEGIN TRY
 		BEGIN TRANSACTION
 		INSERT GGDP.Rol(rol_nombre, rol_habilitado) VALUES (@nombre, @habilitado)
 		COMMIT TRANSACTION
+END TRY
+BEGIN CATCH
+	ROLLBACK TRANSACTION
+	RAISERROR('El rol nuevo no puede tener un nombre vacio', 16, 1)
+END CATCH
 
 END
 GO
@@ -514,6 +560,16 @@ CREATE PROCEDURE GGDP.sp_habilitacion_rol(@rol INT) AS BEGIN
 		UPDATE GGDP.Rol SET rol_habilitado = 1 WHERE rol_id = @rol
 		COMMIT TRANSACTION
 
+END
+GO
+
+CREATE PROCEDURE GGDP.sp_obtener_funcionalidad(@funcionalidad VARCHAR(255)) AS BEGIN
+	SELECT func_id, func_nombre FROM GGDP.Funcionalidad WHERE func_id = @funcionalidad
+END
+GO
+
+CREATE PROCEDURE GGDP.sp_obtener_funcionalidad_nombre(@funcionalidad_nombre VARCHAR(255)) AS BEGIN
+	SELECT func_id, func_nombre FROM GGDP.Funcionalidad WHERE func_nombre = @funcionalidad_nombre
 END
 GO
 

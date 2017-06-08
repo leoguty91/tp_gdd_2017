@@ -9,67 +9,63 @@ using UberFrba.Helpers;
 
 namespace UberFrba.Entidades
 {
-    class Rol
+    class Funcionalidad
     {
         public int id { get; set; }
         public string nombre { get; set; }
-        public List<String> funcionalidades { get; set; }
-        public bool habilitado { get; set; }
-        public Rol Mapear(int rol)
+        public Funcionalidad Mapear(int funcionalidad)
         {
             try
             {
                 Conexion conexion = new Conexion();
-                SqlCommand store_procedure = conexion.IniciarStoreProcedure("sp_obtener_rol");
-                store_procedure.Parameters.Add(new SqlParameter("@rol", rol));
+                SqlCommand store_procedure = conexion.IniciarStoreProcedure("sp_obtener_funcionalidad");
+                store_procedure.Parameters.Add(new SqlParameter("@funcionalidad", funcionalidad));
                 DataTable respuesta_consulta = conexion.EjecutarConsultar(store_procedure);
                 if (respuesta_consulta.Rows.Count == 0)
                 {
-                    throw new Exception("Rol no encontrado");
+                    throw new Exception("Funcionalidad no encontrada");
                 }
-                Rol rol_mapeado = MapearRol(respuesta_consulta);
-                return rol_mapeado;
+                Funcionalidad funcionalidad_mapeada = MapearFuncionalidad(respuesta_consulta);
+                return funcionalidad_mapeada;
             }
             catch (Exception exception)
             {
                 throw new Exception(exception.Message);
             }
         }
-        public Rol Mapear(string rol)
+        public Funcionalidad Mapear(string funcionalidad)
         {
             try
             {
                 Conexion conexion = new Conexion();
-                SqlCommand store_procedure = conexion.IniciarStoreProcedure("sp_obtener_rol_nombre");
-                store_procedure.Parameters.Add(new SqlParameter("@rol_nombre", rol));
+                SqlCommand store_procedure = conexion.IniciarStoreProcedure("sp_obtener_funcionalidad_nombre");
+                store_procedure.Parameters.Add(new SqlParameter("@funcionalidad_nombre", funcionalidad));
                 DataTable respuesta_consulta = conexion.EjecutarConsultar(store_procedure);
                 if (respuesta_consulta.Rows.Count == 0)
                 {
-                    throw new Exception("Rol no encontrado");
+                    throw new Exception("Funcionalidad no encontrada");
                 }
-                Rol rol_mapeado = MapearRol(respuesta_consulta);
-                return rol_mapeado;
+                Funcionalidad funcionalidad_mapeada = MapearFuncionalidad(respuesta_consulta);
+                return funcionalidad_mapeada;
             }
             catch (Exception exception)
             {
                 throw new Exception(exception.Message);
             }
         }
-        private Rol MapearRol(DataTable data_table)
+        private Funcionalidad MapearFuncionalidad(DataTable data_table)
         {
             try
             {
                 foreach (DataRow row in data_table.Rows)
                 {
-                    return new Rol
+                    return new Funcionalidad
                     {
                         id = (int)row.ItemArray[0],
                         nombre = row.ItemArray[1].ToString(),
-                        funcionalidades = new List<string>(), // TODO Ver si se mapean las funcionalidades
-                        habilitado = (bool)row.ItemArray[2]
                     };
                 }
-                throw new Exception("Hubo un error al mapear al rol");
+                throw new Exception("Hubo un error al mapear la funcionalidad");
             }
             catch (Exception exception)
             {

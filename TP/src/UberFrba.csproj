@@ -90,6 +90,7 @@
     <Compile Include="Abm Rol\FormRol.Designer.cs">
       <DependentUpon>FormRol.cs</DependentUpon>
     </Compile>
+    <Compile Include="Entidades\Funcionalidad.cs" />
     <Compile Include="Entidades\Rol.cs" />
     <Compile Include="Entidades\Usuario.cs" />
     <Compile Include="Facturacion\Form1.cs">
