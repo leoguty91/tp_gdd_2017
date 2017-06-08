@@ -13,15 +13,16 @@ namespace UberFrba.Menu
 {
     public partial class FormPrincipal : Form
     {
-        protected override void OnClosing(CancelEventArgs e)
-        {
-            Application.Exit();
-        }
         //private Usuario usuario { get; set; }
-        public FormPrincipal()
+        public FormPrincipal(Usuario usuario)
         {
             InitializeComponent();
             Show();
+        }
+
+        protected override void OnClosing(CancelEventArgs e)
+        {
+            Application.Exit();
         }
 
         private void cerrarSesionToolStripMenuItem_Click(object sender, EventArgs e)

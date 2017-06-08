@@ -50,7 +50,7 @@ namespace UberFrba
             {
                 LoginHelper login = new LoginHelper();
                 Usuario usuario = login.ObtenerUsuario(usua_usuario.Text, usua_password.Text);
-                new UberFrba.Menu.FormPrincipal();
+                new UberFrba.Menu.FormPrePrincipal(usuario);
                 Hide();
             }
             catch (Exception exception)

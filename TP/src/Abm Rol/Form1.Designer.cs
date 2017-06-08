@@ -32,12 +32,12 @@
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.button1 = new System.Windows.Forms.Button();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
-            this.rolBindingSource = new System.Windows.Forms.BindingSource(this.components);
-            this.gD1C2017DataSet = new UberFrba.GD1C2017DataSet();
-            this.rolTableAdapter = new UberFrba.GD1C2017DataSetTableAdapters.RolTableAdapter();
             this.rolidDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.rolnombreDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.rolhabilitadoDataGridViewCheckBoxColumn = new System.Windows.Forms.DataGridViewCheckBoxColumn();
+            this.rolBindingSource = new System.Windows.Forms.BindingSource(this.components);
+            this.gD1C2017DataSet = new UberFrba.GD1C2017DataSet();
+            this.rolTableAdapter = new UberFrba.GD1C2017DataSetTableAdapters.RolTableAdapter();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.rolBindingSource)).BeginInit();
@@ -84,20 +84,6 @@
             this.dataGridView1.TabIndex = 0;
             this.dataGridView1.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView1_CellContentClick);
             // 
-            // rolBindingSource
-            // 
-            this.rolBindingSource.DataMember = "Rol";
-            this.rolBindingSource.DataSource = this.gD1C2017DataSet;
-            // 
-            // gD1C2017DataSet
-            // 
-            this.gD1C2017DataSet.DataSetName = "GD1C2017DataSet";
-            this.gD1C2017DataSet.SchemaSerializationMode = System.Data.SchemaSerializationMode.IncludeSchema;
-            // 
-            // rolTableAdapter
-            // 
-            this.rolTableAdapter.ClearBeforeFill = true;
-            // 
             // rolidDataGridViewTextBoxColumn
             // 
             this.rolidDataGridViewTextBoxColumn.DataPropertyName = "rol_id";
@@ -121,6 +107,20 @@
             this.rolhabilitadoDataGridViewCheckBoxColumn.Name = "rolhabilitadoDataGridViewCheckBoxColumn";
             this.rolhabilitadoDataGridViewCheckBoxColumn.ReadOnly = true;
             this.rolhabilitadoDataGridViewCheckBoxColumn.Visible = false;
+            // 
+            // rolBindingSource
+            // 
+            this.rolBindingSource.DataMember = "Rol";
+            this.rolBindingSource.DataSource = this.gD1C2017DataSet;
+            // 
+            // gD1C2017DataSet
+            // 
+            this.gD1C2017DataSet.DataSetName = "GD1C2017DataSet";
+            this.gD1C2017DataSet.SchemaSerializationMode = System.Data.SchemaSerializationMode.IncludeSchema;
+            // 
+            // rolTableAdapter
+            // 
+            this.rolTableAdapter.ClearBeforeFill = true;
             // 
             // Form1
             // 

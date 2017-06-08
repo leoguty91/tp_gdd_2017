@@ -119,6 +119,12 @@
     <Compile Include="Listado Estadistico\Form1.Designer.cs">
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
+    <Compile Include="Menu\FormPrePrincipal.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Menu\FormPrePrincipal.Designer.cs">
+      <DependentUpon>FormPrePrincipal.cs</DependentUpon>
+    </Compile>
     <Compile Include="Menu\FormPrincipal.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -162,6 +168,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Listado Estadistico\Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Menu\FormPrePrincipal.resx">
+      <DependentUpon>FormPrePrincipal.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Menu\FormPrincipal.resx">
       <DependentUpon>FormPrincipal.cs</DependentUpon>
