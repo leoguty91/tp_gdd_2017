@@ -353,9 +353,8 @@ GO
 
 -- Inserccion de Turnos (y agrego precio base a la tabla de Turno)
 INSERT INTO GGDP.Turno (turn_hora_inicio, turn_hora_fin, turn_descripcion, turn_valor_kilometro, turn_precio_base, turn_habilitado)
-SELECT  Turno_Hora_Inicio, Turno_Hora_Fin, Turno_Descripcion, Turno_Valor_Kilometro, Turno_Precio_Base, 1 FROM [gd_esquema].[Maestra]
-WHERE Turno_Hora_Fin - Turno_Hora_Inicio BETWEEN 0 AND 8 
-GO
+SELECT DISTINCT Turno_Hora_Inicio, Turno_Hora_Fin, Turno_Descripcion, Turno_Valor_Kilometro, Turno_Precio_Base, 1 FROM [gd_esquema].[Maestra]
+WHERE (Turno_Hora_Fin - Turno_Hora_Inicio) BETWEEN 0 AND 8 
 
 /* Creacion de Functions*/
 CREATE FUNCTION GGDP.fu_existe_usuario(@usuario VARCHAR(255)) RETURNS BIT AS BEGIN
