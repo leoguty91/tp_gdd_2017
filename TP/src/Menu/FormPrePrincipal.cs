@@ -18,11 +18,21 @@ namespace UberFrba.Menu
             InitializeComponent();
             if (usuario.roles.Count() > 1)
             {
+                mapearRolesACombo(usuario.roles);
                 Show();
             }
             else
             {
                 new FormPrincipal(usuario);
+            }
+        }
+
+        private void mapearRolesACombo(List<Rol> roles)
+        {
+            comboRoles.Items.Add("Seleccione el rol");
+            foreach(Rol rol in roles)
+            {
+                comboRoles.Items.Add(rol.nombre);
             }
         }
 
