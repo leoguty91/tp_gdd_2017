@@ -67,6 +67,8 @@ IF (OBJECT_ID ('GGDP.sp_obtener_funcionalidad_nombre') IS NOT NULL)
 	DROP PROCEDURE GGDP.sp_obtener_funcionalidad_nombre	 
 IF (OBJECT_ID ('GGDP.sp_alta_usuario') IS NOT NULL)
     DROP PROCEDURE GGDP.sp_alta_usuario
+	IF (OBJECT_ID ('GGDP.sp_alta_usuario_rol') IS NOT NULL)
+    DROP PROCEDURE GGDP.sp_alta_usuario_rol
 IF (OBJECT_ID ('GGDP.sp_alta_cliente') IS NOT NULL)
     DROP PROCEDURE GGDP.sp_alta_cliente
 IF (OBJECT_ID ('GGDP.sp_baja_cliente') IS NOT NULL)
@@ -584,7 +586,24 @@ CREATE PROCEDURE GGDP.sp_obtener_funcionalidad_nombre(@funcionalidad_nombre VARC
 END
 GO
 
-CREATE PROCEDURE GGDP.sp_alta_usuario(@usuario VARCHAR(255), @password VARCHAR(255), @rol VARCHAR(255)) AS BEGIN
+CREATE PROCEDURE GGDP.sp_alta_usuario(@usuario VARCHAR(255), @password VARCHAR(255)) AS BEGIN
+	BEGIN TRANSACTION
+	IF GGDP.fu_existe_usuario(@usuario) = 1
+	BEGIN
+		RAISERROR('El usuario ya existe', 16, 1)
+	END
+	IF @password = ''
+	BEGIN
+		RAISERROR('Debe ingresar un password', 16, 1)
+	END
+	INSERT INTO GGDP.Usuario(usua_usuario, usua_password, usua_intentos, usua_habilitado)
+	VALUES (@usuario, HASHBYTES('SHA2_256', @password), 0, 1)
+	COMMIT TRANSACTION
+	SELECT usua_id FROM GGDP.Usuario WHERE usua_usuario = @usuario
+END
+GO
+
+CREATE PROCEDURE GGDP.sp_alta_usuario_rol(@usuario VARCHAR(255), @password VARCHAR(255), @rol VARCHAR(255)) AS BEGIN
 	BEGIN TRANSACTION
 	INSERT INTO GGDP.Usuario(usua_usuario, usua_password, usua_intentos, usua_habilitado)
 	VALUES (@usuario, HASHBYTES('SHA2_256', @password), 0, 1)
@@ -596,7 +615,6 @@ CREATE PROCEDURE GGDP.sp_alta_usuario(@usuario VARCHAR(255), @password VARCHAR(2
 	SELECT usua_id FROM GGDP.Usuario WHERE usua_usuario = @usuario
 END
 GO
-
 CREATE PROCEDURE GGDP.sp_alta_cliente
 (
 	@usuario VARCHAR(255),
@@ -622,7 +640,7 @@ BEGIN
 		BEGIN
 			RAISERROR('El usuario ya existe', 16, 1)
 		END
-		EXEC @codigo_usuario = GGDP.sp_alta_usuario @usuario, @password, @rol
+		EXEC @codigo_usuario = GGDP.sp_alta_usuario_rol @usuario, @password, @rol
 
 		INSERT INTO GGDP.Cliente(clie_nombre, clie_apellido, clie_dni, clie_mail, clie_telefono, clie_direccion, clie_codigo_postal, clie_fecha_nacimiento, clie_habilitado, clie_usuario)
 		VALUES(@nombre, @apellido, @dni, @mail, @telefono, @direccion, @codigo_postal, @fecha_nacimiento, @habilitado, @codigo_usuario)
