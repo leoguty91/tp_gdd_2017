@@ -12,7 +12,7 @@ namespace UberFrba.Helpers
 {
     class LoginHelper
     {
-        public Usuario ObtenerUsuario(string usuario, string password)
+        public void ObtenerUsuario(string usuario, string password)
         {
             try
             {
@@ -30,7 +30,7 @@ namespace UberFrba.Helpers
                 if (!user.habilitado) {
                     throw new Exception("El usuario se encuentra deshabilitado");
                 }
-                return user;
+                SingletonUsuario.Registrar(user);
             }
             catch (Exception exception)
             {

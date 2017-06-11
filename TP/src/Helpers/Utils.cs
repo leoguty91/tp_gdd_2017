@@ -4,9 +4,28 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Security.Cryptography;
+using UberFrba.Entidades;
 
 namespace UberFrba.Helpers
 {
+    public class SingletonUsuario
+    {
+        private static Usuario instance = null;
+        protected SingletonUsuario() { }
+        public static Usuario Instance
+        {
+            get
+            {
+                if (instance == null)
+                    instance = new Usuario();
+                return instance;
+            }
+        }
+        public static void Registrar(Usuario usuario)
+        {
+            instance = usuario;
+        }
+    }
     class Utils
     {
         public static string Encriptar(string password)

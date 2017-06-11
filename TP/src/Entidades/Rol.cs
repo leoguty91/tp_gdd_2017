@@ -24,9 +24,7 @@ namespace UberFrba.Entidades
                 store_procedure.Parameters.Add(new SqlParameter("@rol", rol));
                 DataTable respuesta_consulta = conexion.EjecutarConsultar(store_procedure);
                 if (respuesta_consulta.Rows.Count == 0)
-                {
                     throw new Exception("Rol no encontrado");
-                }
                 Rol rol_mapeado = MapearRol(respuesta_consulta);
                 return rol_mapeado;
             }
@@ -44,9 +42,7 @@ namespace UberFrba.Entidades
                 store_procedure.Parameters.Add(new SqlParameter("@rol_nombre", rol));
                 DataTable respuesta_consulta = conexion.EjecutarConsultar(store_procedure);
                 if (respuesta_consulta.Rows.Count == 0)
-                {
                     throw new Exception("Rol no encontrado");
-                }
                 Rol rol_mapeado = MapearRol(respuesta_consulta);
                 return rol_mapeado;
             }

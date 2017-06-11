@@ -13,8 +13,12 @@ namespace UberFrba.Menu
 {
     public partial class FormPrincipal : Form
     {
-        //private Usuario usuario { get; set; }
-        public FormPrincipal(Usuario usuario)
+        public FormPrincipal()
+        {
+            InitializeComponent();
+            Show();
+        }
+        public FormPrincipal(int rol)
         {
             InitializeComponent();
             Show();
