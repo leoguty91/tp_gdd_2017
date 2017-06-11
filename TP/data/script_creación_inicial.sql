@@ -43,6 +43,8 @@ IF (OBJECT_ID ('GGDP.sp_obtener_funcionalidades') IS NOT NULL)
 	DROP PROCEDURE GGDP.sp_obtener_funcionalidades
 IF (OBJECT_ID ('GGDP.sp_obtener_funcionalidades_rol') IS NOT NULL)
 	DROP PROCEDURE GGDP.sp_obtener_funcionalidades_rol
+	IF (OBJECT_ID ('GGDP.sp_obtener_funcionalidades_rol_tabla') IS NOT NULL)
+	DROP PROCEDURE GGDP.sp_obtener_funcionalidades_rol_tabla
 IF (OBJECT_ID ('GGDP.sp_alta_funcionalidad_rol') IS NOT NULL)
 	DROP PROCEDURE GGDP.sp_alta_funcionalidad_rol
 IF (OBJECT_ID ('GGDP.sp_baja_funcionalidad_rol') IS NOT NULL)
@@ -86,14 +88,14 @@ IF OBJECT_ID('GGDP.Rendicion') IS NOT NULL
     DROP TABLE GGDP.Rendicion;
 IF OBJECT_ID('GGDP.Viaje') IS NOT NULL
     DROP TABLE GGDP.Viaje;
+IF OBJECT_ID('GGDP.Automovil') IS NOT NULL
+    DROP TABLE GGDP.Automovil;
 IF OBJECT_ID('GGDP.Turno') IS NOT NULL
     DROP TABLE GGDP.Turno;
 IF OBJECT_ID('GGDP.Factura') IS NOT NULL
     DROP TABLE GGDP.Factura;
 IF OBJECT_ID('GGDP.Cliente') IS NOT NULL
     DROP TABLE GGDP.Cliente;
-IF OBJECT_ID('GGDP.Automovil') IS NOT NULL
-    DROP TABLE GGDP.Automovil;
 IF OBJECT_ID('GGDP.Marca') IS NOT NULL
     DROP TABLE GGDP.Marca;
 IF OBJECT_ID('GGDP.Chofer') IS NOT NULL
@@ -231,7 +233,7 @@ CREATE TABLE GGDP.Funcionalidad (
 
 CREATE TABLE GGDP.Usuario(
 	usua_id INT IDENTITY PRIMARY KEY NOT NULL,
-	usua_usuario VARCHAR(255) NOT NULL,
+	usua_usuario VARCHAR(255) NOT NULL UNIQUE,
 	usua_password VARCHAR(255) NOT NULL,
 	usua_intentos INT NOT NULL,
 	usua_habilitado BIT NOT NULL
@@ -307,7 +309,7 @@ GO
 
 -- Insercion funcionalidades
 INSERT INTO GGDP.Funcionalidad(func_nombre)
-VALUES ('ABM de Rol'), ('Login y Seguridad'), ('Registro de Usuario'), ('ABM de Cliente'), ('ABM de Automovil'), ('ABM de Chofer'), ('Registro de Viajes'), ('Rendcion de cuenta del chofer'), ('Facturacion a Cliente'), ('Listado Estadistico')
+VALUES ('ABM de Rol'), ('Login y Seguridad'), ('Registro de Usuario'), ('ABM de Cliente'), ('ABM de Automovil'), ('ABM de Chofer'), ('Registro de Viajes'), ('Rendicion de cuenta del chofer'), ('Facturacion a Cliente'), ('Listado Estadistico')
 GO
 
 -- Insercion roles y funcionalidades
@@ -472,6 +474,15 @@ END
 GO
 
 CREATE PROCEDURE GGDP.sp_obtener_funcionalidades_rol(@rol VARCHAR(255)) AS BEGIN
+	SELECT func_id, func_nombre
+	FROM GGDP.Funcionalidad
+	JOIN GGDP.RolPorFuncionalidad ON func_id = rxf_funcionalidad
+	JOIN GGDP.Rol ON rxf_rol = rol_id
+	WHERE rol_id = @rol
+END
+GO
+
+CREATE PROCEDURE GGDP.sp_obtener_funcionalidades_rol_tabla(@rol VARCHAR(255)) AS BEGIN
 	SELECT func_nombre as Funcionalidad, (SELECT COUNT(*) FROM GGDP.RolPorFuncionalidad WHERE func_id = rxf_funcionalidad AND rol_id = rxf_rol) as Habilitado
 	FROM GGDP.Funcionalidad, GGDP.Rol
 	WHERE rol_id = @rol

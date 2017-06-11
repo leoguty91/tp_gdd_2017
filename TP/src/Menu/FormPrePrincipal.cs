@@ -24,7 +24,7 @@ namespace UberFrba.Menu
             }
             else
             {
-                new FormPrincipal();
+                new FormPrincipal(SingletonUsuario.Instance.roles[0].id);
             }
         }
         protected override void OnClosing(CancelEventArgs e)

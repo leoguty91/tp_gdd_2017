@@ -22,14 +22,14 @@ namespace UberFrba.Helpers
                 store_procedure.Parameters.Add(new SqlParameter("@usuario", usuario));
                 store_procedure.Parameters.Add(new SqlParameter("@password", password));
                 DataTable respuesta_consulta = conexion.EjecutarConsultar(store_procedure);
-                if (respuesta_consulta.Rows.Count == 0) {
+                if (respuesta_consulta.Rows.Count == 0)
                     throw new Exception("Combinacion de usuario/password incorrecta");
-                }
                 Usuario user_mapper = new Usuario();
                 Usuario user = user_mapper.Mapear(respuesta_consulta);
-                if (!user.habilitado) {
+                if (!user.habilitado)
                     throw new Exception("El usuario se encuentra deshabilitado");
-                }
+                if (user.roles.Count == 0)
+                    throw new Exception("El usuario no tiene roles disponibles");
                 SingletonUsuario.Registrar(user);
             }
             catch (Exception exception)

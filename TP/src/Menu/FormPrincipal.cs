@@ -13,14 +13,10 @@ namespace UberFrba.Menu
 {
     public partial class FormPrincipal : Form
     {
-        public FormPrincipal()
-        {
-            InitializeComponent();
-            Show();
-        }
         public FormPrincipal(int rol)
         {
             InitializeComponent();
+            ArmarMenuParaRol(rol);
             Show();
         }
 
@@ -29,6 +25,56 @@ namespace UberFrba.Menu
             Application.Exit();
         }
 
+        private void ArmarMenuParaRol(int rol_id)
+        {
+            try
+            {
+                Rol rol_mapper = new Rol();
+                Rol rol = rol_mapper.Mapear(rol_id);
+                if (rol.funcionalidades.Count > 0)
+                    menuToolStripMenuItem.Visible = true;
+                foreach (Funcionalidad funcionad in rol.funcionalidades)
+                {
+                    switch (funcionad.nombre)
+                    {
+                        case "ABM de Rol":
+                            aBMDeRolToolStripMenuItem1.Visible = true;
+                            break;
+                        case "Login y Seguridad":
+                            loginYSeguridadToolStripMenuItem.Visible = true;
+                            break;
+                        case "Registro de Usuario":
+                            registroDeUsuarioToolStripMenuItem.Visible = true;
+                            break;
+                        case "ABM de Cliente":
+                            aBMDeClienteToolStripMenuItem.Visible = true;
+                            break;
+                        case "ABM de Automovil":
+                            aBMDeAutomovilToolStripMenuItem.Visible = true;
+                            break;
+                        case "ABM de Chofer":
+                            aBMDeChoferToolStripMenuItem.Visible = true;
+                            break;
+                        case "Registro de Viajes":
+                            registroDeViajesToolStripMenuItem.Visible = true;
+                            break;
+                        case "Rendicion de cuenta del chofer":
+                            rendicionDeCuentaDelChoferToolStripMenuItem.Visible = true;
+                            break;
+                        case "Facturacion a Cliente":
+                            facturacionAClienteToolStripMenuItem.Visible = true;
+                            break;
+                        case "Listado Estadistico":
+                            listadoEstadisticoToolStripMenuItem.Visible = true;
+                            break;
+                    }
+                }
+            }
+            catch (Exception exception)
+            {
+                MessageBox.Show(exception.Message, " Menu error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
         private void cerrarSesionToolStripMenuItem_Click(object sender, EventArgs e)
         {
             Dispose();
@@ -74,6 +120,16 @@ namespace UberFrba.Menu
         private void listadoEstadisticoToolStripMenuItem_Click(object sender, EventArgs e)
         {
             new Listado_Estadistico.Form1();
+        }
+
+        private void loginYSeguridadToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            new Login_Seguridad.Form1();
+        }
+
+        private void registroDeUsuarioToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            new Registro_Usuario.Form1();
         }
     }
 }

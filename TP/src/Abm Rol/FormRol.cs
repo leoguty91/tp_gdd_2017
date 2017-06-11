@@ -84,7 +84,7 @@ namespace UberFrba.Abm_Rol
             try
             {
                 Conexion conexion = new Conexion();
-                SqlCommand store_procedure = conexion.IniciarStoreProcedure("sp_obtener_funcionalidades_rol");
+                SqlCommand store_procedure = conexion.IniciarStoreProcedure("sp_obtener_funcionalidades_rol_tabla");
                 store_procedure.Parameters.Add(new SqlParameter("@rol", rol));
                 DataTable datos = conexion.EjecutarConsultar(store_procedure);
                 return convertirColumnasBool(datos);

@@ -9,7 +9,7 @@ using UberFrba.Helpers;
 
 namespace UberFrba.Entidades
 {
-    class Funcionalidad
+    public class Funcionalidad
     {
         public int id { get; set; }
         public string nombre { get; set; }
@@ -22,9 +22,7 @@ namespace UberFrba.Entidades
                 store_procedure.Parameters.Add(new SqlParameter("@funcionalidad", funcionalidad));
                 DataTable respuesta_consulta = conexion.EjecutarConsultar(store_procedure);
                 if (respuesta_consulta.Rows.Count == 0)
-                {
                     throw new Exception("Funcionalidad no encontrada");
-                }
                 Funcionalidad funcionalidad_mapeada = MapearFuncionalidad(respuesta_consulta);
                 return funcionalidad_mapeada;
             }
@@ -42,9 +40,7 @@ namespace UberFrba.Entidades
                 store_procedure.Parameters.Add(new SqlParameter("@funcionalidad_nombre", funcionalidad));
                 DataTable respuesta_consulta = conexion.EjecutarConsultar(store_procedure);
                 if (respuesta_consulta.Rows.Count == 0)
-                {
                     throw new Exception("Funcionalidad no encontrada");
-                }
                 Funcionalidad funcionalidad_mapeada = MapearFuncionalidad(respuesta_consulta);
                 return funcionalidad_mapeada;
             }
@@ -66,6 +62,26 @@ namespace UberFrba.Entidades
                     };
                 }
                 throw new Exception("Hubo un error al mapear la funcionalidad");
+            }
+            catch (Exception exception)
+            {
+                throw new Exception(exception.Message);
+            }
+        }
+        public List<Funcionalidad> MapearFuncionalidades(DataTable data_table)
+        {
+            try
+            {
+                List<Funcionalidad> funcionalidades = new List<Funcionalidad>();
+                foreach (DataRow row in data_table.Rows)
+                {
+                    funcionalidades.Add(new Funcionalidad
+                    {
+                        id = (int)row.ItemArray[0],
+                        nombre = row.ItemArray[1].ToString(),
+                    });
+                }
+                return funcionalidades;
             }
             catch (Exception exception)
             {

@@ -13,7 +13,7 @@ namespace UberFrba.Entidades
     {
         public int id { get; set; }
         public string nombre { get; set; }
-        public List<String> funcionalidades { get; set; }
+        public List<Funcionalidad> funcionalidades { get; set; }
         public bool habilitado { get; set; }
         public Rol Mapear(int rol)
         {
@@ -61,11 +61,27 @@ namespace UberFrba.Entidades
                     {
                         id = (int)row.ItemArray[0],
                         nombre = row.ItemArray[1].ToString(),
-                        funcionalidades = new List<string>(), // TODO Ver si se mapean las funcionalidades
+                        funcionalidades = MapearFuncionalidades((int)row.ItemArray[0]),
                         habilitado = (bool)row.ItemArray[2]
                     };
                 }
                 throw new Exception("Hubo un error al mapear al rol");
+            }
+            catch (Exception exception)
+            {
+                throw new Exception(exception.Message);
+            }
+        }
+        private List<Funcionalidad> MapearFuncionalidades(int rol_id)
+        {
+            try
+            {
+                Conexion conexion = new Conexion();
+                SqlCommand store_procedure = conexion.IniciarStoreProcedure("sp_obtener_funcionalidades_rol");
+                store_procedure.Parameters.Add(new SqlParameter("@rol", rol_id));
+                DataTable respuesta_consulta = conexion.EjecutarConsultar(store_procedure);
+                Funcionalidad funcionalidad_mapper = new Funcionalidad();
+                return funcionalidad_mapper.MapearFuncionalidades(respuesta_consulta);
             }
             catch (Exception exception)
             {
