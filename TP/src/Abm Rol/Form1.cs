@@ -33,13 +33,14 @@ namespace UberFrba.Abm_Rol
 
         private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
-            int rol_id = getRolId();
-            new Abm_Rol.FormRol(rol_id);
+            new Abm_Rol.FormRol(getRolId());
+            Hide();
         }
 
         private void button1_Click(object sender, EventArgs e)
         {
             new Abm_Rol.FormRol();
+            Hide();
         }
     }
 }

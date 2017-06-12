@@ -28,6 +28,8 @@ GO
 /* Eliminacion de Triggers */
 IF OBJECT_ID ('GGDP.tr_rol','TR') IS NOT NULL
    DROP TRIGGER GGDP.tr_rol;
+IF OBJECT_ID ('GGDP.tr_alta_cliente','TR') IS NOT NULL
+   DROP TRIGGER GGDP.tr_alta_cliente;
 GO
 
 /* Eliminacion de Store Procedures */
@@ -35,6 +37,10 @@ IF (OBJECT_ID ('GGDP.sp_login') IS NOT NULL)
 	DROP PROCEDURE GGDP.sp_login
 IF (OBJECT_ID ('GGDP.sp_login_fallido') IS NOT NULL)
 	DROP PROCEDURE GGDP.sp_login_fallido
+IF (OBJECT_ID ('GGDP.sp_obtener_usuario') IS NOT NULL)
+	DROP PROCEDURE GGDP.sp_obtener_usuario
+IF (OBJECT_ID ('GGDP.sp_obtener_usuarios_no_clientes') IS NOT NULL)
+    DROP PROCEDURE GGDP.sp_obtener_usuarios_no_clientes
 IF (OBJECT_ID ('GGDP.sp_obtener_roles') IS NOT NULL)
 	DROP PROCEDURE GGDP.sp_obtener_roles
 IF (OBJECT_ID ('GGDP.sp_obtener_roles_usuario') IS NOT NULL)
@@ -75,6 +81,8 @@ IF (OBJECT_ID ('GGDP.sp_baja_cliente') IS NOT NULL)
     DROP PROCEDURE GGDP.sp_baja_cliente
 IF (OBJECT_ID ('GGDP.sp_modificacion_cliente') IS NOT NULL)
     DROP PROCEDURE GGDP.sp_modificacion_cliente
+IF (OBJECT_ID ('GGDP.sp_obtener_cliente') IS NOT NULL)
+    DROP PROCEDURE GGDP.sp_obtener_cliente
 GO
 
 /* Eliminacion de Tablas */
@@ -421,6 +429,18 @@ BEGIN
 END
 GO
 
+CREATE TRIGGER GGDP.tr_alta_cliente ON GGDP.Cliente AFTER INSERT
+AS
+BEGIN
+	BEGIN TRANSACTION
+
+	INSERT INTO GGDP.RolPorUsuario(rxu_rol, rxu_usuario)
+	SELECT rol_id, clie_usuario FROM GGDP.Rol, inserted
+	WHERE rol_nombre = 'Cliente' 
+
+	COMMIT TRANSACTION
+END
+GO
 
 /* Creacion de Store Procedures */
 CREATE PROCEDURE GGDP.sp_login_fallido(@usuario VARCHAR(255)) AS BEGIN
@@ -431,6 +451,19 @@ CREATE PROCEDURE GGDP.sp_login_fallido(@usuario VARCHAR(255)) AS BEGIN
 		SET usua_habilitado = 0
 		WHERE usua_usuario = @usuario
 		AND usua_intentos = 3
+END
+GO
+
+CREATE PROCEDURE GGDP.sp_obtener_usuario(@usuario VARCHAR(255)) AS BEGIN
+	SELECT usua_id, usua_usuario, usua_habilitado FROM GGDP.Usuario WHERE usua_id = @usuario
+END
+GO
+
+CREATE PROCEDURE GGDP.sp_obtener_usuarios_no_clientes AS BEGIN
+	SELECT usua_id, usua_usuario FROM GGDP.Usuario
+	JOIN GGDP.RolPorUsuario ON usua_id = rxu_usuario
+	JOIN GGDP.Rol ON rxu_rol = rol_id
+	WHERE rol_nombre <> 'Cliente'
 END
 GO
 
@@ -615,11 +648,10 @@ CREATE PROCEDURE GGDP.sp_alta_usuario_rol(@usuario VARCHAR(255), @password VARCH
 	SELECT usua_id FROM GGDP.Usuario WHERE usua_usuario = @usuario
 END
 GO
+
 CREATE PROCEDURE GGDP.sp_alta_cliente
 (
-	@usuario VARCHAR(255),
-	@password VARCHAR(255),
-	@rol INT,
+	@usuario INT,
 	@nombre VARCHAR(255),
 	@apellido VARCHAR(255),
 	@dni NUMERIC(18, 0),
@@ -627,24 +659,15 @@ CREATE PROCEDURE GGDP.sp_alta_cliente
 	@telefono NUMERIC(18, 0),
 	@direccion VARCHAR(255),
 	@codigo_postal VARCHAR(8),
-	@fecha_nacimiento DATETIME
+	@fecha_nacimiento DATETIME,
+	@habilitado BIT
 ) AS
 BEGIN
 
-		BEGIN TRANSACTION
-		DECLARE @habilitado BIT
-		DECLARE @codigo_usuario INT
-		SET @habilitado = 1 
-		
-		IF GGDP.fu_existe_usuario(@usuario) = 1
-		BEGIN
-			RAISERROR('El usuario ya existe', 16, 1)
-		END
-		EXEC @codigo_usuario = GGDP.sp_alta_usuario_rol @usuario, @password, @rol
-
-		INSERT INTO GGDP.Cliente(clie_nombre, clie_apellido, clie_dni, clie_mail, clie_telefono, clie_direccion, clie_codigo_postal, clie_fecha_nacimiento, clie_habilitado, clie_usuario)
-		VALUES(@nombre, @apellido, @dni, @mail, @telefono, @direccion, @codigo_postal, @fecha_nacimiento, @habilitado, @codigo_usuario)
-		COMMIT TRANSACTION
+	BEGIN TRANSACTION
+	INSERT INTO GGDP.Cliente(clie_nombre, clie_apellido, clie_dni, clie_mail, clie_telefono, clie_direccion, clie_codigo_postal, clie_fecha_nacimiento, clie_habilitado, clie_usuario)
+	VALUES(@nombre, @apellido, @dni, @mail, @telefono, @direccion, @codigo_postal, @fecha_nacimiento, @habilitado, @usuario)
+	COMMIT TRANSACTION
 
 END
 GO
@@ -665,6 +688,7 @@ CREATE PROCEDURE GGDP.sp_baja_cliente(@cliente_id INT) AS
 
 	END
 GO
+
 CREATE PROCEDURE GGDP.sp_modificacion_cliente
 (
 	@cliente_id INT,
@@ -675,7 +699,8 @@ CREATE PROCEDURE GGDP.sp_modificacion_cliente
 	@telefono NUMERIC(18, 0),
 	@direccion VARCHAR(255),
 	@codigo_postal VARCHAR(8),
-	@fecha_nacimiento DATETIME
+	@fecha_nacimiento DATETIME,
+	@habilitado BIT
 ) AS
 	BEGIN
 
@@ -692,9 +717,15 @@ CREATE PROCEDURE GGDP.sp_modificacion_cliente
 					clie_telefono = ISNULL(@telefono, clie_telefono),
 					clie_direccion = ISNULL(@direccion, clie_direccion),
 					clie_codigo_postal = ISNULL(@codigo_postal, clie_codigo_postal),
-					clie_fecha_nacimiento = ISNULL(@fecha_nacimiento, clie_fecha_nacimiento)
+					clie_fecha_nacimiento = ISNULL(@fecha_nacimiento, clie_fecha_nacimiento),
+					clie_habilitado = ISNULL(@habilitado, clie_habilitado)
 				WHERE clie_id = @cliente_id
 			COMMIT TRANSACTION
 
 	END
+GO
+
+CREATE PROCEDURE GGDP.sp_obtener_cliente(@cliente_id INT) AS BEGIN
+	SELECT clie_id, clie_nombre, clie_apellido, clie_dni, clie_mail, clie_telefono, clie_direccion, clie_codigo_postal, clie_fecha_nacimiento, clie_habilitado, clie_usuario FROM GGDP.Cliente WHERE clie_id = @cliente_id
+END
 GO
