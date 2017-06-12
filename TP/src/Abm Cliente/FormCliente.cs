@@ -135,6 +135,7 @@ namespace UberFrba.Abm_Cliente
                     mensaje_ok = String.Format("Se ha modificado el cliente {0} {1}", textBoxNombre.Text, textBoxApellido.Text);
                 }
                 MessageBox.Show(mensaje_ok, "Guardado de cliente", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
+                Hide();
             }
             catch (Exception exception)
             {

@@ -429,14 +429,22 @@ BEGIN
 END
 GO
 
-CREATE TRIGGER GGDP.tr_alta_cliente ON GGDP.Cliente AFTER INSERT
+CREATE TRIGGER GGDP.tr_alta_cliente ON GGDP.Cliente INSTEAD OF INSERT
 AS
 BEGIN
 	BEGIN TRANSACTION
 
+	IF (SELECT COUNT(*) FROM GGDP.Cliente c, inserted WHERE c.clie_telefono = inserted.clie_telefono) = 1
+	BEGIN
+		RAISERROR('El telefono ya existe, debe ingresar otro', 16, 1)
+	END
+	INSERT INTO GGDP.Cliente(clie_nombre, clie_apellido, clie_dni, clie_mail, clie_telefono, clie_direccion, clie_codigo_postal, clie_fecha_nacimiento, clie_habilitado, clie_usuario)
+	SELECT clie_nombre, clie_apellido, clie_dni, clie_mail, clie_telefono, clie_direccion, clie_codigo_postal, clie_fecha_nacimiento, clie_habilitado, clie_usuario
+	FROM inserted
+
 	INSERT INTO GGDP.RolPorUsuario(rxu_rol, rxu_usuario)
 	SELECT rol_id, clie_usuario FROM GGDP.Rol, inserted
-	WHERE rol_nombre = 'Cliente' 
+	WHERE rol_nombre = 'Cliente'
 
 	COMMIT TRANSACTION
 END
