@@ -67,7 +67,6 @@ namespace UberFrba.Entidades
             {
                 throw new Exception(exception.Message);
             }
-
         }
     }
 }

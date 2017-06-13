@@ -66,6 +66,12 @@
     <Compile Include="Abm Automovil\Form1.Designer.cs">
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
+    <Compile Include="Abm Automovil\ListaAutomoviles.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Abm Automovil\ListaAutomoviles.Designer.cs">
+      <DependentUpon>ListaAutomoviles.cs</DependentUpon>
+    </Compile>
     <Compile Include="Abm Chofer\Form1.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -96,6 +102,7 @@
     <Compile Include="Abm Rol\FormRol.Designer.cs">
       <DependentUpon>FormRol.cs</DependentUpon>
     </Compile>
+    <Compile Include="Entidades\Automovil.cs" />
     <Compile Include="Entidades\Cliente.cs" />
     <Compile Include="Entidades\Funcionalidad.cs" />
     <Compile Include="Entidades\Rol.cs" />

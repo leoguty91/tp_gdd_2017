@@ -83,6 +83,8 @@ IF (OBJECT_ID ('GGDP.sp_modificacion_cliente') IS NOT NULL)
     DROP PROCEDURE GGDP.sp_modificacion_cliente
 IF (OBJECT_ID ('GGDP.sp_obtener_cliente') IS NOT NULL)
     DROP PROCEDURE GGDP.sp_obtener_cliente
+IF (OBJECT_ID ('GGDP.sp_obtener_automovil') IS NOT NULL)
+    DROP PROCEDURE GGDP.sp_obtener_automovil
 GO
 
 /* Eliminacion de Tablas */
@@ -735,5 +737,10 @@ GO
 
 CREATE PROCEDURE GGDP.sp_obtener_cliente(@cliente_id INT) AS BEGIN
 	SELECT clie_id, clie_nombre, clie_apellido, clie_dni, clie_mail, clie_telefono, clie_direccion, clie_codigo_postal, clie_fecha_nacimiento, clie_habilitado, clie_usuario FROM GGDP.Cliente WHERE clie_id = @cliente_id
+END
+GO
+
+CREATE PROCEDURE GGDP.sp_obtener_automovil(@automovil_id INT) AS BEGIN
+	SELECT auto_id, auto_marca, auto_modelo, auto_patente, auto_turno, auto_chofer, auto_habilitado FROM GGDP.Automovil WHERE auto_id = @automovil_id
 END
 GO
