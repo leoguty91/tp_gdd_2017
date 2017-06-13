@@ -48,11 +48,11 @@
             this.gD1C2017DataSet = new UberFrba.GD1C2017DataSet();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.button1 = new System.Windows.Forms.Button();
-            this.textBox3 = new System.Windows.Forms.TextBox();
+            this.textBoxDNI = new System.Windows.Forms.TextBox();
             this.label3 = new System.Windows.Forms.Label();
-            this.textBox2 = new System.Windows.Forms.TextBox();
+            this.textBoxApellido = new System.Windows.Forms.TextBox();
             this.label2 = new System.Windows.Forms.Label();
-            this.textBox1 = new System.Windows.Forms.TextBox();
+            this.textBoxNombre = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
             this.clienteTableAdapter = new UberFrba.GD1C2017DataSetTableAdapters.ClienteTableAdapter();
             this.groupBox1.SuspendLayout();
@@ -220,11 +220,11 @@
             // groupBox2
             // 
             this.groupBox2.Controls.Add(this.button1);
-            this.groupBox2.Controls.Add(this.textBox3);
+            this.groupBox2.Controls.Add(this.textBoxDNI);
             this.groupBox2.Controls.Add(this.label3);
-            this.groupBox2.Controls.Add(this.textBox2);
+            this.groupBox2.Controls.Add(this.textBoxApellido);
             this.groupBox2.Controls.Add(this.label2);
-            this.groupBox2.Controls.Add(this.textBox1);
+            this.groupBox2.Controls.Add(this.textBoxNombre);
             this.groupBox2.Controls.Add(this.label1);
             this.groupBox2.Location = new System.Drawing.Point(19, 31);
             this.groupBox2.Name = "groupBox2";
@@ -243,13 +243,13 @@
             this.button1.UseVisualStyleBackColor = true;
             this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
-            // textBox3
+            // textBoxDNI
             // 
-            this.textBox3.Location = new System.Drawing.Point(22, 145);
-            this.textBox3.MaxLength = 255;
-            this.textBox3.Name = "textBox3";
-            this.textBox3.Size = new System.Drawing.Size(159, 20);
-            this.textBox3.TabIndex = 5;
+            this.textBoxDNI.Location = new System.Drawing.Point(22, 145);
+            this.textBoxDNI.MaxLength = 255;
+            this.textBoxDNI.Name = "textBoxDNI";
+            this.textBoxDNI.Size = new System.Drawing.Size(159, 20);
+            this.textBoxDNI.TabIndex = 5;
             // 
             // label3
             // 
@@ -260,13 +260,13 @@
             this.label3.TabIndex = 4;
             this.label3.Text = "DNI";
             // 
-            // textBox2
+            // textBoxApellido
             // 
-            this.textBox2.Location = new System.Drawing.Point(22, 98);
-            this.textBox2.MaxLength = 255;
-            this.textBox2.Name = "textBox2";
-            this.textBox2.Size = new System.Drawing.Size(159, 20);
-            this.textBox2.TabIndex = 3;
+            this.textBoxApellido.Location = new System.Drawing.Point(22, 98);
+            this.textBoxApellido.MaxLength = 255;
+            this.textBoxApellido.Name = "textBoxApellido";
+            this.textBoxApellido.Size = new System.Drawing.Size(159, 20);
+            this.textBoxApellido.TabIndex = 3;
             // 
             // label2
             // 
@@ -277,13 +277,13 @@
             this.label2.TabIndex = 2;
             this.label2.Text = "Apellido";
             // 
-            // textBox1
+            // textBoxNombre
             // 
-            this.textBox1.Location = new System.Drawing.Point(22, 49);
-            this.textBox1.MaxLength = 255;
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(159, 20);
-            this.textBox1.TabIndex = 1;
+            this.textBoxNombre.Location = new System.Drawing.Point(22, 49);
+            this.textBoxNombre.MaxLength = 255;
+            this.textBoxNombre.Name = "textBoxNombre";
+            this.textBoxNombre.Size = new System.Drawing.Size(159, 20);
+            this.textBoxNombre.TabIndex = 1;
             // 
             // label1
             // 
@@ -321,11 +321,11 @@
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.GroupBox groupBox2;
         private System.Windows.Forms.Button button1;
-        private System.Windows.Forms.TextBox textBox3;
+        private System.Windows.Forms.TextBox textBoxDNI;
         private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.TextBox textBox2;
+        private System.Windows.Forms.TextBox textBoxApellido;
         private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.TextBox textBox1;
+        private System.Windows.Forms.TextBox textBoxNombre;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.GroupBox groupBox3;
         private System.Windows.Forms.Button buttonAltaCliente;

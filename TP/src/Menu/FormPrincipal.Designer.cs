@@ -32,6 +32,7 @@
             this.menuToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.aBMDeRolToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.loginYSeguridadToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.registroDeUsuarioToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.aBMDeClienteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.aBMDeAutomovilToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.aBMDeChoferToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -42,7 +43,6 @@
             this.cerrarSesionToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
-            this.registroDeUsuarioToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -86,11 +86,20 @@
             // 
             // loginYSeguridadToolStripMenuItem
             // 
+            this.loginYSeguridadToolStripMenuItem.Enabled = false;
             this.loginYSeguridadToolStripMenuItem.Name = "loginYSeguridadToolStripMenuItem";
             this.loginYSeguridadToolStripMenuItem.Size = new System.Drawing.Size(238, 22);
             this.loginYSeguridadToolStripMenuItem.Text = "Login y Seguridad";
             this.loginYSeguridadToolStripMenuItem.Visible = false;
             this.loginYSeguridadToolStripMenuItem.Click += new System.EventHandler(this.loginYSeguridadToolStripMenuItem_Click);
+            // 
+            // registroDeUsuarioToolStripMenuItem
+            // 
+            this.registroDeUsuarioToolStripMenuItem.Name = "registroDeUsuarioToolStripMenuItem";
+            this.registroDeUsuarioToolStripMenuItem.Size = new System.Drawing.Size(238, 22);
+            this.registroDeUsuarioToolStripMenuItem.Text = "Registro de Usuario";
+            this.registroDeUsuarioToolStripMenuItem.Visible = false;
+            this.registroDeUsuarioToolStripMenuItem.Click += new System.EventHandler(this.registroDeUsuarioToolStripMenuItem_Click);
             // 
             // aBMDeClienteToolStripMenuItem
             // 
@@ -102,6 +111,7 @@
             // 
             // aBMDeAutomovilToolStripMenuItem
             // 
+            this.aBMDeAutomovilToolStripMenuItem.Enabled = false;
             this.aBMDeAutomovilToolStripMenuItem.Name = "aBMDeAutomovilToolStripMenuItem";
             this.aBMDeAutomovilToolStripMenuItem.Size = new System.Drawing.Size(238, 22);
             this.aBMDeAutomovilToolStripMenuItem.Text = "ABM de Automovil";
@@ -110,6 +120,7 @@
             // 
             // aBMDeChoferToolStripMenuItem
             // 
+            this.aBMDeChoferToolStripMenuItem.Enabled = false;
             this.aBMDeChoferToolStripMenuItem.Name = "aBMDeChoferToolStripMenuItem";
             this.aBMDeChoferToolStripMenuItem.Size = new System.Drawing.Size(238, 22);
             this.aBMDeChoferToolStripMenuItem.Text = "ABM de Chofer";
@@ -118,6 +129,7 @@
             // 
             // registroDeViajesToolStripMenuItem
             // 
+            this.registroDeViajesToolStripMenuItem.Enabled = false;
             this.registroDeViajesToolStripMenuItem.Name = "registroDeViajesToolStripMenuItem";
             this.registroDeViajesToolStripMenuItem.Size = new System.Drawing.Size(238, 22);
             this.registroDeViajesToolStripMenuItem.Text = "Registro de Viajes";
@@ -126,6 +138,7 @@
             // 
             // rendicionDeCuentaDelChoferToolStripMenuItem
             // 
+            this.rendicionDeCuentaDelChoferToolStripMenuItem.Enabled = false;
             this.rendicionDeCuentaDelChoferToolStripMenuItem.Name = "rendicionDeCuentaDelChoferToolStripMenuItem";
             this.rendicionDeCuentaDelChoferToolStripMenuItem.Size = new System.Drawing.Size(238, 22);
             this.rendicionDeCuentaDelChoferToolStripMenuItem.Text = "Rendicion de cuenta del chofer";
@@ -134,6 +147,7 @@
             // 
             // facturacionAClienteToolStripMenuItem
             // 
+            this.facturacionAClienteToolStripMenuItem.Enabled = false;
             this.facturacionAClienteToolStripMenuItem.Name = "facturacionAClienteToolStripMenuItem";
             this.facturacionAClienteToolStripMenuItem.Size = new System.Drawing.Size(238, 22);
             this.facturacionAClienteToolStripMenuItem.Text = "Facturacion a Cliente";
@@ -142,6 +156,7 @@
             // 
             // listadoEstadisticoToolStripMenuItem
             // 
+            this.listadoEstadisticoToolStripMenuItem.Enabled = false;
             this.listadoEstadisticoToolStripMenuItem.Name = "listadoEstadisticoToolStripMenuItem";
             this.listadoEstadisticoToolStripMenuItem.Size = new System.Drawing.Size(238, 22);
             this.listadoEstadisticoToolStripMenuItem.Text = "Listado Estadistico";
@@ -174,14 +189,6 @@
             this.label2.Size = new System.Drawing.Size(82, 29);
             this.label2.TabIndex = 2;
             this.label2.Text = "GGDP";
-            // 
-            // registroDeUsuarioToolStripMenuItem
-            // 
-            this.registroDeUsuarioToolStripMenuItem.Name = "registroDeUsuarioToolStripMenuItem";
-            this.registroDeUsuarioToolStripMenuItem.Size = new System.Drawing.Size(238, 22);
-            this.registroDeUsuarioToolStripMenuItem.Text = "Registro de Usuario";
-            this.registroDeUsuarioToolStripMenuItem.Visible = false;
-            this.registroDeUsuarioToolStripMenuItem.Click += new System.EventHandler(this.registroDeUsuarioToolStripMenuItem_Click);
             // 
             // FormPrincipal
             // 

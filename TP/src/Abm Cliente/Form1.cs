@@ -20,7 +20,32 @@ namespace UberFrba.Abm_Cliente
 
         private void button1_Click(object sender, EventArgs e)
         {
-
+            try
+            {
+                string rowFilter = "";
+                DataView dv = new DataView(this.gD1C2017DataSet.Cliente);
+                if (!string.IsNullOrWhiteSpace(textBoxNombre.Text))
+                    rowFilter = string.Format("[{0}] LIKE '%{1}%'", "clie_nombre", textBoxNombre.Text);
+                if (!string.IsNullOrWhiteSpace(textBoxApellido.Text))
+                {
+                    if (!string.IsNullOrWhiteSpace(rowFilter))
+                        rowFilter += " OR ";
+                    rowFilter += string.Format("[{0}] LIKE '%{1}%'", "clie_apellido", textBoxApellido.Text);
+                }
+                if (!string.IsNullOrWhiteSpace(textBoxDNI.Text))
+                {
+                    if (!string.IsNullOrWhiteSpace(rowFilter))
+                        rowFilter += " OR ";
+                    rowFilter += string.Format("[{0}] = {1}", "clie_dni", Convert.ToInt32(textBoxDNI.Text));
+                }
+                dv.RowFilter = rowFilter;
+                dataGridView1.DataSource = dv;
+                dataGridView1.Refresh();
+            }
+            catch (Exception exception)
+            {
+                MessageBox.Show(exception.Message, " Filtrado de clientes error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
 
         private void Form1_Load(object sender, EventArgs e)
