@@ -11,6 +11,11 @@ IF EXISTS (SELECT NAME FROM sys.indexes WHERE NAME = N'IX_Chofer')
 	DROP INDEX IX_Chofer ON GGDP.Chofer;
 GO
 
+/* Eliminacion de Vistas */
+IF (OBJECT_ID ('GGDP.vw_automovil_listado') IS NOT NULL)
+  DROP VIEW GGDP.vw_automovil_listado;
+GO
+
 /* Eliminacion de Functions */
 IF (OBJECT_ID ('GGDP.fu_existe_usuario') IS NOT NULL)
   DROP FUNCTION GGDP.fu_existe_usuario
@@ -387,6 +392,13 @@ FROM [gd_esquema].[Maestra]
 	JOIN GGDP.Marca ON gd_esquema.Maestra.Auto_Marca = GGDP.Marca.marc_nombre
 	JOIN GGDP.Chofer ON gd_esquema.Maestra.Chofer_Dni = GGDP.Chofer.chof_dni
 	JOIN GGDP.Turno ON gd_esquema.Maestra.Turno_Descripcion = GGDP.Turno.turn_descripcion
+GO
+
+/* Creacion de Vistas */
+CREATE VIEW GGDP.vw_automovil_listado AS
+	SELECT auto_id, marc_nombre, auto_modelo, auto_patente
+	FROM GGDP.Automovil
+	JOIN GGDP.Marca ON auto_marca = marc_id;
 GO
 
 /* Creacion de Functions*/

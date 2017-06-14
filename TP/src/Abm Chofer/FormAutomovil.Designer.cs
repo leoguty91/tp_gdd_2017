@@ -1,6 +1,6 @@
-﻿namespace UberFrba.Abm_Automovil
+﻿namespace UberFrba.Abm_Chofer
 {
-    partial class ListaAutomoviles
+    partial class FormAutomovil
     {
         /// <summary>
         /// Required designer variable.
@@ -30,7 +30,7 @@
         {
             this.components = new System.ComponentModel.Container();
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.Text = "ListaAutomoviles";
+            this.Text = "FormAutomovil";
         }
 
         #endregion

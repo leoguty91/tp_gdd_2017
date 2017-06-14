@@ -111,7 +111,6 @@
             // 
             // aBMDeAutomovilToolStripMenuItem
             // 
-            this.aBMDeAutomovilToolStripMenuItem.Enabled = false;
             this.aBMDeAutomovilToolStripMenuItem.Name = "aBMDeAutomovilToolStripMenuItem";
             this.aBMDeAutomovilToolStripMenuItem.Size = new System.Drawing.Size(238, 22);
             this.aBMDeAutomovilToolStripMenuItem.Text = "ABM de Automovil";

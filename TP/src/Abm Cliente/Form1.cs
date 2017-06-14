@@ -60,16 +60,17 @@ namespace UberFrba.Abm_Cliente
             Hide();
         }
 
-        private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
-        {
-            new Abm_Cliente.FormCliente(getClienteID());
-            Hide();
-        }
         private int getClienteID()
         {
             int selected_row_index = this.dataGridView1.SelectedCells[0].RowIndex;
             DataGridViewRow selected_row = dataGridView1.Rows[selected_row_index];
             return Convert.ToInt32(selected_row.Cells[0].Value);
+        }
+
+        private void dataGridView1_CellClick(object sender, DataGridViewCellEventArgs e)
+        {
+            new Abm_Cliente.FormCliente(getClienteID());
+            Hide();
         }
     }
 }

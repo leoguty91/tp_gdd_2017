@@ -30,30 +30,32 @@
         {
             this.components = new System.ComponentModel.Container();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.button1 = new System.Windows.Forms.Button();
-            this.automovilBindingSource = new System.Windows.Forms.BindingSource(this.components);
-            this.gD1C2017DataSet = new UberFrba.GD1C2017DataSet();
-            this.gD1C2017DataSetBindingSource = new System.Windows.Forms.BindingSource(this.components);
-            this.automovilTableAdapter = new UberFrba.GD1C2017DataSetTableAdapters.AutomovilTableAdapter();
-            this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
-            this.label1 = new System.Windows.Forms.Label();
-            this.comboBox1 = new System.Windows.Forms.ComboBox();
-            this.label2 = new System.Windows.Forms.Label();
-            this.textBox1 = new System.Windows.Forms.TextBox();
+            this.dataGridView1 = new System.Windows.Forms.DataGridView();
+            this.autoidDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.marcnombreDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.automodeloDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.autopatenteDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.vwautomovillistadoBindingSource = new System.Windows.Forms.BindingSource(this.components);
+            this.gD1C2017DataSet = new UberFrba.GD1C2017DataSet();
+            this.button2 = new System.Windows.Forms.Button();
+            this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.comboBox2 = new System.Windows.Forms.ComboBox();
+            this.button1 = new System.Windows.Forms.Button();
+            this.label4 = new System.Windows.Forms.Label();
             this.textBox2 = new System.Windows.Forms.TextBox();
             this.label3 = new System.Windows.Forms.Label();
-            this.textBox3 = new System.Windows.Forms.TextBox();
-            this.label4 = new System.Windows.Forms.Label();
-            this.button2 = new System.Windows.Forms.Button();
-            this.dataGridView1 = new System.Windows.Forms.DataGridView();
+            this.textBox1 = new System.Windows.Forms.TextBox();
+            this.label2 = new System.Windows.Forms.Label();
+            this.comboBox1 = new System.Windows.Forms.ComboBox();
+            this.label1 = new System.Windows.Forms.Label();
+            this.vw_automovil_listadoTableAdapter = new UberFrba.GD1C2017DataSetTableAdapters.vw_automovil_listadoTableAdapter();
             this.groupBox1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.automovilBindingSource)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.gD1C2017DataSet)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.gD1C2017DataSetBindingSource)).BeginInit();
-            this.groupBox2.SuspendLayout();
             this.groupBox3.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.vwautomovillistadoBindingSource)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.gD1C2017DataSet)).BeginInit();
+            this.groupBox2.SuspendLayout();
             this.SuspendLayout();
             // 
             // groupBox1
@@ -67,37 +69,88 @@
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Automovil";
             // 
-            // button1
+            // groupBox3
             // 
-            this.button1.Location = new System.Drawing.Point(27, 263);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(163, 26);
-            this.button1.TabIndex = 1;
-            this.button1.Text = "Nuevo Automovil";
-            this.button1.UseVisualStyleBackColor = true;
+            this.groupBox3.Controls.Add(this.dataGridView1);
+            this.groupBox3.Controls.Add(this.button2);
+            this.groupBox3.Location = new System.Drawing.Point(304, 32);
+            this.groupBox3.Name = "groupBox3";
+            this.groupBox3.Size = new System.Drawing.Size(394, 317);
+            this.groupBox3.TabIndex = 3;
+            this.groupBox3.TabStop = false;
+            this.groupBox3.Text = "Listado de Automoviles";
             // 
-            // automovilBindingSource
+            // dataGridView1
             // 
-            this.automovilBindingSource.DataMember = "Automovil";
-            this.automovilBindingSource.DataSource = this.gD1C2017DataSet;
+            this.dataGridView1.AllowUserToAddRows = false;
+            this.dataGridView1.AllowUserToDeleteRows = false;
+            this.dataGridView1.AutoGenerateColumns = false;
+            this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dataGridView1.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.autoidDataGridViewTextBoxColumn,
+            this.marcnombreDataGridViewTextBoxColumn,
+            this.automodeloDataGridViewTextBoxColumn,
+            this.autopatenteDataGridViewTextBoxColumn});
+            this.dataGridView1.DataSource = this.vwautomovillistadoBindingSource;
+            this.dataGridView1.Location = new System.Drawing.Point(19, 42);
+            this.dataGridView1.Name = "dataGridView1";
+            this.dataGridView1.ReadOnly = true;
+            this.dataGridView1.Size = new System.Drawing.Size(353, 195);
+            this.dataGridView1.TabIndex = 9;
+            this.dataGridView1.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView1_CellClick);
+            // 
+            // autoidDataGridViewTextBoxColumn
+            // 
+            this.autoidDataGridViewTextBoxColumn.DataPropertyName = "auto_id";
+            this.autoidDataGridViewTextBoxColumn.HeaderText = "auto_id";
+            this.autoidDataGridViewTextBoxColumn.Name = "autoidDataGridViewTextBoxColumn";
+            this.autoidDataGridViewTextBoxColumn.ReadOnly = true;
+            this.autoidDataGridViewTextBoxColumn.Visible = false;
+            // 
+            // marcnombreDataGridViewTextBoxColumn
+            // 
+            this.marcnombreDataGridViewTextBoxColumn.DataPropertyName = "marc_nombre";
+            this.marcnombreDataGridViewTextBoxColumn.HeaderText = "Marca";
+            this.marcnombreDataGridViewTextBoxColumn.Name = "marcnombreDataGridViewTextBoxColumn";
+            this.marcnombreDataGridViewTextBoxColumn.ReadOnly = true;
+            // 
+            // automodeloDataGridViewTextBoxColumn
+            // 
+            this.automodeloDataGridViewTextBoxColumn.DataPropertyName = "auto_modelo";
+            this.automodeloDataGridViewTextBoxColumn.HeaderText = "Modelo";
+            this.automodeloDataGridViewTextBoxColumn.Name = "automodeloDataGridViewTextBoxColumn";
+            this.automodeloDataGridViewTextBoxColumn.ReadOnly = true;
+            // 
+            // autopatenteDataGridViewTextBoxColumn
+            // 
+            this.autopatenteDataGridViewTextBoxColumn.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.autopatenteDataGridViewTextBoxColumn.DataPropertyName = "auto_patente";
+            this.autopatenteDataGridViewTextBoxColumn.HeaderText = "Patente";
+            this.autopatenteDataGridViewTextBoxColumn.Name = "autopatenteDataGridViewTextBoxColumn";
+            this.autopatenteDataGridViewTextBoxColumn.ReadOnly = true;
+            // 
+            // vwautomovillistadoBindingSource
+            // 
+            this.vwautomovillistadoBindingSource.DataMember = "vw_automovil_listado";
+            this.vwautomovillistadoBindingSource.DataSource = this.gD1C2017DataSet;
             // 
             // gD1C2017DataSet
             // 
             this.gD1C2017DataSet.DataSetName = "GD1C2017DataSet";
             this.gD1C2017DataSet.SchemaSerializationMode = System.Data.SchemaSerializationMode.IncludeSchema;
             // 
-            // gD1C2017DataSetBindingSource
+            // button2
             // 
-            this.gD1C2017DataSetBindingSource.DataSource = this.gD1C2017DataSet;
-            this.gD1C2017DataSetBindingSource.Position = 0;
-            // 
-            // automovilTableAdapter
-            // 
-            this.automovilTableAdapter.ClearBeforeFill = true;
+            this.button2.Location = new System.Drawing.Point(120, 263);
+            this.button2.Name = "button2";
+            this.button2.Size = new System.Drawing.Size(163, 26);
+            this.button2.TabIndex = 8;
+            this.button2.Text = "Nuevo Automovil";
+            this.button2.UseVisualStyleBackColor = true;
             // 
             // groupBox2
             // 
-            this.groupBox2.Controls.Add(this.textBox3);
+            this.groupBox2.Controls.Add(this.comboBox2);
             this.groupBox2.Controls.Add(this.button1);
             this.groupBox2.Controls.Add(this.label4);
             this.groupBox2.Controls.Add(this.textBox2);
@@ -113,49 +166,31 @@
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Filtros";
             // 
-            // groupBox3
+            // comboBox2
             // 
-            this.groupBox3.Controls.Add(this.dataGridView1);
-            this.groupBox3.Controls.Add(this.button2);
-            this.groupBox3.Location = new System.Drawing.Point(304, 32);
-            this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Size = new System.Drawing.Size(394, 317);
-            this.groupBox3.TabIndex = 3;
-            this.groupBox3.TabStop = false;
-            this.groupBox3.Text = "Listado de Automoviles";
+            this.comboBox2.FormattingEnabled = true;
+            this.comboBox2.Location = new System.Drawing.Point(26, 217);
+            this.comboBox2.Name = "comboBox2";
+            this.comboBox2.Size = new System.Drawing.Size(164, 21);
+            this.comboBox2.TabIndex = 8;
             // 
-            // label1
+            // button1
             // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(24, 39);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(35, 13);
-            this.label1.TabIndex = 0;
-            this.label1.Text = "label1";
+            this.button1.Location = new System.Drawing.Point(27, 263);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(163, 26);
+            this.button1.TabIndex = 1;
+            this.button1.Text = "Filtrar";
+            this.button1.UseVisualStyleBackColor = true;
             // 
-            // comboBox1
+            // label4
             // 
-            this.comboBox1.FormattingEnabled = true;
-            this.comboBox1.Location = new System.Drawing.Point(27, 55);
-            this.comboBox1.Name = "comboBox1";
-            this.comboBox1.Size = new System.Drawing.Size(164, 21);
-            this.comboBox1.TabIndex = 1;
-            // 
-            // label2
-            // 
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(24, 98);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(35, 13);
-            this.label2.TabIndex = 2;
-            this.label2.Text = "label2";
-            // 
-            // textBox1
-            // 
-            this.textBox1.Location = new System.Drawing.Point(27, 114);
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(163, 20);
-            this.textBox1.TabIndex = 3;
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(24, 201);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(38, 13);
+            this.label4.TabIndex = 6;
+            this.label4.Text = "Chofer";
             // 
             // textBox2
             // 
@@ -169,42 +204,46 @@
             this.label3.AutoSize = true;
             this.label3.Location = new System.Drawing.Point(24, 151);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(35, 13);
+            this.label3.Size = new System.Drawing.Size(44, 13);
             this.label3.TabIndex = 4;
-            this.label3.Text = "label3";
+            this.label3.Text = "Patente";
             // 
-            // textBox3
+            // textBox1
             // 
-            this.textBox3.Location = new System.Drawing.Point(27, 219);
-            this.textBox3.Name = "textBox3";
-            this.textBox3.Size = new System.Drawing.Size(163, 20);
-            this.textBox3.TabIndex = 7;
+            this.textBox1.Location = new System.Drawing.Point(27, 114);
+            this.textBox1.Name = "textBox1";
+            this.textBox1.Size = new System.Drawing.Size(163, 20);
+            this.textBox1.TabIndex = 3;
             // 
-            // label4
+            // label2
             // 
-            this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(24, 203);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(35, 13);
-            this.label4.TabIndex = 6;
-            this.label4.Text = "label4";
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(24, 98);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(42, 13);
+            this.label2.TabIndex = 2;
+            this.label2.Text = "Modelo";
             // 
-            // button2
+            // comboBox1
             // 
-            this.button2.Location = new System.Drawing.Point(99, 263);
-            this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(163, 26);
-            this.button2.TabIndex = 8;
-            this.button2.Text = "button2";
-            this.button2.UseVisualStyleBackColor = true;
+            this.comboBox1.FormattingEnabled = true;
+            this.comboBox1.Location = new System.Drawing.Point(27, 55);
+            this.comboBox1.Name = "comboBox1";
+            this.comboBox1.Size = new System.Drawing.Size(164, 21);
+            this.comboBox1.TabIndex = 1;
             // 
-            // dataGridView1
+            // label1
             // 
-            this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridView1.Location = new System.Drawing.Point(33, 47);
-            this.dataGridView1.Name = "dataGridView1";
-            this.dataGridView1.Size = new System.Drawing.Size(336, 191);
-            this.dataGridView1.TabIndex = 9;
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(24, 39);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(37, 13);
+            this.label1.TabIndex = 0;
+            this.label1.Text = "Marca";
+            // 
+            // vw_automovil_listadoTableAdapter
+            // 
+            this.vw_automovil_listadoTableAdapter.ClearBeforeFill = true;
             // 
             // Form1
             // 
@@ -216,13 +255,12 @@
             this.Text = "ABM de Automoviles";
             this.Load += new System.EventHandler(this.Form1_Load);
             this.groupBox1.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.automovilBindingSource)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.gD1C2017DataSet)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.gD1C2017DataSetBindingSource)).EndInit();
-            this.groupBox2.ResumeLayout(false);
-            this.groupBox2.PerformLayout();
             this.groupBox3.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.vwautomovillistadoBindingSource)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.gD1C2017DataSet)).EndInit();
+            this.groupBox2.ResumeLayout(false);
+            this.groupBox2.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -230,15 +268,10 @@
         #endregion
 
         private System.Windows.Forms.GroupBox groupBox1;
-        private System.Windows.Forms.BindingSource gD1C2017DataSetBindingSource;
-        private GD1C2017DataSet gD1C2017DataSet;
-        private System.Windows.Forms.BindingSource automovilBindingSource;
-        private GD1C2017DataSetTableAdapters.AutomovilTableAdapter automovilTableAdapter;
         private System.Windows.Forms.Button button1;
         private System.Windows.Forms.GroupBox groupBox3;
         private System.Windows.Forms.GroupBox groupBox2;
         private System.Windows.Forms.Button button2;
-        private System.Windows.Forms.TextBox textBox3;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.TextBox textBox2;
         private System.Windows.Forms.Label label3;
@@ -246,6 +279,14 @@
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.ComboBox comboBox1;
         private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.ComboBox comboBox2;
         private System.Windows.Forms.DataGridView dataGridView1;
+        private GD1C2017DataSet gD1C2017DataSet;
+        private System.Windows.Forms.BindingSource vwautomovillistadoBindingSource;
+        private GD1C2017DataSetTableAdapters.vw_automovil_listadoTableAdapter vw_automovil_listadoTableAdapter;
+        private System.Windows.Forms.DataGridViewTextBoxColumn autoidDataGridViewTextBoxColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn marcnombreDataGridViewTextBoxColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn automodeloDataGridViewTextBoxColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn autopatenteDataGridViewTextBoxColumn;
     }
 }

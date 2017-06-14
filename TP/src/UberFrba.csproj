@@ -66,17 +66,17 @@
     <Compile Include="Abm Automovil\Form1.Designer.cs">
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
-    <Compile Include="Abm Automovil\ListaAutomoviles.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Abm Automovil\ListaAutomoviles.Designer.cs">
-      <DependentUpon>ListaAutomoviles.cs</DependentUpon>
-    </Compile>
     <Compile Include="Abm Chofer\Form1.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Abm Chofer\Form1.Designer.cs">
       <DependentUpon>Form1.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Abm Chofer\FormAutomovil.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Abm Chofer\FormAutomovil.Designer.cs">
+      <DependentUpon>FormAutomovil.cs</DependentUpon>
     </Compile>
     <Compile Include="Abm Cliente\Form1.cs">
       <SubType>Form</SubType>
