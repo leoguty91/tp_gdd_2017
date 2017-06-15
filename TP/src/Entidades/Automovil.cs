@@ -23,7 +23,7 @@ namespace UberFrba.Entidades
             try
             {
                 Conexion conexion = new Conexion();
-                SqlCommand store_procedure = conexion.IniciarStoreProcedure("sp_obtener_cliente");
+                SqlCommand store_procedure = conexion.IniciarStoreProcedure("sp_obtener_automovil");
                 store_procedure.Parameters.Add(new SqlParameter("@automovil_id", automovil_id));
                 DataTable respuesta_consulta = conexion.EjecutarConsultar(store_procedure);
                 if (respuesta_consulta.Rows.Count == 0)
