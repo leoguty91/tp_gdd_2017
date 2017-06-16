@@ -55,11 +55,12 @@ namespace UberFrba.Entidades
             {
                 foreach (DataRow row in data_table.Rows)
                 {
+                    Funcionalidad funcionalidad_mapper = new Funcionalidad();
                     return new Rol
                     {
                         id = (int)row.ItemArray[0],
                         nombre = row.ItemArray[1].ToString(),
-                        funcionalidades = MapearFuncionalidades((int)row.ItemArray[0]),
+                        funcionalidades = funcionalidad_mapper.MapearFuncionalidadesRol((int)row.ItemArray[0]),
                         habilitado = (bool)row.ItemArray[2]
                     };
                 }
@@ -70,16 +71,21 @@ namespace UberFrba.Entidades
                 throw new Exception(exception.Message);
             }
         }
-        private List<Funcionalidad> MapearFuncionalidades(int rol_id)
+        public List<Rol> MapearRolesUsuario(int usuario_id)
         {
             try
             {
+                List<Rol> roles = new List<Rol>();
                 Conexion conexion = new Conexion();
-                SqlCommand store_procedure = conexion.IniciarStoreProcedure("sp_obtener_funcionalidades_rol");
-                store_procedure.Parameters.Add(new SqlParameter("@rol", rol_id));
+                SqlCommand store_procedure = conexion.IniciarStoreProcedure("sp_obtener_roles_usuario");
+                store_procedure.Parameters.Add(new SqlParameter("@usuario", usuario_id));
                 DataTable respuesta_consulta = conexion.EjecutarConsultar(store_procedure);
-                Funcionalidad funcionalidad_mapper = new Funcionalidad();
-                return funcionalidad_mapper.MapearFuncionalidades(respuesta_consulta);
+                Rol rol_mapper = new Rol();
+                foreach (DataRow row in respuesta_consulta.Rows)
+                {
+                    roles.Add(rol_mapper.Mapear(Convert.ToInt32(row.ItemArray[0])));
+                }
+                return roles;
             }
             catch (Exception exception)
             {

@@ -68,7 +68,7 @@ namespace UberFrba.Entidades
                 throw new Exception(exception.Message);
             }
         }
-        public List<Funcionalidad> MapearFuncionalidades(DataTable data_table)
+        private List<Funcionalidad> MapearFuncionalidades(DataTable data_table)
         {
             try
             {
@@ -82,6 +82,21 @@ namespace UberFrba.Entidades
                     });
                 }
                 return funcionalidades;
+            }
+            catch (Exception exception)
+            {
+                throw new Exception(exception.Message);
+            }
+        }
+        public List<Funcionalidad> MapearFuncionalidadesRol(int rol_id)
+        {
+            try
+            {
+                Conexion conexion = new Conexion();
+                SqlCommand store_procedure = conexion.IniciarStoreProcedure("sp_obtener_funcionalidades_rol");
+                store_procedure.Parameters.Add(new SqlParameter("@rol", rol_id));
+                DataTable respuesta_consulta = conexion.EjecutarConsultar(store_procedure);
+                return MapearFuncionalidades(respuesta_consulta);
             }
             catch (Exception exception)
             {

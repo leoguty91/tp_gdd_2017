@@ -34,15 +34,32 @@ namespace UberFrba.Abm_Automovil
                 checkBoxHabilitado.Checked = automovil.habilitado;
                 textBoxModelo.Text = automovil.modelo;
                 textBoxPatente.Text = automovil.patente;
+                mapearMarcasACombo();
             }
             catch (Exception exception)
             {
                 MessageBox.Show(exception.Message, "Automovil error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
-        private void cargaMarca()
+        private void mapearMarcasACombo()
         {
-
+            try
+            {
+                Marca marca_mapper = new Marca();
+                List<Marca> marcas = marca_mapper.ObtenerMarcas();
+                comboBoxMarca.DisplayMember = "Text";
+                comboBoxMarca.ValueMember = "Value";
+                comboBoxMarca.Items.Add(new { Text = "Seleccione la marca", Value = 0 });
+                foreach (Marca marca in marcas)
+                {
+                    comboBoxMarca.Items.Add(new { Text = marca.nombre, Value = marca.id });
+                }
+                comboBoxMarca.SelectedIndex = comboBoxMarca.FindString(automovil.marca.nombre);
+            }
+            catch (Exception exception)
+            {
+                throw new Exception(exception.Message);
+            }
         }
     }
 }

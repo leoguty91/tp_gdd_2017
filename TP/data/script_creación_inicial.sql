@@ -90,6 +90,10 @@ IF (OBJECT_ID ('GGDP.sp_obtener_cliente') IS NOT NULL)
     DROP PROCEDURE GGDP.sp_obtener_cliente
 IF (OBJECT_ID ('GGDP.sp_obtener_automovil') IS NOT NULL)
     DROP PROCEDURE GGDP.sp_obtener_automovil
+IF (OBJECT_ID ('GGDP.sp_obtener_marca') IS NOT NULL)
+    DROP PROCEDURE GGDP.sp_obtener_marca
+IF (OBJECT_ID ('GGDP.sp_obtener_marcas') IS NOT NULL)
+    DROP PROCEDURE GGDP.sp_obtener_marcas
 GO
 
 /* Eliminacion de Tablas */
@@ -613,7 +617,7 @@ CREATE PROCEDURE GGDP.sp_modificacion_rol(@rol INT, @nombre VARCHAR(255), @habil
 	BEGIN
 		EXEC GGDP.sp_baja_rol @rol
 	END
-	-- TODO Falta la lista de funcionalidades
+
 	COMMIT TRANSACTION
 END
 GO
@@ -754,5 +758,15 @@ GO
 
 CREATE PROCEDURE GGDP.sp_obtener_automovil(@automovil_id INT) AS BEGIN
 	SELECT auto_id, auto_marca, auto_modelo, auto_patente, auto_turno, auto_chofer, auto_habilitado FROM GGDP.Automovil WHERE auto_id = @automovil_id
+END
+GO
+
+CREATE PROCEDURE GGDP.sp_obtener_marca(@marca_id INT) AS BEGIN
+	SELECT marc_id, marc_nombre FROM GGDP.Marca WHERE marc_id = @marca_id
+END
+GO
+
+CREATE PROCEDURE GGDP.sp_obtener_marcas AS BEGIN
+	SELECT marc_id, marc_nombre FROM GGDP.Marca
 END
 GO

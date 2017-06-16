@@ -12,7 +12,7 @@ namespace UberFrba.Entidades
     public class Automovil
     {
         public int id { get; set; }
-        //public Marca marca { get; set; } // TODO
+        public Marca marca { get; set; }
         public string modelo { get; set; }
         public string patente { get; set; }
         //public Turno turno { get; set; } // TODO
@@ -41,10 +41,11 @@ namespace UberFrba.Entidades
             {
                 foreach (DataRow row in data_table.Rows)
                 {
+                    Marca marca_mapper = new Marca();
                     return new Automovil
                     {
                         id = (int)row.ItemArray[0],
-                        // marca = row.ItemArray[1].ToString(),
+                        marca = marca_mapper.Mapear((int)row.ItemArray[1]),
                         modelo = row.ItemArray[2].ToString(),
                         patente = row.ItemArray[3].ToString(),
                         // turno = row.ItemArray[4].ToString(),
@@ -52,7 +53,7 @@ namespace UberFrba.Entidades
                         habilitado = (bool)row.ItemArray[6]
                     };
                 }
-                throw new Exception("Hubo un error al mapear al cliente");
+                throw new Exception("Hubo un error al mapear el automovil");
             }
             catch (Exception exception)
             {
