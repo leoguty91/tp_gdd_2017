@@ -3,11 +3,11 @@ USE GD1C2017;
 GO
 
 /* Eliminacion de Indices */
-IF EXISTS (SELECT NAME FROM sys.indexes WHERE NAME = N'IX_Cliente')  
+IF EXISTS (SELECT NAME FROM sys.indexes WHERE NAME = N'IX_Cliente')
 	DROP INDEX IX_Cliente ON GGDP.Cliente;
-IF EXISTS (SELECT NAME FROM sys.indexes WHERE NAME = N'IX_Automovil')  
+IF EXISTS (SELECT NAME FROM sys.indexes WHERE NAME = N'IX_Automovil')
 	DROP INDEX IX_Automovil ON GGDP.Automovil;
-IF EXISTS (SELECT NAME FROM sys.indexes WHERE NAME = N'IX_Chofer')  
+IF EXISTS (SELECT NAME FROM sys.indexes WHERE NAME = N'IX_Chofer')
 	DROP INDEX IX_Chofer ON GGDP.Chofer;
 GO
 
@@ -94,6 +94,14 @@ IF (OBJECT_ID ('GGDP.sp_obtener_marca') IS NOT NULL)
     DROP PROCEDURE GGDP.sp_obtener_marca
 IF (OBJECT_ID ('GGDP.sp_obtener_marcas') IS NOT NULL)
     DROP PROCEDURE GGDP.sp_obtener_marcas
+IF (OBJECT_ID ('GGDP.sp_obtener_turno') IS NOT NULL)
+    DROP PROCEDURE GGDP.sp_obtener_turno
+IF (OBJECT_ID ('GGDP.sp_obtener_turnos') IS NOT NULL)
+    DROP PROCEDURE GGDP.sp_obtener_turnos
+IF (OBJECT_ID ('GGDP.sp_obtener_chofer') IS NOT NULL)
+    DROP PROCEDURE GGDP.sp_obtener_chofer
+IF (OBJECT_ID ('GGDP.sp_obtener_choferes') IS NOT NULL)
+    DROP PROCEDURE GGDP.sp_obtener_choferes
 GO
 
 /* Eliminacion de Tablas */
@@ -768,5 +776,25 @@ GO
 
 CREATE PROCEDURE GGDP.sp_obtener_marcas AS BEGIN
 	SELECT marc_id, marc_nombre FROM GGDP.Marca
+END
+GO
+
+CREATE PROCEDURE GGDP.sp_obtener_turno(@turno_id int) AS BEGIN
+	SELECT turn_id, turn_hora_fin, turn_hora_fin, turn_descripcion, turn_valor_kilometro, turn_precio_base, turn_habilitado FROM GGDP.Turno WHERE turn_id = @turno_id
+END
+GO
+
+CREATE PROCEDURE GGDP.sp_obtener_turnos AS BEGIN
+	SELECT turn_id, turn_hora_fin, turn_hora_fin, turn_descripcion, turn_valor_kilometro, turn_precio_base, turn_habilitado FROM GGDP.Turno
+END
+GO
+
+CREATE PROCEDURE GGDP.sp_obtener_chofer(@chofer_id int) AS BEGIN
+	SELECT chof_id, chof_nombre, chof_apellido, chof_dni, chof_mail, chof_telefono, chof_direccion, chof_codigo_postal, chof_fecha_nacimiento, chof_habilitado, chof_usuario FROM GGDP.Chofer WHERE chof_id = @chofer_id
+END
+GO
+
+CREATE PROCEDURE GGDP.sp_obtener_choferes AS BEGIN
+	SELECT chof_id, chof_nombre, chof_apellido, chof_dni, chof_mail, chof_telefono, chof_direccion, chof_codigo_postal, chof_fecha_nacimiento, chof_habilitado, chof_usuario FROM GGDP.Chofer
 END
 GO

@@ -35,6 +35,8 @@ namespace UberFrba.Abm_Automovil
                 textBoxModelo.Text = automovil.modelo;
                 textBoxPatente.Text = automovil.patente;
                 mapearMarcasACombo();
+                mapearTurnosACombo();
+                mapearChoferesACombo();
             }
             catch (Exception exception)
             {
@@ -55,6 +57,46 @@ namespace UberFrba.Abm_Automovil
                     comboBoxMarca.Items.Add(new { Text = marca.nombre, Value = marca.id });
                 }
                 comboBoxMarca.SelectedIndex = comboBoxMarca.FindString(automovil.marca.nombre);
+            }
+            catch (Exception exception)
+            {
+                throw new Exception(exception.Message);
+            }
+        }
+        private void mapearTurnosACombo()
+        {
+            try
+            {
+                Turno turno_mapper = new Turno();
+                List<Turno> turnos = turno_mapper.ObtenerTurnos();
+                comboBoxTurno.DisplayMember = "Text";
+                comboBoxTurno.ValueMember = "Value";
+                comboBoxTurno.Items.Add(new { Text = "Seleccione el turno", Value = 0 });
+                foreach (Turno turno in turnos)
+                {
+                    comboBoxTurno.Items.Add(new { Text = turno.descripcion, Value = turno.id });
+                }
+                comboBoxTurno.SelectedIndex = comboBoxTurno.FindString(automovil.turno.descripcion);
+            }
+            catch (Exception exception)
+            {
+                throw new Exception(exception.Message);
+            }
+        }
+        private void mapearChoferesACombo()
+        {
+            try
+            {
+                Chofer turno_mapper = new Chofer();
+                List<Chofer> choferes = turno_mapper.ObtenerChoferes();
+                comboBoxChofer.DisplayMember = "Text";
+                comboBoxChofer.ValueMember = "Value";
+                comboBoxChofer.Items.Add(new { Text = "Seleccione el Chofer", Value = 0 });
+                foreach (Chofer chofer in choferes)
+                {
+                    comboBoxChofer.Items.Add(new { Text = chofer.nombre + ' ' + chofer.apellido, Value = chofer.id });
+                }
+                comboBoxChofer.SelectedIndex = comboBoxChofer.FindString(automovil.chofer.nombre + ' ' + automovil.chofer.apellido);
             }
             catch (Exception exception)
             {

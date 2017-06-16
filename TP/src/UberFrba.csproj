@@ -103,10 +103,12 @@
       <DependentUpon>FormRol.cs</DependentUpon>
     </Compile>
     <Compile Include="Entidades\Automovil.cs" />
+    <Compile Include="Entidades\Chofer.cs" />
     <Compile Include="Entidades\Cliente.cs" />
     <Compile Include="Entidades\Funcionalidad.cs" />
     <Compile Include="Entidades\Marca.cs" />
     <Compile Include="Entidades\Rol.cs" />
+    <Compile Include="Entidades\Turno.cs" />
     <Compile Include="Entidades\Usuario.cs" />
     <Compile Include="Facturacion\Form1.cs">
       <SubType>Form</SubType>

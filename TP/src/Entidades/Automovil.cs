@@ -15,8 +15,8 @@ namespace UberFrba.Entidades
         public Marca marca { get; set; }
         public string modelo { get; set; }
         public string patente { get; set; }
-        //public Turno turno { get; set; } // TODO
-        //public Chofer chofer { get; set; } // TODO
+        public Turno turno { get; set; }
+        public Chofer chofer { get; set; }
         public bool habilitado { get; set; }
         public Automovil Mapear(int automovil_id)
         {
@@ -42,14 +42,16 @@ namespace UberFrba.Entidades
                 foreach (DataRow row in data_table.Rows)
                 {
                     Marca marca_mapper = new Marca();
+                    Turno turno_mapper = new Turno();
+                    Chofer chofer_mapper = new Chofer();
                     return new Automovil
                     {
                         id = (int)row.ItemArray[0],
                         marca = marca_mapper.Mapear((int)row.ItemArray[1]),
                         modelo = row.ItemArray[2].ToString(),
                         patente = row.ItemArray[3].ToString(),
-                        // turno = row.ItemArray[4].ToString(),
-                        // chofer = Convert.ToInt32(row.ItemArray[5]),
+                        turno = turno_mapper.Mapear((int)row.ItemArray[4]),
+                        chofer = chofer_mapper.Mapear((int)row.ItemArray[5]),
                         habilitado = (bool)row.ItemArray[6]
                     };
                 }

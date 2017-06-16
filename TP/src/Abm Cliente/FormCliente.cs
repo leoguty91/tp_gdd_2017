@@ -16,10 +16,10 @@ namespace UberFrba.Abm_Cliente
     public partial class FormCliente : Form
     {
         private Cliente cliente { get; set; }
-        private bool nuevo_cliente;
         public FormCliente()
         {
             InitializeComponent();
+            cliente = new Cliente();
             cargaUsuarios();
             Show();
         }
@@ -33,7 +33,6 @@ namespace UberFrba.Abm_Cliente
         {
             try
             {
-                nuevo_cliente = false;
                 Cliente cliente_mapper = new Cliente();
                 this.cliente = cliente_mapper.Mapear(cliente_id);
                 checkBox1.Checked = cliente.habilitado;
@@ -60,7 +59,6 @@ namespace UberFrba.Abm_Cliente
         {
             try
             {
-                nuevo_cliente = true;
                 List<Usuario> usuarios = usuariosNoClientes();
                 comboBoxUsuarios.DisplayMember = "Text";
                 comboBoxUsuarios.ValueMember = "Value";
@@ -103,38 +101,20 @@ namespace UberFrba.Abm_Cliente
             {
                 if ((comboBoxUsuarios.SelectedItem as dynamic).Value == 0)
                     throw new Exception("Debe seleccionar un usuario");
-                Conexion conexion = new Conexion();
-                SqlCommand store_procedure;
-                if (this.nuevo_cliente)
-                {
-                    store_procedure = conexion.IniciarStoreProcedure("sp_alta_cliente");
-                    store_procedure.Parameters.Add(new SqlParameter("@usuario", (int)(comboBoxUsuarios.SelectedItem as dynamic).Value));
-                }
-                else
-                {
-                    store_procedure = conexion.IniciarStoreProcedure("sp_modificacion_cliente");
-                    store_procedure.Parameters.Add(new SqlParameter("@cliente_id", this.cliente.id));
-                }
-                store_procedure.Parameters.Add(new SqlParameter("@nombre", textBoxNombre.Text));
-                store_procedure.Parameters.Add(new SqlParameter("@apellido", textBoxApellido.Text));
-                store_procedure.Parameters.Add(new SqlParameter("@dni", Convert.ToInt32(textBoxDNI.Text)));
-                store_procedure.Parameters.Add(new SqlParameter("@mail", textBoxMail.Text));
-                store_procedure.Parameters.Add(new SqlParameter("@telefono", Convert.ToInt32(textBoxTelefono.Text)));
-                store_procedure.Parameters.Add(new SqlParameter("@direccion", textBoxDireccion.Text));
-                store_procedure.Parameters.Add(new SqlParameter("@codigo_postal", textBoxCodigoPostal.Text));
-                store_procedure.Parameters.Add(new SqlParameter("@fecha_nacimiento", dateTimePickerFechaNacimiento.Value.Date));
-                store_procedure.Parameters.Add(new SqlParameter("@habilitado", checkBox1.Checked));
-                conexion.EjecutarConsultar(store_procedure);
-                string mensaje_ok;
-                if (this.nuevo_cliente)
-                {
-                    mensaje_ok = String.Format("Se ha creado el cliente {0} {1}", textBoxNombre.Text, textBoxApellido.Text);
-                }
-                else
-                {
-                    mensaje_ok = String.Format("Se ha modificado el cliente {0} {1}", textBoxNombre.Text, textBoxApellido.Text);
-                }
-                MessageBox.Show(mensaje_ok, "Guardado de cliente", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
+                Usuario usuario_mapper = new Usuario();
+                int usuario_id = (int)(comboBoxUsuarios.SelectedItem as dynamic).Value;
+                cliente.usuario = usuario_mapper.Mapear(usuario_id);
+                cliente.nombre = textBoxNombre.Text;
+                cliente.apellido = textBoxApellido.Text;
+                cliente.dni = Convert.ToInt32(textBoxDNI.Text);
+                cliente.mail = textBoxMail.Text;
+                cliente.telefono = Convert.ToInt32(textBoxTelefono.Text);
+                cliente.direccion = textBoxDireccion.Text;
+                cliente.codigo_postal = textBoxCodigoPostal.Text;
+                cliente.fecha_nacimiento = dateTimePickerFechaNacimiento.Value.Date;
+                cliente.habilitado = checkBox1.Checked;
+                string respuesta = cliente.Guardar();
+                MessageBox.Show(respuesta, "Guardado de cliente", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
                 Hide();
             }
             catch (Exception exception)

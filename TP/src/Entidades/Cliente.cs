@@ -22,6 +22,7 @@ namespace UberFrba.Entidades
         public DateTime fecha_nacimiento { get; set; }
         public bool habilitado { get; set; }
         public Usuario usuario { get; set; }
+        private const int NUEVO = 0;
         public Cliente Mapear(int cliente_id)
         {
             try
@@ -67,6 +68,41 @@ namespace UberFrba.Entidades
             {
                 throw new Exception(exception.Message);
             }
+        }
+        public string Guardar()
+        {
+            Conexion conexion = new Conexion();
+            SqlCommand store_procedure;
+            if (id == NUEVO)
+            {
+                store_procedure = conexion.IniciarStoreProcedure("sp_alta_cliente");
+                store_procedure.Parameters.Add(new SqlParameter("@usuario", usuario.id));
+            }
+            else
+            {
+                store_procedure = conexion.IniciarStoreProcedure("sp_modificacion_cliente");
+                store_procedure.Parameters.Add(new SqlParameter("@cliente_id", id));
+            }
+            store_procedure.Parameters.Add(new SqlParameter("@nombre", nombre));
+            store_procedure.Parameters.Add(new SqlParameter("@apellido", apellido));
+            store_procedure.Parameters.Add(new SqlParameter("@dni", dni));
+            store_procedure.Parameters.Add(new SqlParameter("@mail", mail));
+            store_procedure.Parameters.Add(new SqlParameter("@telefono", telefono));
+            store_procedure.Parameters.Add(new SqlParameter("@direccion", direccion));
+            store_procedure.Parameters.Add(new SqlParameter("@codigo_postal", codigo_postal));
+            store_procedure.Parameters.Add(new SqlParameter("@fecha_nacimiento", fecha_nacimiento.Date));
+            store_procedure.Parameters.Add(new SqlParameter("@habilitado", habilitado));
+            conexion.EjecutarConsultar(store_procedure);
+            string mensaje_ok;
+            if (id == NUEVO)
+            {
+                mensaje_ok = String.Format("Se ha creado el cliente {0} {1}", nombre, apellido);
+            }
+            else
+            {
+                mensaje_ok = String.Format("Se ha modificado el cliente {0} {1}", nombre, apellido);
+            }
+            return mensaje_ok;
         }
     }
 }
