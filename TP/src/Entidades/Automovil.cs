@@ -62,5 +62,36 @@ namespace UberFrba.Entidades
                 throw new Exception(exception.Message);
             }
         }
+        public string Guardar()
+        {
+            Conexion conexion = new Conexion();
+            SqlCommand store_procedure;
+            if (id == Entidad.NUEVO)
+            {
+                store_procedure = conexion.IniciarStoreProcedure("sp_alta_automovil");
+            }
+            else
+            {
+                store_procedure = conexion.IniciarStoreProcedure("sp_modificacion_automovil");
+                store_procedure.Parameters.Add(new SqlParameter("@automovil_id", id));
+            }
+            store_procedure.Parameters.Add(new SqlParameter("@marca", marca.id));
+            store_procedure.Parameters.Add(new SqlParameter("@modelo", modelo));
+            store_procedure.Parameters.Add(new SqlParameter("@patente", patente));
+            store_procedure.Parameters.Add(new SqlParameter("@turno", turno.id));
+            store_procedure.Parameters.Add(new SqlParameter("@chofer", chofer.id));
+            store_procedure.Parameters.Add(new SqlParameter("@habilitado", habilitado));
+            conexion.EjecutarConsultar(store_procedure);
+            string mensaje_ok;
+            if (id == Entidad.NUEVO)
+            {
+                mensaje_ok = String.Format("Se ha creado el automovil {0} {1} {2}", marca.nombre, modelo, patente);
+            }
+            else
+            {
+                mensaje_ok = String.Format("Se ha modificado el automovil {0} {1} {2}", marca.nombre, modelo, patente);
+            }
+            return mensaje_ok;
+        }
     }
 }

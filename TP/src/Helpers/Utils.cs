@@ -43,4 +43,8 @@ namespace UberFrba.Helpers
             return string_encriptado.ToString();
         }
     }
+    class Entidad
+    {
+        public const int NUEVO = 0;
+    }
 }

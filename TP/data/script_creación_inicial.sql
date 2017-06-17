@@ -29,6 +29,9 @@ GO
 IF (OBJECT_ID ('GGDP.fu_existe_funcionalidad_rol') IS NOT NULL)
   DROP FUNCTION GGDP.fu_existe_funcionalidad_rol
 GO
+IF (OBJECT_ID ('GGDP.fu_existe_automovil') IS NOT NULL)
+  DROP FUNCTION GGDP.fu_existe_automovil
+GO
 
 /* Eliminacion de Triggers */
 IF OBJECT_ID ('GGDP.tr_rol','TR') IS NOT NULL
@@ -90,6 +93,10 @@ IF (OBJECT_ID ('GGDP.sp_obtener_cliente') IS NOT NULL)
     DROP PROCEDURE GGDP.sp_obtener_cliente
 IF (OBJECT_ID ('GGDP.sp_obtener_automovil') IS NOT NULL)
     DROP PROCEDURE GGDP.sp_obtener_automovil
+IF (OBJECT_ID ('GGDP.sp_alta_automovil') IS NOT NULL)
+    DROP PROCEDURE GGDP.sp_alta_automovil
+IF (OBJECT_ID ('GGDP.sp_modificacion_automovil') IS NOT NULL)
+    DROP PROCEDURE GGDP.sp_modificacion_automovil
 IF (OBJECT_ID ('GGDP.sp_obtener_marca') IS NOT NULL)
     DROP PROCEDURE GGDP.sp_obtener_marca
 IF (OBJECT_ID ('GGDP.sp_obtener_marcas') IS NOT NULL)
@@ -102,6 +109,8 @@ IF (OBJECT_ID ('GGDP.sp_obtener_chofer') IS NOT NULL)
     DROP PROCEDURE GGDP.sp_obtener_chofer
 IF (OBJECT_ID ('GGDP.sp_obtener_choferes') IS NOT NULL)
     DROP PROCEDURE GGDP.sp_obtener_choferes
+IF (OBJECT_ID ('GGDP.sp_alta_chofer') IS NOT NULL)
+    DROP PROCEDURE GGDP.sp_alta_chofer
 GO
 
 /* Eliminacion de Tablas */
@@ -442,6 +451,13 @@ CREATE FUNCTION GGDP.fu_existe_funcionalidad_rol(@funcionalidad INT, @rol INT) R
 END
 GO
 
+CREATE FUNCTION GGDP.fu_existe_automovil(@automovil_id INT) RETURNS BIT AS BEGIN
+	IF EXISTS(SELECT 1 FROM GGDP.Automovil WHERE auto_id = @automovil_id)
+		RETURN 1
+	RETURN 0
+END
+GO
+
 /* Creacion de Triggers */
 CREATE TRIGGER GGDP.tr_rol ON GGDP.Rol AFTER INSERT
 AS
@@ -769,6 +785,55 @@ CREATE PROCEDURE GGDP.sp_obtener_automovil(@automovil_id INT) AS BEGIN
 END
 GO
 
+CREATE PROCEDURE GGDP.sp_alta_automovil
+(
+	@marca INT,
+	@modelo VARCHAR(255),
+	@patente VARCHAR(10),
+	@turno INT,
+	@chofer INT,
+	@habilitado BIT
+) AS
+BEGIN
+
+	BEGIN TRANSACTION
+	INSERT INTO GGDP.Automovil(auto_marca, auto_modelo, auto_patente, auto_turno, auto_chofer, auto_habilitado)
+	VALUES(@marca, @modelo, @patente, @turno, @chofer, @habilitado)
+	COMMIT TRANSACTION
+
+END
+GO
+
+CREATE PROCEDURE GGDP.sp_modificacion_automovil
+(
+	@automovil_id INT,
+	@marca INT,
+	@modelo VARCHAR(255),
+	@patente VARCHAR(10),
+	@turno INT,
+	@chofer INT,
+	@habilitado BIT
+) AS
+	BEGIN
+
+			BEGIN TRANSACTION
+				IF GGDP.fu_existe_automovil(@automovil_id) = 0
+				BEGIN
+					RAISERROR('El automovil no existe', 16, 1)
+				END
+				UPDATE GGDP.Automovil SET
+					auto_marca = ISNULL(@marca, auto_marca),
+					auto_modelo = ISNULL(@modelo, auto_modelo),
+					auto_patente = ISNULL(@patente, auto_patente),
+					auto_turno = ISNULL(@turno, auto_turno),
+					auto_chofer = ISNULL(@chofer, auto_chofer),
+					auto_habilitado = ISNULL(@habilitado, auto_habilitado)
+				WHERE auto_id = @automovil_id
+			COMMIT TRANSACTION
+
+	END
+GO
+
 CREATE PROCEDURE GGDP.sp_obtener_marca(@marca_id INT) AS BEGIN
 	SELECT marc_id, marc_nombre FROM GGDP.Marca WHERE marc_id = @marca_id
 END
@@ -796,5 +861,28 @@ GO
 
 CREATE PROCEDURE GGDP.sp_obtener_choferes AS BEGIN
 	SELECT chof_id, chof_nombre, chof_apellido, chof_dni, chof_mail, chof_telefono, chof_direccion, chof_codigo_postal, chof_fecha_nacimiento, chof_habilitado, chof_usuario FROM GGDP.Chofer
+END
+GO
+
+CREATE PROCEDURE GGDP.sp_alta_chofer
+(
+    @nombre VARCHAR(225),
+	@apellido VARCHAR(255),
+	@dni NUMERIC(18, 0),
+	@mail VARCHAR(50),
+	@telefono NUMERIC(18, 0),
+	@direccion VARCHAR(255),
+	@codigo_postal VARCHAR(8),
+	@fecha_nacimiento datetime,
+    @habilitado BIT,
+	@usuario INT
+) AS
+BEGIN
+
+	BEGIN TRANSACTION
+	INSERT INTO GGDP.Chofer(chof_nombre, chof_apellido, chof_dni, chof_mail, chof_telefono, chof_direccion, chof_codigo_postal, chof_fecha_nacimiento, chof_habilitado, chof_usuario)
+	VALUES(@nombre, @apellido, @dni, @mail, @telefono, @direccion, @codigo_postal, @fecha_nacimiento, @habilitado, @usuario)
+	COMMIT TRANSACTION
+
 END
 GO

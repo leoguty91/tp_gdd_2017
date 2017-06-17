@@ -35,5 +35,11 @@ namespace UberFrba.Abm_Automovil
             DataGridViewRow selected_row = dataGridView1.Rows[selected_row_index];
             return Convert.ToInt32(selected_row.Cells[0].Value);
         }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            new Abm_Automovil.FormAutomovil();
+            Hide();
+        }
     }
 }

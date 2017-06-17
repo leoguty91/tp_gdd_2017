@@ -22,7 +22,6 @@ namespace UberFrba.Entidades
         public DateTime fecha_nacimiento { get; set; }
         public bool habilitado { get; set; }
         public Usuario usuario { get; set; }
-        private const int NUEVO = 0;
         public Cliente Mapear(int cliente_id)
         {
             try
@@ -73,7 +72,7 @@ namespace UberFrba.Entidades
         {
             Conexion conexion = new Conexion();
             SqlCommand store_procedure;
-            if (id == NUEVO)
+            if (id == Entidad.NUEVO)
             {
                 store_procedure = conexion.IniciarStoreProcedure("sp_alta_cliente");
                 store_procedure.Parameters.Add(new SqlParameter("@usuario", usuario.id));
@@ -94,7 +93,7 @@ namespace UberFrba.Entidades
             store_procedure.Parameters.Add(new SqlParameter("@habilitado", habilitado));
             conexion.EjecutarConsultar(store_procedure);
             string mensaje_ok;
-            if (id == NUEVO)
+            if (id == Entidad.NUEVO)
             {
                 mensaje_ok = String.Format("Se ha creado el cliente {0} {1}", nombre, apellido);
             }

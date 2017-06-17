@@ -14,6 +14,14 @@ namespace UberFrba.Abm_Automovil
     public partial class FormAutomovil : Form
     {
         private Automovil automovil;
+        public FormAutomovil()
+        {
+            InitializeComponent();
+            automovil = new Automovil();
+            cargaAutomovil();
+            Show();
+        }
+
         public FormAutomovil(int auto_id)
         {
             InitializeComponent();
@@ -23,7 +31,47 @@ namespace UberFrba.Abm_Automovil
 
         private void button1_Click(object sender, EventArgs e)
         {
-
+            try
+            {
+                if ((comboBoxMarca.SelectedItem as dynamic).Value == 0)
+                    throw new Exception("Debe seleccionar una marca");
+                if ((comboBoxTurno.SelectedItem as dynamic).Value == 0)
+                    throw new Exception("Debe seleccionar un turno");
+                if ((comboBoxChofer.SelectedItem as dynamic).Value == 0)
+                    throw new Exception("Debe seleccionar un chofer");
+                Marca marca_mapper = new Marca();
+                Turno turno_mapper = new Turno();
+                Chofer chofer_mapper = new Chofer();
+                int marca_id = (int)(comboBoxMarca.SelectedItem as dynamic).Value;
+                int turno_id = (int)(comboBoxTurno.SelectedItem as dynamic).Value;
+                int chofer_id = (int)(comboBoxChofer.SelectedItem as dynamic).Value;
+                automovil.marca = marca_mapper.Mapear(marca_id);
+                automovil.modelo = textBoxModelo.Text;
+                automovil.patente = textBoxPatente.Text;
+                automovil.turno = turno_mapper.Mapear(turno_id);
+                automovil.chofer = chofer_mapper.Mapear(chofer_id);
+                automovil.habilitado = checkBoxHabilitado.Checked;
+                string respuesta = automovil.Guardar();
+                MessageBox.Show(respuesta, "Guardado de automovil", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
+                Hide();
+            }
+            catch (Exception exception)
+            {
+                MessageBox.Show(exception.Message, "Guardado de automovil error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+        private void cargaAutomovil()
+        {
+            try
+            {
+                mapearMarcasACombo();
+                mapearTurnosACombo();
+                mapearChoferesACombo();
+            }
+            catch (Exception exception)
+            {
+                MessageBox.Show(exception.Message, "Automovil error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
         private void cargaAutomovil(int auto_id)
         {
@@ -34,16 +82,16 @@ namespace UberFrba.Abm_Automovil
                 checkBoxHabilitado.Checked = automovil.habilitado;
                 textBoxModelo.Text = automovil.modelo;
                 textBoxPatente.Text = automovil.patente;
-                mapearMarcasACombo();
-                mapearTurnosACombo();
-                mapearChoferesACombo();
+                mapearMarcasACombo(automovil.marca.nombre);
+                mapearTurnosACombo(automovil.turno.descripcion);
+                mapearChoferesACombo(automovil.chofer.nombre + ' ' + automovil.chofer.apellido);
             }
             catch (Exception exception)
             {
                 MessageBox.Show(exception.Message, "Automovil error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
-        private void mapearMarcasACombo()
+        private void mapearMarcasACombo(string marca_nombre = "")
         {
             try
             {
@@ -56,14 +104,16 @@ namespace UberFrba.Abm_Automovil
                 {
                     comboBoxMarca.Items.Add(new { Text = marca.nombre, Value = marca.id });
                 }
-                comboBoxMarca.SelectedIndex = comboBoxMarca.FindString(automovil.marca.nombre);
+                comboBoxMarca.SelectedIndex = 0;
+                if (!String.IsNullOrWhiteSpace(marca_nombre))
+                    comboBoxMarca.SelectedIndex = comboBoxMarca.FindString(marca_nombre);
             }
             catch (Exception exception)
             {
                 throw new Exception(exception.Message);
             }
         }
-        private void mapearTurnosACombo()
+        private void mapearTurnosACombo(string turno_descripcion = "")
         {
             try
             {
@@ -76,14 +126,16 @@ namespace UberFrba.Abm_Automovil
                 {
                     comboBoxTurno.Items.Add(new { Text = turno.descripcion, Value = turno.id });
                 }
-                comboBoxTurno.SelectedIndex = comboBoxTurno.FindString(automovil.turno.descripcion);
+                comboBoxTurno.SelectedIndex = 0;
+                if (!String.IsNullOrWhiteSpace(turno_descripcion))
+                    comboBoxTurno.SelectedIndex = comboBoxTurno.FindString(turno_descripcion);
             }
             catch (Exception exception)
             {
                 throw new Exception(exception.Message);
             }
         }
-        private void mapearChoferesACombo()
+        private void mapearChoferesACombo(string chofer_nombre_apellido = "")
         {
             try
             {
@@ -96,7 +148,9 @@ namespace UberFrba.Abm_Automovil
                 {
                     comboBoxChofer.Items.Add(new { Text = chofer.nombre + ' ' + chofer.apellido, Value = chofer.id });
                 }
-                comboBoxChofer.SelectedIndex = comboBoxChofer.FindString(automovil.chofer.nombre + ' ' + automovil.chofer.apellido);
+                comboBoxChofer.SelectedIndex = 0;
+                if (!String.IsNullOrWhiteSpace(chofer_nombre_apellido))
+                    comboBoxChofer.SelectedIndex = comboBoxChofer.FindString(chofer_nombre_apellido);
             }
             catch (Exception exception)
             {
