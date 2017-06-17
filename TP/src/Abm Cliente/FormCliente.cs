@@ -16,58 +16,49 @@ namespace UberFrba.Abm_Cliente
     public partial class FormCliente : Form
     {
         private Cliente cliente { get; set; }
-        public FormCliente()
-        {
-            InitializeComponent();
-            cliente = new Cliente();
-            cargaUsuarios();
-            Show();
-        }
-        public FormCliente(int cliente_id)
+
+        public FormCliente(int cliente_id = Entidad.NUEVO)
         {
             InitializeComponent();
             cargaCliente(cliente_id);
             Show();
         }
-        private void cargaCliente(int cliente_id)
+        private void cargaCliente(int cliente_id = Entidad.NUEVO)
         {
             try
             {
-                Cliente cliente_mapper = new Cliente();
-                this.cliente = cliente_mapper.Mapear(cliente_id);
-                checkBox1.Checked = cliente.habilitado;
-                textBoxNombre.Text = cliente.nombre;
-                textBoxApellido.Text = cliente.apellido;
-                textBoxMail.Text = cliente.mail;
-                textBoxDNI.Text = Convert.ToString(cliente.dni);
-                textBoxTelefono.Text = Convert.ToString(cliente.telefono);
-                textBoxDireccion.Text = cliente.direccion;
-                textBoxCodigoPostal.Text = cliente.codigo_postal;
-                dateTimePickerFechaNacimiento.Value = cliente.fecha_nacimiento;
-                comboBoxUsuarios.Enabled = false;
-                comboBoxUsuarios.DisplayMember = "Text";
-                comboBoxUsuarios.ValueMember = "Value";
-                comboBoxUsuarios.Items.Add(new { Text = cliente.usuario.usuario, Value = cliente.usuario.id });
-                comboBoxUsuarios.SelectedIndex = 0;
-            }
-            catch (Exception exception)
-            {
-                MessageBox.Show(exception.Message, "Cliente error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-        }
-        private void cargaUsuarios()
-        {
-            try
-            {
-                List<Usuario> usuarios = usuariosNoClientes();
-                comboBoxUsuarios.DisplayMember = "Text";
-                comboBoxUsuarios.ValueMember = "Value";
-                comboBoxUsuarios.Items.Add(new { Text = "Seleccione el usuario", Value = 0 });
-                foreach (Usuario usuario in usuarios)
+                if (cliente_id == Entidad.NUEVO)
                 {
-                    comboBoxUsuarios.Items.Add(new { Text = usuario.usuario, Value = usuario.id });
+                    cliente = new Cliente();
+                    List<Usuario> usuarios = usuariosNoClientes();
+                    comboBoxUsuarios.DisplayMember = "Text";
+                    comboBoxUsuarios.ValueMember = "Value";
+                    comboBoxUsuarios.Items.Add(new { Text = "Seleccione el usuario", Value = 0 });
+                    foreach (Usuario usuario in usuarios)
+                    {
+                        comboBoxUsuarios.Items.Add(new { Text = usuario.usuario, Value = usuario.id });
+                    }
+                    comboBoxUsuarios.SelectedIndex = 0;
                 }
-                comboBoxUsuarios.SelectedIndex = 0;
+                else
+                {
+                    Cliente cliente_mapper = new Cliente();
+                    this.cliente = cliente_mapper.Mapear(cliente_id);
+                    checkBox1.Checked = cliente.habilitado;
+                    textBoxNombre.Text = cliente.nombre;
+                    textBoxApellido.Text = cliente.apellido;
+                    textBoxMail.Text = cliente.mail;
+                    textBoxDNI.Text = Convert.ToString(cliente.dni);
+                    textBoxTelefono.Text = Convert.ToString(cliente.telefono);
+                    textBoxDireccion.Text = cliente.direccion;
+                    textBoxCodigoPostal.Text = cliente.codigo_postal;
+                    dateTimePickerFechaNacimiento.Value = cliente.fecha_nacimiento;
+                    comboBoxUsuarios.Enabled = false;
+                    comboBoxUsuarios.DisplayMember = "Text";
+                    comboBoxUsuarios.ValueMember = "Value";
+                    comboBoxUsuarios.Items.Add(new { Text = cliente.usuario.usuario, Value = cliente.usuario.id });
+                    comboBoxUsuarios.SelectedIndex = 0;
+                }
             }
             catch (Exception exception)
             {
@@ -94,7 +85,6 @@ namespace UberFrba.Abm_Cliente
                 throw new Exception(exception.Message);
             }
         }
-
         private void button1_Click(object sender, EventArgs e)
         {
             try

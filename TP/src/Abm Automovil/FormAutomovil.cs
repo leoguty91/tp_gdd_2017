@@ -8,27 +8,20 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using UberFrba.Entidades;
+using UberFrba.Helpers;
 
 namespace UberFrba.Abm_Automovil
 {
     public partial class FormAutomovil : Form
     {
         private Automovil automovil;
-        public FormAutomovil()
-        {
-            InitializeComponent();
-            automovil = new Automovil();
-            cargaAutomovil();
-            Show();
-        }
 
-        public FormAutomovil(int auto_id)
+        public FormAutomovil(int auto_id = Entidad.NUEVO)
         {
             InitializeComponent();
             cargaAutomovil(auto_id);
             Show();
         }
-
         private void button1_Click(object sender, EventArgs e)
         {
             try
@@ -60,31 +53,28 @@ namespace UberFrba.Abm_Automovil
                 MessageBox.Show(exception.Message, "Guardado de automovil error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
-        private void cargaAutomovil()
+        private void cargaAutomovil(int auto_id = Entidad.NUEVO)
         {
             try
             {
-                mapearMarcasACombo();
-                mapearTurnosACombo();
-                mapearChoferesACombo();
-            }
-            catch (Exception exception)
-            {
-                MessageBox.Show(exception.Message, "Automovil error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-        }
-        private void cargaAutomovil(int auto_id)
-        {
-            try
-            {
-                Automovil automovil_mapper = new Automovil();
-                this.automovil = automovil_mapper.Mapear(auto_id);
-                checkBoxHabilitado.Checked = automovil.habilitado;
-                textBoxModelo.Text = automovil.modelo;
-                textBoxPatente.Text = automovil.patente;
-                mapearMarcasACombo(automovil.marca.nombre);
-                mapearTurnosACombo(automovil.turno.descripcion);
-                mapearChoferesACombo(automovil.chofer.nombre + ' ' + automovil.chofer.apellido);
+                if (auto_id == Entidad.NUEVO)
+                {
+                    automovil = new Automovil();
+                    mapearMarcasACombo();
+                    mapearTurnosACombo();
+                    mapearChoferesACombo();
+                }
+                else
+                {
+                    Automovil automovil_mapper = new Automovil();
+                    this.automovil = automovil_mapper.Mapear(auto_id);
+                    checkBoxHabilitado.Checked = automovil.habilitado;
+                    textBoxModelo.Text = automovil.modelo;
+                    textBoxPatente.Text = automovil.patente;
+                    mapearMarcasACombo(automovil.marca.nombre);
+                    mapearTurnosACombo(automovil.turno.descripcion);
+                    mapearChoferesACombo(automovil.chofer.nombre + ' ' + automovil.chofer.apellido);
+                }
             }
             catch (Exception exception)
             {

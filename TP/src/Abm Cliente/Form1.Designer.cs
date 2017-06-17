@@ -69,7 +69,7 @@
             this.groupBox1.Controls.Add(this.groupBox2);
             this.groupBox1.Location = new System.Drawing.Point(13, 13);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(660, 286);
+            this.groupBox1.Size = new System.Drawing.Size(660, 315);
             this.groupBox1.TabIndex = 0;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Cliente";
@@ -80,14 +80,14 @@
             this.groupBox3.Controls.Add(this.dataGridView1);
             this.groupBox3.Location = new System.Drawing.Point(248, 31);
             this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Size = new System.Drawing.Size(398, 227);
+            this.groupBox3.Size = new System.Drawing.Size(398, 265);
             this.groupBox3.TabIndex = 1;
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "Listado de Clientes";
             // 
             // buttonAltaCliente
             // 
-            this.buttonAltaCliente.Location = new System.Drawing.Point(22, 187);
+            this.buttonAltaCliente.Location = new System.Drawing.Point(22, 222);
             this.buttonAltaCliente.Name = "buttonAltaCliente";
             this.buttonAltaCliente.Size = new System.Drawing.Size(355, 27);
             this.buttonAltaCliente.TabIndex = 7;
@@ -117,7 +117,7 @@
             this.dataGridView1.Location = new System.Drawing.Point(22, 33);
             this.dataGridView1.Name = "dataGridView1";
             this.dataGridView1.ReadOnly = true;
-            this.dataGridView1.Size = new System.Drawing.Size(355, 132);
+            this.dataGridView1.Size = new System.Drawing.Size(355, 174);
             this.dataGridView1.TabIndex = 0;
             this.dataGridView1.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView1_CellClick);
             // 
@@ -228,14 +228,14 @@
             this.groupBox2.Controls.Add(this.label1);
             this.groupBox2.Location = new System.Drawing.Point(19, 31);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(204, 228);
+            this.groupBox2.Size = new System.Drawing.Size(204, 265);
             this.groupBox2.TabIndex = 0;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Filtros";
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(22, 187);
+            this.button1.Location = new System.Drawing.Point(22, 222);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(158, 27);
             this.button1.TabIndex = 6;
@@ -245,35 +245,35 @@
             // 
             // textBoxDNI
             // 
-            this.textBoxDNI.Location = new System.Drawing.Point(22, 145);
+            this.textBoxDNI.Location = new System.Drawing.Point(22, 166);
             this.textBoxDNI.MaxLength = 255;
             this.textBoxDNI.Name = "textBoxDNI";
-            this.textBoxDNI.Size = new System.Drawing.Size(159, 20);
+            this.textBoxDNI.Size = new System.Drawing.Size(159, 26);
             this.textBoxDNI.TabIndex = 5;
             // 
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(19, 129);
+            this.label3.Location = new System.Drawing.Point(19, 143);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(26, 13);
+            this.label3.Size = new System.Drawing.Size(37, 20);
             this.label3.TabIndex = 4;
             this.label3.Text = "DNI";
             // 
             // textBoxApellido
             // 
-            this.textBoxApellido.Location = new System.Drawing.Point(22, 98);
+            this.textBoxApellido.Location = new System.Drawing.Point(23, 104);
             this.textBoxApellido.MaxLength = 255;
             this.textBoxApellido.Name = "textBoxApellido";
-            this.textBoxApellido.Size = new System.Drawing.Size(159, 20);
+            this.textBoxApellido.Size = new System.Drawing.Size(159, 26);
             this.textBoxApellido.TabIndex = 3;
             // 
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(19, 82);
+            this.label2.Location = new System.Drawing.Point(20, 81);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(44, 13);
+            this.label2.Size = new System.Drawing.Size(65, 20);
             this.label2.TabIndex = 2;
             this.label2.Text = "Apellido";
             // 
@@ -282,15 +282,15 @@
             this.textBoxNombre.Location = new System.Drawing.Point(22, 49);
             this.textBoxNombre.MaxLength = 255;
             this.textBoxNombre.Name = "textBoxNombre";
-            this.textBoxNombre.Size = new System.Drawing.Size(159, 20);
+            this.textBoxNombre.Size = new System.Drawing.Size(159, 26);
             this.textBoxNombre.TabIndex = 1;
             // 
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(19, 33);
+            this.label1.Location = new System.Drawing.Point(18, 26);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(44, 13);
+            this.label1.Size = new System.Drawing.Size(65, 20);
             this.label1.TabIndex = 0;
             this.label1.Text = "Nombre";
             // 
@@ -300,7 +300,7 @@
             // 
             // Form1
             // 
-            this.ClientSize = new System.Drawing.Size(685, 311);
+            this.ClientSize = new System.Drawing.Size(685, 340);
             this.Controls.Add(this.groupBox1);
             this.Name = "Form1";
             this.Text = "ABM de Cliente";
