@@ -68,6 +68,26 @@ namespace UberFrba.Entidades
                 throw new Exception(exception.Message);
             }
         }
+        public List<Cliente> ObtenerClientes()
+        {
+            try
+            {
+                List<Cliente> clientes = new List<Cliente>();
+                Conexion conexion = new Conexion();
+                SqlCommand store_procedure = conexion.IniciarStoreProcedure("sp_obtener_clientes");
+                DataTable respuesta_consulta = conexion.EjecutarConsultar(store_procedure);
+                Cliente cliente_mapper = new Cliente();
+                foreach (DataRow row in respuesta_consulta.Rows)
+                {
+                    clientes.Add(cliente_mapper.Mapear(Convert.ToInt32(row.ItemArray[0])));
+                }
+                return clientes;
+            }
+            catch (Exception exception)
+            {
+                throw new Exception(exception.Message);
+            }
+        }
         public string Guardar()
         {
             Conexion conexion = new Conexion();

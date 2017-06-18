@@ -60,8 +60,8 @@ namespace UberFrba.UI
         {
             try
             {
-                Chofer turno_mapper = new Chofer();
-                List<Chofer> choferes = turno_mapper.ObtenerChoferes();
+                Chofer chofer_mapper = new Chofer();
+                List<Chofer> choferes = chofer_mapper.ObtenerChoferes();
                 combo.DisplayMember = "Text";
                 combo.ValueMember = "Value";
                 combo.Items.Add(new { Text = "Seleccione el Chofer", Value = 0 });
@@ -72,6 +72,52 @@ namespace UberFrba.UI
                 combo.SelectedIndex = 0;
                 if (!String.IsNullOrWhiteSpace(chofer_nombre_apellido))
                     combo.SelectedIndex = combo.FindString(chofer_nombre_apellido);
+                return combo;
+            }
+            catch (Exception exception)
+            {
+                throw new Exception(exception.Message);
+            }
+        }
+        public ComboBox Cliente(ComboBox combo, string cliente_nombre_apellido = "")
+        {
+            try
+            {
+                Cliente cliente_mapper = new Cliente();
+                List<Cliente> clientes = cliente_mapper.ObtenerClientes();
+                combo.DisplayMember = "Text";
+                combo.ValueMember = "Value";
+                combo.Items.Add(new { Text = "Seleccione el Cliente", Value = 0 });
+                foreach (Cliente cliente in clientes)
+                {
+                    combo.Items.Add(new { Text = cliente.nombre + ' ' + cliente.apellido, Value = cliente.id });
+                }
+                combo.SelectedIndex = 0;
+                if (!String.IsNullOrWhiteSpace(cliente_nombre_apellido))
+                    combo.SelectedIndex = combo.FindString(cliente_nombre_apellido);
+                return combo;
+            }
+            catch (Exception exception)
+            {
+                throw new Exception(exception.Message);
+            }
+        }
+        public ComboBox Automovil(ComboBox combo, string auto_marca_modelo_patente = "")
+        {
+            try
+            {
+                Automovil cliente_mapper = new Automovil();
+                List<Automovil> automoviles = cliente_mapper.ObtenerAutomoviles();
+                combo.DisplayMember = "Text";
+                combo.ValueMember = "Value";
+                combo.Items.Add(new { Text = "Seleccione el Automovil", Value = 0 });
+                foreach (Automovil automovil in automoviles)
+                {
+                    combo.Items.Add(new { Text = automovil.marca.nombre + ' ' + automovil.modelo + ' ' + automovil.patente, Value = automovil.id });
+                }
+                combo.SelectedIndex = 0;
+                if (!String.IsNullOrWhiteSpace(auto_marca_modelo_patente))
+                    combo.SelectedIndex = combo.FindString(auto_marca_modelo_patente);
                 return combo;
             }
             catch (Exception exception)

@@ -17,26 +17,27 @@ namespace UberFrba.Menu
         public FormPrePrincipal()
         {
             InitializeComponent();
-            if (SingletonUsuario.Instance.roles.Count() > 1)
+            if (SingletonUsuario.Instance.roles.Count() == 1)
             {
-                mapearRolesACombo(SingletonUsuario.Instance.roles);
-                Show();
+                SingletonUsuario.Instance.rol_actual = SingletonUsuario.Instance.roles.First();
+                new FormPrincipal();
             }
             else
             {
-                new FormPrincipal(SingletonUsuario.Instance.roles[0].id);
+                mapearRolesACombo();
+                Show();
             }
         }
         protected override void OnClosing(CancelEventArgs e)
         {
             Application.Exit();
         }
-        private void mapearRolesACombo(List<Rol> roles)
+        private void mapearRolesACombo()
         {
             comboRoles.DisplayMember = "Text";
             comboRoles.ValueMember = "Value";
             comboRoles.Items.Add(new { Text = "Seleccione el rol", Value = 0 });
-            foreach(Rol rol in roles)
+            foreach (Rol rol in SingletonUsuario.Instance.roles)
             {
                 comboRoles.Items.Add(new { Text = rol.nombre, Value = rol.id });
             }
@@ -49,7 +50,10 @@ namespace UberFrba.Menu
             {
                 if ((comboRoles.SelectedItem as dynamic).Value == 0)
                     throw new Exception("Debe seleccionar un rol");
-                new FormPrincipal((comboRoles.SelectedItem as dynamic).Value);
+                Rol rol_mapper = new Rol();
+                int rol_id = (comboRoles.SelectedItem as dynamic).Value;
+                SingletonUsuario.Instance.rol_actual = rol_mapper.Mapear(rol_id);
+                new FormPrincipal();
                 Hide();
             }
             catch (Exception exception)

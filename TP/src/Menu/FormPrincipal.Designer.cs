@@ -138,7 +138,6 @@
             // 
             // registroDeViajesToolStripMenuItem
             // 
-            this.registroDeViajesToolStripMenuItem.Enabled = false;
             this.registroDeViajesToolStripMenuItem.Name = "registroDeViajesToolStripMenuItem";
             this.registroDeViajesToolStripMenuItem.Size = new System.Drawing.Size(328, 30);
             this.registroDeViajesToolStripMenuItem.Text = "Registro de Viajes";

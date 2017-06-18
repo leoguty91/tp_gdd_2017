@@ -15,6 +15,7 @@ namespace UberFrba.Entidades
         public string usuario { get; set; }
         public bool habilitado { get; set; }
         public List<Rol> roles { get; set; }
+        public Rol rol_actual { get; set; }
 
         public Usuario Mapear(int usuario_id)
         {

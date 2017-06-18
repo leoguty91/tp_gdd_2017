@@ -58,9 +58,9 @@
             this.checkBox1.Location = new System.Drawing.Point(106, 83);
             this.checkBox1.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.checkBox1.Name = "checkBox1";
-            this.checkBox1.Size = new System.Drawing.Size(159, 24);
+            this.checkBox1.Size = new System.Drawing.Size(158, 24);
             this.checkBox1.TabIndex = 17;
-            this.checkBox1.Text = "Cliente Habilitado";
+            this.checkBox1.Text = "Chofer Habilitado";
             this.checkBox1.UseVisualStyleBackColor = true;
             // 
             // comboBoxUsuarios
@@ -254,7 +254,7 @@
             this.groupBox1.Size = new System.Drawing.Size(750, 525);
             this.groupBox1.TabIndex = 1;
             this.groupBox1.TabStop = false;
-            this.groupBox1.Text = "Cliente";
+            this.groupBox1.Text = "Chofer";
             // 
             // textBoxNombre
             // 

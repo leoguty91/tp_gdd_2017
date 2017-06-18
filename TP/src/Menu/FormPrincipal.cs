@@ -8,15 +8,16 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using UberFrba.Entidades;
+using UberFrba.Helpers;
 
 namespace UberFrba.Menu
 {
     public partial class FormPrincipal : Form
     {
-        public FormPrincipal(int rol)
+        public FormPrincipal()
         {
             InitializeComponent();
-            ArmarMenuParaRol(rol);
+            ArmarMenuParaRol();
             Show();
         }
 
@@ -25,15 +26,13 @@ namespace UberFrba.Menu
             Application.Exit();
         }
 
-        private void ArmarMenuParaRol(int rol_id)
+        private void ArmarMenuParaRol()
         {
             try
             {
-                Rol rol_mapper = new Rol();
-                Rol rol = rol_mapper.Mapear(rol_id);
-                if (rol.funcionalidades.Count > 0)
+                if (SingletonUsuario.Instance.rol_actual.funcionalidades.Count > 0)
                     menuToolStripMenuItem.Visible = true;
-                foreach (Funcionalidad funcionad in rol.funcionalidades)
+                foreach (Funcionalidad funcionad in SingletonUsuario.Instance.rol_actual.funcionalidades)
                 {
                     switch (funcionad.nombre)
                     {
