@@ -191,6 +191,7 @@
             // 
             this.textBoxMail.Location = new System.Drawing.Point(386, 80);
             this.textBoxMail.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.textBoxMail.MaxLength = 50;
             this.textBoxMail.Name = "textBoxMail";
             this.textBoxMail.Size = new System.Drawing.Size(318, 26);
             this.textBoxMail.TabIndex = 5;
