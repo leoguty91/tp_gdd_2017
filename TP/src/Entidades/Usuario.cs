@@ -55,7 +55,26 @@ namespace UberFrba.Entidades
             {
                 throw new Exception(exception.Message);
             }
-
+        }
+        public List<Usuario> ObtenerUsuarios()
+        {
+            try
+            {
+                List<Usuario> usuarios = new List<Usuario>();
+                Conexion conexion = new Conexion();
+                SqlCommand store_procedure = conexion.IniciarStoreProcedure("sp_obtener_usuarios");
+                DataTable datos = conexion.EjecutarConsultar(store_procedure);
+                Usuario usuario_mapper = new Usuario();
+                foreach (DataRow row in datos.Rows)
+                {
+                    usuarios.Add(usuario_mapper.Mapear((int)row.ItemArray[0]));
+                }
+                return usuarios;
+            }
+            catch (Exception exception)
+            {
+                throw new Exception(exception.Message);
+            }
         }
     }
 }

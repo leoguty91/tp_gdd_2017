@@ -30,7 +30,8 @@ namespace UberFrba.Abm_Cliente
                 if (cliente_id == Entidad.NUEVO)
                 {
                     cliente = new Cliente();
-                    List<Usuario> usuarios = usuariosNoClientes();
+                    Usuario usuario_mapper = new Usuario();
+                    List<Usuario> usuarios = usuario_mapper.ObtenerUsuarios();
                     comboBoxUsuarios.DisplayMember = "Text";
                     comboBoxUsuarios.ValueMember = "Value";
                     comboBoxUsuarios.Items.Add(new { Text = "Seleccione el usuario", Value = 0 });
@@ -63,26 +64,6 @@ namespace UberFrba.Abm_Cliente
             catch (Exception exception)
             {
                 MessageBox.Show(exception.Message, "Cliente error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-        }
-        private List<Usuario> usuariosNoClientes()
-        {
-            try
-            {
-                List<Usuario> usuarios = new List<Usuario>();
-                Conexion conexion = new Conexion();
-                SqlCommand store_procedure = conexion.IniciarStoreProcedure("sp_obtener_usuarios_no_clientes");
-                DataTable datos = conexion.EjecutarConsultar(store_procedure);
-                Usuario usuario_mapper = new Usuario();
-                foreach (DataRow row in datos.Rows)
-                {
-                    usuarios.Add(usuario_mapper.Mapear((int)row.ItemArray[0]));
-                }
-                return usuarios;
-            }
-            catch (Exception exception)
-            {
-                throw new Exception(exception.Message);
             }
         }
         private void buttonGuardar_Click(object sender, EventArgs e)

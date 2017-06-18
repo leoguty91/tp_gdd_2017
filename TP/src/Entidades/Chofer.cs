@@ -100,7 +100,7 @@ namespace UberFrba.Entidades
             else
             {
                 store_procedure = conexion.IniciarStoreProcedure("sp_modificacion_chofer");
-                store_procedure.Parameters.Add(new SqlParameter("@cliente_id", id));
+                store_procedure.Parameters.Add(new SqlParameter("@chofer_id", id));
             }
             store_procedure.Parameters.Add(new SqlParameter("@nombre", nombre));
             store_procedure.Parameters.Add(new SqlParameter("@apellido", apellido));

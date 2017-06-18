@@ -78,6 +78,12 @@
     <Compile Include="Abm Chofer\Form1.Designer.cs">
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
+    <Compile Include="Abm Chofer\FormChofer.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Abm Chofer\FormChofer.Designer.cs">
+      <DependentUpon>FormChofer.cs</DependentUpon>
+    </Compile>
     <Compile Include="Abm Cliente\Form1.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -195,6 +201,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Abm Chofer\Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Abm Chofer\FormChofer.resx">
+      <DependentUpon>FormChofer.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Abm Cliente\Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>

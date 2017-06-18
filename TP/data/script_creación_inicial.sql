@@ -23,6 +23,9 @@ GO
 IF (OBJECT_ID ('GGDP.fu_existe_cliente') IS NOT NULL)
   DROP FUNCTION GGDP.fu_existe_cliente
 GO
+IF (OBJECT_ID ('GGDP.fu_existe_chofer') IS NOT NULL)
+  DROP FUNCTION GGDP.fu_existe_chofer
+GO
 IF (OBJECT_ID ('GGDP.fu_existe_rol') IS NOT NULL)
   DROP FUNCTION GGDP.fu_existe_rol
 GO
@@ -50,8 +53,8 @@ IF (OBJECT_ID ('GGDP.sp_login_fallido') IS NOT NULL)
 	DROP PROCEDURE GGDP.sp_login_fallido
 IF (OBJECT_ID ('GGDP.sp_obtener_usuario') IS NOT NULL)
 	DROP PROCEDURE GGDP.sp_obtener_usuario
-IF (OBJECT_ID ('GGDP.sp_obtener_usuarios_no_clientes') IS NOT NULL)
-    DROP PROCEDURE GGDP.sp_obtener_usuarios_no_clientes
+IF (OBJECT_ID ('GGDP.sp_obtener_usuarios') IS NOT NULL)
+    DROP PROCEDURE GGDP.sp_obtener_usuarios	
 IF (OBJECT_ID ('GGDP.sp_obtener_roles') IS NOT NULL)
 	DROP PROCEDURE GGDP.sp_obtener_roles
 IF (OBJECT_ID ('GGDP.sp_obtener_roles_usuario') IS NOT NULL)
@@ -118,6 +121,8 @@ IF (OBJECT_ID ('GGDP.sp_obtener_choferes') IS NOT NULL)
     DROP PROCEDURE GGDP.sp_obtener_choferes
 IF (OBJECT_ID ('GGDP.sp_alta_chofer') IS NOT NULL)
     DROP PROCEDURE GGDP.sp_alta_chofer
+IF (OBJECT_ID ('GGDP.sp_modificacion_chofer') IS NOT NULL)
+    DROP PROCEDURE GGDP.sp_modificacion_chofer
 GO
 
 /* Eliminacion de Tablas */
@@ -445,6 +450,13 @@ CREATE FUNCTION GGDP.fu_existe_cliente(@cliente_id INT) RETURNS BIT AS BEGIN
 END
 GO
 
+CREATE FUNCTION GGDP.fu_existe_chofer(@chofer_id INT) RETURNS BIT AS BEGIN
+	IF EXISTS(SELECT 1 FROM GGDP.Chofer WHERE chof_id = @chofer_id)
+		RETURN 1
+	RETURN 0
+END
+GO
+
 CREATE FUNCTION GGDP.fu_existe_rol(@rol INT) RETURNS BIT AS BEGIN
 	IF EXISTS(SELECT 1 FROM GGDP.Rol WHERE rol_id = @rol)
 		RETURN 1
@@ -524,11 +536,8 @@ CREATE PROCEDURE GGDP.sp_obtener_usuario(@usuario VARCHAR(255)) AS BEGIN
 END
 GO
 
-CREATE PROCEDURE GGDP.sp_obtener_usuarios_no_clientes AS BEGIN
+CREATE PROCEDURE GGDP.sp_obtener_usuarios AS BEGIN
 	SELECT usua_id, usua_usuario FROM GGDP.Usuario
-	JOIN GGDP.RolPorUsuario ON usua_id = rxu_usuario
-	JOIN GGDP.Rol ON rxu_rol = rol_id
-	WHERE rol_nombre <> 'Cliente'
 END
 GO
 
@@ -949,4 +958,40 @@ BEGIN
 	COMMIT TRANSACTION
 
 END
+GO
+
+CREATE PROCEDURE GGDP.sp_modificacion_chofer
+(
+	@chofer_id INT,
+	@nombre VARCHAR(255),
+	@apellido VARCHAR(255),
+	@dni NUMERIC(18, 0),
+	@mail VARCHAR(50),
+	@telefono NUMERIC(18, 0),
+	@direccion VARCHAR(255),
+	@codigo_postal VARCHAR(8),
+	@fecha_nacimiento DATETIME,
+	@habilitado BIT
+) AS
+	BEGIN
+
+			BEGIN TRANSACTION
+				IF GGDP.fu_existe_chofer(@chofer_id) = 0
+				BEGIN
+					RAISERROR('El chofer no existe', 16, 1)
+				END
+				UPDATE GGDP.Chofer SET
+					chof_nombre = ISNULL(@nombre, chof_nombre),
+					chof_apellido = ISNULL(@apellido, chof_apellido),
+					chof_dni = ISNULL(@dni, chof_dni),
+					chof_mail = ISNULL(@mail, chof_mail),
+					chof_telefono = ISNULL(@telefono, chof_telefono),
+					chof_direccion = ISNULL(@direccion, chof_direccion),
+					chof_codigo_postal = ISNULL(@codigo_postal, chof_codigo_postal),
+					chof_fecha_nacimiento = ISNULL(@fecha_nacimiento, chof_fecha_nacimiento),
+					chof_habilitado = ISNULL(@habilitado, chof_habilitado)
+				WHERE chof_id = @chofer_id
+			COMMIT TRANSACTION
+
+	END
 GO

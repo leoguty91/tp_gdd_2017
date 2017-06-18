@@ -87,9 +87,9 @@
             // 
             // buttonAltaCliente
             // 
-            this.buttonAltaCliente.Location = new System.Drawing.Point(22, 222);
+            this.buttonAltaCliente.Location = new System.Drawing.Point(85, 222);
             this.buttonAltaCliente.Name = "buttonAltaCliente";
-            this.buttonAltaCliente.Size = new System.Drawing.Size(355, 27);
+            this.buttonAltaCliente.Size = new System.Drawing.Size(223, 27);
             this.buttonAltaCliente.TabIndex = 7;
             this.buttonAltaCliente.Text = "Nuevo Cliente";
             this.buttonAltaCliente.UseVisualStyleBackColor = true;

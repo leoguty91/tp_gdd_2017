@@ -35,6 +35,7 @@
             this.registroDeUsuarioToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.aBMDeClienteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.aBMDeAutomovilToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.aBMDeTurnoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.aBMDeChoferToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.registroDeViajesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.rendicionDeCuentaDelChoferToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -43,7 +44,6 @@
             this.cerrarSesionToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
-            this.aBMDeTurnoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -120,9 +120,16 @@
             this.aBMDeAutomovilToolStripMenuItem.Visible = false;
             this.aBMDeAutomovilToolStripMenuItem.Click += new System.EventHandler(this.aBMDeAutomovilToolStripMenuItem_Click);
             // 
+            // aBMDeTurnoToolStripMenuItem
+            // 
+            this.aBMDeTurnoToolStripMenuItem.Name = "aBMDeTurnoToolStripMenuItem";
+            this.aBMDeTurnoToolStripMenuItem.Size = new System.Drawing.Size(328, 30);
+            this.aBMDeTurnoToolStripMenuItem.Text = "ABM de Turno";
+            this.aBMDeTurnoToolStripMenuItem.Visible = false;
+            this.aBMDeTurnoToolStripMenuItem.Click += new System.EventHandler(this.aBMDeTurnoToolStripMenuItem_Click);
+            // 
             // aBMDeChoferToolStripMenuItem
             // 
-            this.aBMDeChoferToolStripMenuItem.Enabled = false;
             this.aBMDeChoferToolStripMenuItem.Name = "aBMDeChoferToolStripMenuItem";
             this.aBMDeChoferToolStripMenuItem.Size = new System.Drawing.Size(328, 30);
             this.aBMDeChoferToolStripMenuItem.Text = "ABM de Chofer";
@@ -193,14 +200,6 @@
             this.label2.Size = new System.Drawing.Size(123, 40);
             this.label2.TabIndex = 2;
             this.label2.Text = "GGDP";
-            // 
-            // aBMDeTurnoToolStripMenuItem
-            // 
-            this.aBMDeTurnoToolStripMenuItem.Name = "aBMDeTurnoToolStripMenuItem";
-            this.aBMDeTurnoToolStripMenuItem.Size = new System.Drawing.Size(328, 30);
-            this.aBMDeTurnoToolStripMenuItem.Text = "ABM de Turno";
-            this.aBMDeTurnoToolStripMenuItem.Visible = false;
-            this.aBMDeTurnoToolStripMenuItem.Click += new System.EventHandler(this.aBMDeTurnoToolStripMenuItem_Click);
             // 
             // FormPrincipal
             // 
