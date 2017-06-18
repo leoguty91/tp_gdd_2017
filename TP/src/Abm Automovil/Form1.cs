@@ -30,7 +30,7 @@ namespace UberFrba.Abm_Automovil
             }
             catch (Exception exception)
             {
-                throw new Exception(exception.Message);
+                MessageBox.Show(exception.Message, "Carga de automoviles error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
         private void Form1_Load(object sender, EventArgs e)

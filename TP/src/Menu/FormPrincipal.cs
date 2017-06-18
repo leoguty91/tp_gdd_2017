@@ -52,6 +52,9 @@ namespace UberFrba.Menu
                         case "ABM de Automovil":
                             aBMDeAutomovilToolStripMenuItem.Visible = true;
                             break;
+                        case "ABM de Turno":
+                            aBMDeTurnoToolStripMenuItem.Visible = true;
+                            break;
                         case "ABM de Chofer":
                             aBMDeChoferToolStripMenuItem.Visible = true;
                             break;
@@ -130,6 +133,11 @@ namespace UberFrba.Menu
         private void registroDeUsuarioToolStripMenuItem_Click(object sender, EventArgs e)
         {
             new Registro_Usuario.Form1();
+        }
+
+        private void aBMDeTurnoToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            new ABM_Turno.Form1();
         }
     }
 }

@@ -347,7 +347,7 @@ GO
 
 -- Insercion funcionalidades
 INSERT INTO GGDP.Funcionalidad(func_nombre)
-VALUES ('ABM de Rol'), ('Login y Seguridad'), ('Registro de Usuario'), ('ABM de Cliente'), ('ABM de Automovil'), ('ABM de Chofer'), ('Registro de Viajes'), ('Rendicion de cuenta del chofer'), ('Facturacion a Cliente'), ('Listado Estadistico')
+VALUES ('ABM de Rol'), ('Login y Seguridad'), ('Registro de Usuario'), ('ABM de Cliente'), ('ABM de Automovil'), ('ABM de Turno'), ('ABM de Chofer'), ('Registro de Viajes'), ('Rendicion de cuenta del chofer'), ('Facturacion a Cliente'), ('Listado Estadistico')
 GO
 
 -- Insercion roles y funcionalidades
@@ -846,12 +846,12 @@ END
 GO
 
 CREATE PROCEDURE GGDP.sp_obtener_turno(@turno_id int) AS BEGIN
-	SELECT turn_id, turn_hora_fin, turn_hora_fin, turn_descripcion, turn_valor_kilometro, turn_precio_base, turn_habilitado FROM GGDP.Turno WHERE turn_id = @turno_id
+	SELECT turn_id, turn_hora_inicio, turn_hora_fin, turn_descripcion, turn_valor_kilometro, turn_precio_base, turn_habilitado FROM GGDP.Turno WHERE turn_id = @turno_id
 END
 GO
 
 CREATE PROCEDURE GGDP.sp_obtener_turnos AS BEGIN
-	SELECT turn_id, turn_hora_fin, turn_hora_fin, turn_descripcion, turn_valor_kilometro, turn_precio_base, turn_habilitado FROM GGDP.Turno
+	SELECT turn_id, turn_hora_inicio, turn_hora_fin, turn_descripcion, turn_valor_kilometro, turn_precio_base, turn_habilitado FROM GGDP.Turno
 END
 GO
 

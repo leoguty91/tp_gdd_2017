@@ -102,6 +102,18 @@
     <Compile Include="Abm Rol\FormRol.Designer.cs">
       <DependentUpon>FormRol.cs</DependentUpon>
     </Compile>
+    <Compile Include="ABM Turno\Form1.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ABM Turno\Form1.Designer.cs">
+      <DependentUpon>Form1.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ABM Turno\FormTurno.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ABM Turno\FormTurno.Designer.cs">
+      <DependentUpon>FormTurno.cs</DependentUpon>
+    </Compile>
     <Compile Include="Entidades\Automovil.cs" />
     <Compile Include="Entidades\Chofer.cs" />
     <Compile Include="Entidades\Cliente.cs" />
@@ -195,6 +207,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Abm Rol\FormRol.resx">
       <DependentUpon>FormRol.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ABM Turno\Form1.resx">
+      <DependentUpon>Form1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ABM Turno\FormTurno.resx">
+      <DependentUpon>FormTurno.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Facturacion\Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>

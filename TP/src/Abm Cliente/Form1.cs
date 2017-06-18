@@ -63,8 +63,8 @@ namespace UberFrba.Abm_Cliente
                         rowFilter += " AND ";
                     rowFilter += String.Format("[{0}] = {1}", "clie_dni", Convert.ToInt32(textBoxDNI.Text));
                 }
-                dv.RowFilter = rowFilter;
-                dataGridView1.DataSource = dv;
+                if (!String.IsNullOrWhiteSpace(rowFilter))
+                    dv.RowFilter = rowFilter; dataGridView1.DataSource = dv;
                 dataGridView1.Refresh();
             }
             catch (Exception exception)
