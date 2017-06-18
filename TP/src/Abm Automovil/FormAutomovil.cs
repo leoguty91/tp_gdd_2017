@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using UberFrba.Entidades;
 using UberFrba.Helpers;
+using UberFrba.UI;
 
 namespace UberFrba.Abm_Automovil
 {
@@ -22,7 +23,36 @@ namespace UberFrba.Abm_Automovil
             cargaAutomovil(auto_id);
             Show();
         }
-        private void button1_Click(object sender, EventArgs e)
+        private void cargaAutomovil(int auto_id = Entidad.NUEVO)
+        {
+            try
+            {
+                ComboBoxManager cbm = new ComboBoxManager();
+                if (auto_id == Entidad.NUEVO)
+                {
+                    automovil = new Automovil();
+                    comboBoxMarca = cbm.Marca(comboBoxMarca);
+                    comboBoxTurno = cbm.Turno(comboBoxTurno);
+                    comboBoxChofer = cbm.Chofer(comboBoxChofer);
+                }
+                else
+                {
+                    Automovil automovil_mapper = new Automovil();
+                    this.automovil = automovil_mapper.Mapear(auto_id);
+                    checkBoxHabilitado.Checked = automovil.habilitado;
+                    textBoxModelo.Text = automovil.modelo;
+                    textBoxPatente.Text = automovil.patente;
+                    comboBoxMarca = cbm.Marca(comboBoxMarca, automovil.marca.nombre);
+                    comboBoxTurno = cbm.Turno(comboBoxTurno, automovil.turno.descripcion);
+                    comboBoxChofer = cbm.Chofer(comboBoxChofer, automovil.chofer.nombre + ' ' + automovil.chofer.apellido);
+                }
+            }
+            catch (Exception exception)
+            {
+                MessageBox.Show(exception.Message, "Automovil error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+        private void buttonGuardar_Click(object sender, EventArgs e)
         {
             try
             {
@@ -51,100 +81,6 @@ namespace UberFrba.Abm_Automovil
             catch (Exception exception)
             {
                 MessageBox.Show(exception.Message, "Guardado de automovil error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-        }
-        private void cargaAutomovil(int auto_id = Entidad.NUEVO)
-        {
-            try
-            {
-                if (auto_id == Entidad.NUEVO)
-                {
-                    automovil = new Automovil();
-                    mapearMarcasACombo();
-                    mapearTurnosACombo();
-                    mapearChoferesACombo();
-                }
-                else
-                {
-                    Automovil automovil_mapper = new Automovil();
-                    this.automovil = automovil_mapper.Mapear(auto_id);
-                    checkBoxHabilitado.Checked = automovil.habilitado;
-                    textBoxModelo.Text = automovil.modelo;
-                    textBoxPatente.Text = automovil.patente;
-                    mapearMarcasACombo(automovil.marca.nombre);
-                    mapearTurnosACombo(automovil.turno.descripcion);
-                    mapearChoferesACombo(automovil.chofer.nombre + ' ' + automovil.chofer.apellido);
-                }
-            }
-            catch (Exception exception)
-            {
-                MessageBox.Show(exception.Message, "Automovil error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-        }
-        private void mapearMarcasACombo(string marca_nombre = "")
-        {
-            try
-            {
-                Marca marca_mapper = new Marca();
-                List<Marca> marcas = marca_mapper.ObtenerMarcas();
-                comboBoxMarca.DisplayMember = "Text";
-                comboBoxMarca.ValueMember = "Value";
-                comboBoxMarca.Items.Add(new { Text = "Seleccione la marca", Value = 0 });
-                foreach (Marca marca in marcas)
-                {
-                    comboBoxMarca.Items.Add(new { Text = marca.nombre, Value = marca.id });
-                }
-                comboBoxMarca.SelectedIndex = 0;
-                if (!String.IsNullOrWhiteSpace(marca_nombre))
-                    comboBoxMarca.SelectedIndex = comboBoxMarca.FindString(marca_nombre);
-            }
-            catch (Exception exception)
-            {
-                throw new Exception(exception.Message);
-            }
-        }
-        private void mapearTurnosACombo(string turno_descripcion = "")
-        {
-            try
-            {
-                Turno turno_mapper = new Turno();
-                List<Turno> turnos = turno_mapper.ObtenerTurnos();
-                comboBoxTurno.DisplayMember = "Text";
-                comboBoxTurno.ValueMember = "Value";
-                comboBoxTurno.Items.Add(new { Text = "Seleccione el turno", Value = 0 });
-                foreach (Turno turno in turnos)
-                {
-                    comboBoxTurno.Items.Add(new { Text = turno.descripcion, Value = turno.id });
-                }
-                comboBoxTurno.SelectedIndex = 0;
-                if (!String.IsNullOrWhiteSpace(turno_descripcion))
-                    comboBoxTurno.SelectedIndex = comboBoxTurno.FindString(turno_descripcion);
-            }
-            catch (Exception exception)
-            {
-                throw new Exception(exception.Message);
-            }
-        }
-        private void mapearChoferesACombo(string chofer_nombre_apellido = "")
-        {
-            try
-            {
-                Chofer turno_mapper = new Chofer();
-                List<Chofer> choferes = turno_mapper.ObtenerChoferes();
-                comboBoxChofer.DisplayMember = "Text";
-                comboBoxChofer.ValueMember = "Value";
-                comboBoxChofer.Items.Add(new { Text = "Seleccione el Chofer", Value = 0 });
-                foreach (Chofer chofer in choferes)
-                {
-                    comboBoxChofer.Items.Add(new { Text = chofer.nombre + ' ' + chofer.apellido, Value = chofer.id });
-                }
-                comboBoxChofer.SelectedIndex = 0;
-                if (!String.IsNullOrWhiteSpace(chofer_nombre_apellido))
-                    comboBoxChofer.SelectedIndex = comboBoxChofer.FindString(chofer_nombre_apellido);
-            }
-            catch (Exception exception)
-            {
-                throw new Exception(exception.Message);
             }
         }
     }

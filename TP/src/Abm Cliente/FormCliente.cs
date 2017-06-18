@@ -85,7 +85,7 @@ namespace UberFrba.Abm_Cliente
                 throw new Exception(exception.Message);
             }
         }
-        private void button1_Click(object sender, EventArgs e)
+        private void buttonGuardar_Click(object sender, EventArgs e)
         {
             try
             {

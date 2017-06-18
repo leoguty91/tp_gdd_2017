@@ -47,7 +47,7 @@
             this.clienteBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.gD1C2017DataSet = new UberFrba.GD1C2017DataSet();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
-            this.button1 = new System.Windows.Forms.Button();
+            this.buttonFiltro = new System.Windows.Forms.Button();
             this.textBoxDNI = new System.Windows.Forms.TextBox();
             this.label3 = new System.Windows.Forms.Label();
             this.textBoxApellido = new System.Windows.Forms.TextBox();
@@ -93,7 +93,7 @@
             this.buttonAltaCliente.TabIndex = 7;
             this.buttonAltaCliente.Text = "Nuevo Cliente";
             this.buttonAltaCliente.UseVisualStyleBackColor = true;
-            this.buttonAltaCliente.Click += new System.EventHandler(this.button2_Click);
+            this.buttonAltaCliente.Click += new System.EventHandler(this.buttonAltaCliente_Click);
             // 
             // dataGridView1
             // 
@@ -219,7 +219,7 @@
             // 
             // groupBox2
             // 
-            this.groupBox2.Controls.Add(this.button1);
+            this.groupBox2.Controls.Add(this.buttonFiltro);
             this.groupBox2.Controls.Add(this.textBoxDNI);
             this.groupBox2.Controls.Add(this.label3);
             this.groupBox2.Controls.Add(this.textBoxApellido);
@@ -233,19 +233,19 @@
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Filtros";
             // 
-            // button1
+            // buttonFiltro
             // 
-            this.button1.Location = new System.Drawing.Point(22, 222);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(158, 27);
-            this.button1.TabIndex = 6;
-            this.button1.Text = "Filtrar";
-            this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.button1_Click);
+            this.buttonFiltro.Location = new System.Drawing.Point(22, 222);
+            this.buttonFiltro.Name = "buttonFiltro";
+            this.buttonFiltro.Size = new System.Drawing.Size(158, 27);
+            this.buttonFiltro.TabIndex = 6;
+            this.buttonFiltro.Text = "Filtrar";
+            this.buttonFiltro.UseVisualStyleBackColor = true;
+            this.buttonFiltro.Click += new System.EventHandler(this.buttonFiltro_Click);
             // 
             // textBoxDNI
             // 
-            this.textBoxDNI.Location = new System.Drawing.Point(22, 166);
+            this.textBoxDNI.Location = new System.Drawing.Point(23, 181);
             this.textBoxDNI.MaxLength = 255;
             this.textBoxDNI.Name = "textBoxDNI";
             this.textBoxDNI.Size = new System.Drawing.Size(159, 26);
@@ -254,7 +254,7 @@
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(19, 143);
+            this.label3.Location = new System.Drawing.Point(20, 158);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(37, 20);
             this.label3.TabIndex = 4;
@@ -262,7 +262,7 @@
             // 
             // textBoxApellido
             // 
-            this.textBoxApellido.Location = new System.Drawing.Point(23, 104);
+            this.textBoxApellido.Location = new System.Drawing.Point(22, 117);
             this.textBoxApellido.MaxLength = 255;
             this.textBoxApellido.Name = "textBoxApellido";
             this.textBoxApellido.Size = new System.Drawing.Size(159, 26);
@@ -271,7 +271,7 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(20, 81);
+            this.label2.Location = new System.Drawing.Point(19, 94);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(65, 20);
             this.label2.TabIndex = 2;
@@ -320,7 +320,7 @@
 
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.GroupBox groupBox2;
-        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Button buttonFiltro;
         private System.Windows.Forms.TextBox textBoxDNI;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.TextBox textBoxApellido;

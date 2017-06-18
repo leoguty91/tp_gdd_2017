@@ -417,9 +417,10 @@ GO
 
 /* Creacion de Vistas */
 CREATE VIEW GGDP.vw_automovil_listado AS
-	SELECT auto_id, marc_nombre, auto_modelo, auto_patente
+	SELECT auto_id, marc_nombre, auto_modelo, auto_patente, auto_chofer, chof_nombre + ' ' + chof_apellido AS chof_nombre_apellido
 	FROM GGDP.Automovil
-	JOIN GGDP.Marca ON auto_marca = marc_id;
+	JOIN GGDP.Marca ON auto_marca = marc_id
+	JOIN GGDP.Chofer ON auto_chofer = chof_id;
 GO
 
 /* Creacion de Functions*/

@@ -38,7 +38,7 @@
     <Shape ID="DesignTable:sp_obtener_usuario" ZOrder="6" X="0" Y="0" Height="90" Width="158" AdapterExpanded="true" DataTableExpanded="true" OldAdapterHeight="0" OldDataTableHeight="0" SplitterPosition="0" />
     <Shape ID="DesignTable:sp_obtener_usuarios_no_clientes" ZOrder="5" X="0" Y="0" Height="90" Width="158" AdapterExpanded="true" DataTableExpanded="true" OldAdapterHeight="0" OldDataTableHeight="0" SplitterPosition="0" />
     <Shape ID="DesignSources:QueriesTableAdapter" ZOrder="2" X="0" Y="0" Height="20" Width="158" AdapterExpanded="true" DataTableExpanded="true" OldAdapterHeight="0" OldDataTableHeight="0" SplitterPosition="0" />
-    <Shape ID="DesignTable:vw_automovil_listado" ZOrder="1" X="2253" Y="0" Height="153" Width="269" AdapterExpanded="true" DataTableExpanded="true" OldAdapterHeight="0" OldDataTableHeight="0" SplitterPosition="102" />
+    <Shape ID="DesignTable:vw_automovil_listado" ZOrder="1" X="2253" Y="0" Height="263" Width="300" AdapterExpanded="true" DataTableExpanded="true" OldAdapterHeight="0" OldDataTableHeight="0" SplitterPosition="196" />
   </Shapes>
   <Connectors>
     <Connector ID="DesignRelation:fk_auto_chofer" ZOrder="36" LineWidth="11">
