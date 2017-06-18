@@ -32,6 +32,9 @@ GO
 IF (OBJECT_ID ('GGDP.fu_existe_automovil') IS NOT NULL)
   DROP FUNCTION GGDP.fu_existe_automovil
 GO
+IF (OBJECT_ID ('GGDP.fu_existe_turno') IS NOT NULL)
+  DROP FUNCTION GGDP.fu_existe_turno
+GO
 
 /* Eliminacion de Triggers */
 IF OBJECT_ID ('GGDP.tr_rol','TR') IS NOT NULL
@@ -105,6 +108,10 @@ IF (OBJECT_ID ('GGDP.sp_obtener_turno') IS NOT NULL)
     DROP PROCEDURE GGDP.sp_obtener_turno
 IF (OBJECT_ID ('GGDP.sp_obtener_turnos') IS NOT NULL)
     DROP PROCEDURE GGDP.sp_obtener_turnos
+IF (OBJECT_ID ('GGDP.sp_alta_turno') IS NOT NULL)
+    DROP PROCEDURE GGDP.sp_alta_turno
+IF (OBJECT_ID ('GGDP.sp_modificacion_turno') IS NOT NULL)
+    DROP PROCEDURE GGDP.sp_modificacion_turno
 IF (OBJECT_ID ('GGDP.sp_obtener_chofer') IS NOT NULL)
     DROP PROCEDURE GGDP.sp_obtener_chofer
 IF (OBJECT_ID ('GGDP.sp_obtener_choferes') IS NOT NULL)
@@ -454,6 +461,13 @@ GO
 
 CREATE FUNCTION GGDP.fu_existe_automovil(@automovil_id INT) RETURNS BIT AS BEGIN
 	IF EXISTS(SELECT 1 FROM GGDP.Automovil WHERE auto_id = @automovil_id)
+		RETURN 1
+	RETURN 0
+END
+GO
+
+CREATE FUNCTION GGDP.fu_existe_turno(@turno_id INT) RETURNS BIT AS BEGIN
+	IF EXISTS(SELECT 1 FROM GGDP.Turno WHERE turn_id = @turno_id)
 		RETURN 1
 	RETURN 0
 END
@@ -853,6 +867,55 @@ GO
 CREATE PROCEDURE GGDP.sp_obtener_turnos AS BEGIN
 	SELECT turn_id, turn_hora_inicio, turn_hora_fin, turn_descripcion, turn_valor_kilometro, turn_precio_base, turn_habilitado FROM GGDP.Turno
 END
+GO
+
+CREATE PROCEDURE GGDP.sp_alta_turno
+(
+	@hora_inicio numeric(18,0),
+	@hora_fin numeric(18,0),
+	@descripcion varchar(255),
+	@valor_kilometro numeric(18,2),
+	@precio_base numeric(18,2),
+	@habilitado BIT
+) AS
+BEGIN
+
+	BEGIN TRANSACTION
+	INSERT INTO GGDP.Turno(turn_hora_inicio, turn_hora_fin, turn_descripcion, turn_valor_kilometro, turn_precio_base, turn_habilitado)
+	VALUES(@hora_inicio, @hora_fin, @descripcion, @valor_kilometro, @precio_base, @habilitado)
+	COMMIT TRANSACTION
+
+END
+GO
+
+CREATE PROCEDURE GGDP.sp_modificacion_turno
+(
+	@turno_id INT,
+	@hora_inicio numeric(18,0),
+	@hora_fin numeric(18,0),
+	@descripcion varchar(255),
+	@valor_kilometro numeric(18,2),
+	@precio_base numeric(18,2),
+	@habilitado BIT
+) AS
+	BEGIN
+
+			BEGIN TRANSACTION
+				IF GGDP.fu_existe_turno(@turno_id) = 0
+				BEGIN
+					RAISERROR('El turno no existe', 16, 1)
+				END
+				UPDATE GGDP.Turno SET
+					turn_hora_inicio = ISNULL(@hora_inicio, turn_hora_inicio),
+					turn_hora_fin = ISNULL(@hora_fin, turn_hora_fin),
+					turn_descripcion = ISNULL(@descripcion, turn_descripcion),
+					turn_valor_kilometro = ISNULL(@valor_kilometro, turn_valor_kilometro),
+					turn_precio_base = ISNULL(@precio_base, turn_precio_base),
+					turn_habilitado = ISNULL(@habilitado, turn_habilitado)
+				WHERE turn_id = @turno_id
+			COMMIT TRANSACTION
+
+	END
 GO
 
 CREATE PROCEDURE GGDP.sp_obtener_chofer(@chofer_id int) AS BEGIN

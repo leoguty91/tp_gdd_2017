@@ -79,5 +79,36 @@ namespace UberFrba.Entidades
                 throw new Exception(exception.Message);
             }
         }
+        public string Guardar()
+        {
+            Conexion conexion = new Conexion();
+            SqlCommand store_procedure;
+            if (id == Entidad.NUEVO)
+            {
+                store_procedure = conexion.IniciarStoreProcedure("sp_alta_turno");
+            }
+            else
+            {
+                store_procedure = conexion.IniciarStoreProcedure("sp_modificacion_turno");
+                store_procedure.Parameters.Add(new SqlParameter("@turno_id", id));
+            }
+            store_procedure.Parameters.Add(new SqlParameter("@hora_inicio", hora_inicio));
+            store_procedure.Parameters.Add(new SqlParameter("@hora_fin", hora_fin));
+            store_procedure.Parameters.Add(new SqlParameter("@descripcion", descripcion));
+            store_procedure.Parameters.Add(new SqlParameter("@valor_kilometro", valor_kilometro));
+            store_procedure.Parameters.Add(new SqlParameter("@precio_base", precio_base));
+            store_procedure.Parameters.Add(new SqlParameter("@habilitado", habilitado));
+            conexion.EjecutarConsultar(store_procedure);
+            string mensaje_ok;
+            if (id == Entidad.NUEVO)
+            {
+                mensaje_ok = String.Format("Se ha creado el turno {0}", descripcion);
+            }
+            else
+            {
+                mensaje_ok = String.Format("Se ha modificado el turno {0}", descripcion);
+            }
+            return mensaje_ok;
+        }
     }
 }

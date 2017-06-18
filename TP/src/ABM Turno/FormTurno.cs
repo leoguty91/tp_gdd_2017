@@ -48,7 +48,22 @@ namespace UberFrba.ABM_Turno
         }
         private void buttonGuardar_Click(object sender, EventArgs e)
         {
-
+            try
+            {
+                turno.habilitado = checkBoxHabilitado.Checked;
+                turno.hora_inicio = Convert.ToInt32(textBoxHoraInicio.Text);
+                turno.hora_fin = Convert.ToInt32(textBoxHoraFin.Text);
+                turno.descripcion = textBoxDescripcion.Text;
+                turno.valor_kilometro = Convert.ToDecimal(textBoxValorKM.Text);
+                turno.precio_base = Convert.ToDecimal(textBoxPrecioBase.Text);
+                string respuesta = turno.Guardar();
+                MessageBox.Show(respuesta, "Guardado de turno", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
+                Hide();
+            }
+            catch (Exception exception)
+            {
+                MessageBox.Show(exception.Message, "Guardado de cliente error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
     }
 }
