@@ -30,24 +30,28 @@
         {
             this.components = new System.ComponentModel.Container();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.label1 = new System.Windows.Forms.Label();
-            this.dateTimePickerFecha = new System.Windows.Forms.DateTimePicker();
-            this.label2 = new System.Windows.Forms.Label();
-            this.comboBoxChofer = new System.Windows.Forms.ComboBox();
-            this.comboBoxTurno = new System.Windows.Forms.ComboBox();
-            this.label3 = new System.Windows.Forms.Label();
-            this.label4 = new System.Windows.Forms.Label();
-            this.textBoxPorcentaje = new System.Windows.Forms.TextBox();
+            this.buttonFiltrado = new System.Windows.Forms.Button();
+            this.button1 = new System.Windows.Forms.Button();
             this.textBoxImporteTotal = new System.Windows.Forms.TextBox();
             this.label5 = new System.Windows.Forms.Label();
-            this.button1 = new System.Windows.Forms.Button();
+            this.textBoxPorcentaje = new System.Windows.Forms.TextBox();
+            this.label4 = new System.Windows.Forms.Label();
+            this.comboBoxTurno = new System.Windows.Forms.ComboBox();
+            this.label3 = new System.Windows.Forms.Label();
+            this.comboBoxChofer = new System.Windows.Forms.ComboBox();
+            this.label2 = new System.Windows.Forms.Label();
+            this.dateTimePickerFecha = new System.Windows.Forms.DateTimePicker();
+            this.label1 = new System.Windows.Forms.Label();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
-            this.buttonFiltrado = new System.Windows.Forms.Button();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
             this.gD1C2017DataSet = new UberFrba.GD1C2017DataSet();
             this.vwrendicionBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.vw_rendicionTableAdapter = new UberFrba.GD1C2017DataSetTableAdapters.vw_rendicionTableAdapter();
             this.viajidDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.viajchoferDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.chofnombreapellidoDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.viajturnoDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.turndescripcionDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.turnpreciobaseDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.turnvalorkilometroDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.viajcantidadkilometrosDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -76,125 +80,143 @@
             this.groupBox1.Controls.Add(this.label2);
             this.groupBox1.Controls.Add(this.dateTimePickerFecha);
             this.groupBox1.Controls.Add(this.label1);
-            this.groupBox1.Location = new System.Drawing.Point(12, 12);
+            this.groupBox1.Location = new System.Drawing.Point(8, 8);
+            this.groupBox1.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(378, 453);
+            this.groupBox1.Padding = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.groupBox1.Size = new System.Drawing.Size(170, 294);
             this.groupBox1.TabIndex = 0;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Rendición a chofer";
             // 
-            // label1
+            // buttonFiltrado
             // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(30, 46);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(54, 20);
-            this.label1.TabIndex = 0;
-            this.label1.Text = "Fecha";
+            this.buttonFiltrado.Location = new System.Drawing.Point(23, 262);
+            this.buttonFiltrado.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.buttonFiltrado.Name = "buttonFiltrado";
+            this.buttonFiltrado.Size = new System.Drawing.Size(62, 21);
+            this.buttonFiltrado.TabIndex = 11;
+            this.buttonFiltrado.Text = "Mostrar";
+            this.buttonFiltrado.UseVisualStyleBackColor = true;
+            this.buttonFiltrado.Click += new System.EventHandler(this.buttonFiltrado_Click);
             // 
-            // dateTimePickerFecha
+            // button1
             // 
-            this.dateTimePickerFecha.Location = new System.Drawing.Point(34, 69);
-            this.dateTimePickerFecha.Name = "dateTimePickerFecha";
-            this.dateTimePickerFecha.Size = new System.Drawing.Size(317, 26);
-            this.dateTimePickerFecha.TabIndex = 1;
-            // 
-            // label2
-            // 
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(30, 118);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(57, 20);
-            this.label2.TabIndex = 2;
-            this.label2.Text = "Chofer";
-            // 
-            // comboBoxChofer
-            // 
-            this.comboBoxChofer.FormattingEnabled = true;
-            this.comboBoxChofer.Location = new System.Drawing.Point(34, 141);
-            this.comboBoxChofer.Name = "comboBoxChofer";
-            this.comboBoxChofer.Size = new System.Drawing.Size(317, 28);
-            this.comboBoxChofer.TabIndex = 3;
-            // 
-            // comboBoxTurno
-            // 
-            this.comboBoxTurno.FormattingEnabled = true;
-            this.comboBoxTurno.Location = new System.Drawing.Point(34, 209);
-            this.comboBoxTurno.Name = "comboBoxTurno";
-            this.comboBoxTurno.Size = new System.Drawing.Size(317, 28);
-            this.comboBoxTurno.TabIndex = 5;
-            // 
-            // label3
-            // 
-            this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(30, 186);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(50, 20);
-            this.label3.TabIndex = 4;
-            this.label3.Text = "Turno";
-            // 
-            // label4
-            // 
-            this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(30, 260);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(191, 20);
-            this.label4.TabIndex = 6;
-            this.label4.Text = "Porcentaje de la rendición";
-            // 
-            // textBoxPorcentaje
-            // 
-            this.textBoxPorcentaje.Location = new System.Drawing.Point(34, 283);
-            this.textBoxPorcentaje.Name = "textBoxPorcentaje";
-            this.textBoxPorcentaje.Size = new System.Drawing.Size(317, 26);
-            this.textBoxPorcentaje.TabIndex = 7;
-            this.textBoxPorcentaje.Text = "0,1";
+            this.button1.Location = new System.Drawing.Point(89, 262);
+            this.button1.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(61, 21);
+            this.button1.TabIndex = 10;
+            this.button1.Text = "Guardar";
+            this.button1.UseVisualStyleBackColor = true;
             // 
             // textBoxImporteTotal
             // 
             this.textBoxImporteTotal.Enabled = false;
-            this.textBoxImporteTotal.Location = new System.Drawing.Point(34, 357);
+            this.textBoxImporteTotal.Location = new System.Drawing.Point(23, 232);
+            this.textBoxImporteTotal.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.textBoxImporteTotal.Name = "textBoxImporteTotal";
-            this.textBoxImporteTotal.Size = new System.Drawing.Size(317, 26);
+            this.textBoxImporteTotal.Size = new System.Drawing.Size(127, 20);
             this.textBoxImporteTotal.TabIndex = 9;
             // 
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(30, 334);
+            this.label5.Location = new System.Drawing.Point(20, 217);
+            this.label5.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(205, 20);
+            this.label5.Size = new System.Drawing.Size(137, 13);
             this.label5.TabIndex = 8;
             this.label5.Text = "Importe total de la rendición";
             // 
-            // button1
+            // textBoxPorcentaje
             // 
-            this.button1.Location = new System.Drawing.Point(206, 403);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(145, 32);
-            this.button1.TabIndex = 10;
-            this.button1.Text = "Guardar";
-            this.button1.UseVisualStyleBackColor = true;
+            this.textBoxPorcentaje.Location = new System.Drawing.Point(23, 184);
+            this.textBoxPorcentaje.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.textBoxPorcentaje.Name = "textBoxPorcentaje";
+            this.textBoxPorcentaje.Size = new System.Drawing.Size(127, 20);
+            this.textBoxPorcentaje.TabIndex = 7;
+            this.textBoxPorcentaje.Text = "0,1";
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(20, 169);
+            this.label4.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(130, 13);
+            this.label4.TabIndex = 6;
+            this.label4.Text = "Porcentaje de la rendición";
+            // 
+            // comboBoxTurno
+            // 
+            this.comboBoxTurno.FormattingEnabled = true;
+            this.comboBoxTurno.Location = new System.Drawing.Point(23, 136);
+            this.comboBoxTurno.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.comboBoxTurno.Name = "comboBoxTurno";
+            this.comboBoxTurno.Size = new System.Drawing.Size(127, 21);
+            this.comboBoxTurno.TabIndex = 5;
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(20, 121);
+            this.label3.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(35, 13);
+            this.label3.TabIndex = 4;
+            this.label3.Text = "Turno";
+            // 
+            // comboBoxChofer
+            // 
+            this.comboBoxChofer.FormattingEnabled = true;
+            this.comboBoxChofer.Location = new System.Drawing.Point(23, 92);
+            this.comboBoxChofer.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.comboBoxChofer.Name = "comboBoxChofer";
+            this.comboBoxChofer.Size = new System.Drawing.Size(127, 21);
+            this.comboBoxChofer.TabIndex = 3;
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(20, 77);
+            this.label2.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(38, 13);
+            this.label2.TabIndex = 2;
+            this.label2.Text = "Chofer";
+            // 
+            // dateTimePickerFecha
+            // 
+            this.dateTimePickerFecha.CustomFormat = "";
+            this.dateTimePickerFecha.Format = System.Windows.Forms.DateTimePickerFormat.Short;
+            this.dateTimePickerFecha.Location = new System.Drawing.Point(23, 45);
+            this.dateTimePickerFecha.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.dateTimePickerFecha.Name = "dateTimePickerFecha";
+            this.dateTimePickerFecha.Size = new System.Drawing.Size(127, 20);
+            this.dateTimePickerFecha.TabIndex = 1;
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(20, 30);
+            this.label1.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(37, 13);
+            this.label1.TabIndex = 0;
+            this.label1.Text = "Fecha";
             // 
             // groupBox2
             // 
             this.groupBox2.Controls.Add(this.dataGridView1);
-            this.groupBox2.Location = new System.Drawing.Point(418, 12);
+            this.groupBox2.Location = new System.Drawing.Point(199, 11);
+            this.groupBox2.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(813, 453);
+            this.groupBox2.Padding = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.groupBox2.Size = new System.Drawing.Size(1034, 294);
             this.groupBox2.TabIndex = 1;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Detalle";
-            // 
-            // buttonFiltrado
-            // 
-            this.buttonFiltrado.Location = new System.Drawing.Point(34, 403);
-            this.buttonFiltrado.Name = "buttonFiltrado";
-            this.buttonFiltrado.Size = new System.Drawing.Size(136, 32);
-            this.buttonFiltrado.TabIndex = 11;
-            this.buttonFiltrado.Text = "Mostrar";
-            this.buttonFiltrado.UseVisualStyleBackColor = true;
-            this.buttonFiltrado.Click += new System.EventHandler(this.buttonFiltrado_Click);
             // 
             // dataGridView1
             // 
@@ -204,6 +226,10 @@
             this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dataGridView1.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.viajidDataGridViewTextBoxColumn,
+            this.viajchoferDataGridViewTextBoxColumn,
+            this.chofnombreapellidoDataGridViewTextBoxColumn,
+            this.viajturnoDataGridViewTextBoxColumn,
+            this.turndescripcionDataGridViewTextBoxColumn,
             this.turnpreciobaseDataGridViewTextBoxColumn,
             this.turnvalorkilometroDataGridViewTextBoxColumn,
             this.viajcantidadkilometrosDataGridViewTextBoxColumn,
@@ -212,11 +238,12 @@
             this.clienombreapellidoDataGridViewTextBoxColumn,
             this.viajtotalDataGridViewTextBoxColumn});
             this.dataGridView1.DataSource = this.vwrendicionBindingSource;
-            this.dataGridView1.Location = new System.Drawing.Point(23, 46);
+            this.dataGridView1.Location = new System.Drawing.Point(4, 30);
+            this.dataGridView1.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.dataGridView1.Name = "dataGridView1";
             this.dataGridView1.ReadOnly = true;
             this.dataGridView1.RowTemplate.Height = 28;
-            this.dataGridView1.Size = new System.Drawing.Size(771, 388);
+            this.dataGridView1.Size = new System.Drawing.Size(1026, 252);
             this.dataGridView1.TabIndex = 0;
             // 
             // gD1C2017DataSet
@@ -241,10 +268,41 @@
             this.viajidDataGridViewTextBoxColumn.ReadOnly = true;
             this.viajidDataGridViewTextBoxColumn.Visible = false;
             // 
+            // viajchoferDataGridViewTextBoxColumn
+            // 
+            this.viajchoferDataGridViewTextBoxColumn.DataPropertyName = "viaj_chofer";
+            this.viajchoferDataGridViewTextBoxColumn.HeaderText = "viaj_chofer";
+            this.viajchoferDataGridViewTextBoxColumn.Name = "viajchoferDataGridViewTextBoxColumn";
+            this.viajchoferDataGridViewTextBoxColumn.ReadOnly = true;
+            this.viajchoferDataGridViewTextBoxColumn.Visible = false;
+            // 
+            // chofnombreapellidoDataGridViewTextBoxColumn
+            // 
+            this.chofnombreapellidoDataGridViewTextBoxColumn.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.chofnombreapellidoDataGridViewTextBoxColumn.DataPropertyName = "chof_nombre_apellido";
+            this.chofnombreapellidoDataGridViewTextBoxColumn.HeaderText = "Chofer";
+            this.chofnombreapellidoDataGridViewTextBoxColumn.Name = "chofnombreapellidoDataGridViewTextBoxColumn";
+            this.chofnombreapellidoDataGridViewTextBoxColumn.ReadOnly = true;
+            // 
+            // viajturnoDataGridViewTextBoxColumn
+            // 
+            this.viajturnoDataGridViewTextBoxColumn.DataPropertyName = "viaj_turno";
+            this.viajturnoDataGridViewTextBoxColumn.HeaderText = "viaj_turno";
+            this.viajturnoDataGridViewTextBoxColumn.Name = "viajturnoDataGridViewTextBoxColumn";
+            this.viajturnoDataGridViewTextBoxColumn.ReadOnly = true;
+            this.viajturnoDataGridViewTextBoxColumn.Visible = false;
+            // 
+            // turndescripcionDataGridViewTextBoxColumn
+            // 
+            this.turndescripcionDataGridViewTextBoxColumn.DataPropertyName = "turn_descripcion";
+            this.turndescripcionDataGridViewTextBoxColumn.HeaderText = "Turno";
+            this.turndescripcionDataGridViewTextBoxColumn.Name = "turndescripcionDataGridViewTextBoxColumn";
+            this.turndescripcionDataGridViewTextBoxColumn.ReadOnly = true;
+            // 
             // turnpreciobaseDataGridViewTextBoxColumn
             // 
             this.turnpreciobaseDataGridViewTextBoxColumn.DataPropertyName = "turn_precio_base";
-            this.turnpreciobaseDataGridViewTextBoxColumn.HeaderText = "Precio Base";
+            this.turnpreciobaseDataGridViewTextBoxColumn.HeaderText = "Precio base";
             this.turnpreciobaseDataGridViewTextBoxColumn.Name = "turnpreciobaseDataGridViewTextBoxColumn";
             this.turnpreciobaseDataGridViewTextBoxColumn.ReadOnly = true;
             // 
@@ -278,7 +336,6 @@
             // 
             // clienombreapellidoDataGridViewTextBoxColumn
             // 
-            this.clienombreapellidoDataGridViewTextBoxColumn.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
             this.clienombreapellidoDataGridViewTextBoxColumn.DataPropertyName = "clie_nombre_apellido";
             this.clienombreapellidoDataGridViewTextBoxColumn.HeaderText = "Cliente";
             this.clienombreapellidoDataGridViewTextBoxColumn.Name = "clienombreapellidoDataGridViewTextBoxColumn";
@@ -293,12 +350,11 @@
             // 
             // Form1
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1243, 477);
+            this.ClientSize = new System.Drawing.Size(1244, 310);
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.groupBox1);
-            this.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.Name = "Form1";
             this.Text = "Rendicion de Viajes";
             this.Load += new System.EventHandler(this.Form1_Load);
@@ -333,6 +389,10 @@
         private System.Windows.Forms.BindingSource vwrendicionBindingSource;
         private GD1C2017DataSetTableAdapters.vw_rendicionTableAdapter vw_rendicionTableAdapter;
         private System.Windows.Forms.DataGridViewTextBoxColumn viajidDataGridViewTextBoxColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn viajchoferDataGridViewTextBoxColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn chofnombreapellidoDataGridViewTextBoxColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn viajturnoDataGridViewTextBoxColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn turndescripcionDataGridViewTextBoxColumn;
         private System.Windows.Forms.DataGridViewTextBoxColumn turnpreciobaseDataGridViewTextBoxColumn;
         private System.Windows.Forms.DataGridViewTextBoxColumn turnvalorkilometroDataGridViewTextBoxColumn;
         private System.Windows.Forms.DataGridViewTextBoxColumn viajcantidadkilometrosDataGridViewTextBoxColumn;
