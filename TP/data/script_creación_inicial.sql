@@ -15,6 +15,9 @@ GO
 IF (OBJECT_ID ('GGDP.vw_automovil_listado') IS NOT NULL)
   DROP VIEW GGDP.vw_automovil_listado;
 GO
+IF (OBJECT_ID ('GGDP.vw_rendicion') IS NOT NULL)
+  DROP VIEW GGDP.vw_rendicion;
+GO
 
 /* Eliminacion de Functions */
 IF (OBJECT_ID ('GGDP.fu_existe_usuario') IS NOT NULL)
@@ -442,6 +445,13 @@ CREATE VIEW GGDP.vw_automovil_listado AS
 	FROM GGDP.Automovil
 	JOIN GGDP.Marca ON auto_marca = marc_id
 	JOIN GGDP.Chofer ON auto_chofer = chof_id;
+GO
+
+CREATE VIEW GGDP.vw_rendicion AS
+	SELECT viaj_id, turn_precio_base, turn_valor_kilometro, viaj_cantidad_kilometros, viaj_fecha_inicio, viaj_fecha_fin, clie_nombre + ' ' + clie_apellido AS clie_nombre_apellido, turn_precio_base + (turn_valor_kilometro * viaj_cantidad_kilometros) AS viaj_total
+	FROM GGDP.Viaje
+	JOIN GGDP.Cliente ON viaj_cliente = clie_id
+	JOIN GGDP.Turno ON viaj_turno = turn_id
 GO
 
 /* Creacion de Functions*/

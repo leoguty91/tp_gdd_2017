@@ -146,7 +146,6 @@
             // 
             // rendicionDeCuentaDelChoferToolStripMenuItem
             // 
-            this.rendicionDeCuentaDelChoferToolStripMenuItem.Enabled = false;
             this.rendicionDeCuentaDelChoferToolStripMenuItem.Name = "rendicionDeCuentaDelChoferToolStripMenuItem";
             this.rendicionDeCuentaDelChoferToolStripMenuItem.Size = new System.Drawing.Size(328, 30);
             this.rendicionDeCuentaDelChoferToolStripMenuItem.Text = "Rendicion de cuenta del chofer";
