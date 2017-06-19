@@ -133,6 +133,8 @@ IF (OBJECT_ID ('GGDP.sp_alta_chofer') IS NOT NULL)
     DROP PROCEDURE GGDP.sp_alta_chofer
 IF (OBJECT_ID ('GGDP.sp_modificacion_chofer') IS NOT NULL)
     DROP PROCEDURE GGDP.sp_modificacion_chofer
+IF (OBJECT_ID ('GGDP.sp_alta_viaje') IS NOT NULL)
+    DROP PROCEDURE GGDP.sp_alta_viaje
 GO
 
 /* Eliminacion de Tablas */
@@ -236,8 +238,7 @@ CREATE TABLE GGDP.Rendicion(
 	rend_id INT IDENTITY PRIMARY KEY NOT NULL,
 	rend_chofer int not null ,
 	rend_turno int not null,
-	rend_importe numeric(18,2) not null,
-	rend_viaje int not null
+	rend_importe numeric(18,2) not null
 );
 	
 CREATE TABLE GGDP.Turno (
@@ -324,8 +325,6 @@ ALTER TABLE GGDP.Rendicion
 	ADD CONSTRAINT fk_rend_chofer FOREIGN KEY (rend_chofer) REFERENCES GGDP.Cliente(clie_id)
 ALTER TABLE GGDP.Rendicion
 	ADD CONSTRAINT fk_rend_turno FOREIGN KEY (rend_turno) REFERENCES GGDP.Turno(turn_id)
-ALTER TABLE GGDP.Rendicion
-	ADD CONSTRAINT fk_rend_viaje FOREIGN KEY (rend_viaje) REFERENCES GGDP.Viaje(viaj_id)
 
 ALTER TABLE GGDP.Factura
 	ADD CONSTRAINT fk_fact_cliente FOREIGN KEY (fact_cliente) REFERENCES GGDP.Cliente(clie_id)
@@ -1041,4 +1040,24 @@ CREATE PROCEDURE GGDP.sp_modificacion_chofer
 			COMMIT TRANSACTION
 
 	END
+GO
+
+CREATE PROCEDURE GGDP.sp_alta_viaje
+(
+	@automovil INT,
+	@chofer INT,
+	@turno INT,
+	@cantidad_kilometros NUMERIC(18, 0),
+	@fecha_inicio DATETIME,
+	@fecha_fin DATETIME,
+	@cliente INT
+) AS
+BEGIN
+
+	BEGIN TRANSACTION
+	INSERT INTO GGDP.Viaje(viaj_automovil, viaj_chofer, viaj_turno, viaj_cantidad_kilometros, viaj_fecha_inicio, viaj_fecha_fin, viaj_cliente)
+	VALUES(@automovil, @chofer, @turno, @cantidad_kilometros, @fecha_inicio, @fecha_fin, @cliente)
+	COMMIT TRANSACTION
+
+END
 GO

@@ -25,7 +25,7 @@ namespace UberFrba.Registro_Viajes
             }
             catch (Exception exception)
             {
-                MessageBox.Show(exception.Message, "Rendicion error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show(exception.Message, "Registro de viaje error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
         private void cargaDatos()
@@ -97,6 +97,36 @@ namespace UberFrba.Registro_Viajes
                     comboBoxAutomovil.SelectedItem = 0;
                     throw new Exception(exception.Message);
                 }
+            }
+        }
+
+        private void buttonGuardar_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                Viaje viaje = new Viaje();
+                Chofer chofer_mapper = new Chofer();
+                Turno turno_mapper = new Turno();
+                Cliente cliente_mapper = new Cliente();
+                Automovil automovil_mapper = new Automovil();
+                Chofer chofer = chofer_mapper.Mapear((comboBoxChofer.SelectedItem as dynamic).Value);
+                Turno turno = turno_mapper.Mapear((comboBoxTurno.SelectedItem as dynamic).Value);
+                Cliente cliente = cliente_mapper.Mapear((comboBoxCliente.SelectedItem as dynamic).Value);
+                Automovil automovil = automovil_mapper.Mapear((comboBoxAutomovil.SelectedItem as dynamic).Value);
+                viaje.chofer = chofer;
+                viaje.automovil = automovil;
+                viaje.turno = turno;
+                viaje.cantidad_kilometros = Convert.ToInt32(textBoxKilometrosRecorridos.Text);
+                viaje.fecha_inicio = dateTimePickerFechaInicio.Value;
+                viaje.fecha_fin = dateTimePickerFechaFin.Value;
+                viaje.cliente = cliente;
+                string respuesta = viaje.Guardar();
+                MessageBox.Show(respuesta, "Guardado de viaje", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
+                Hide();
+            }
+            catch (Exception exception)
+            {
+                MessageBox.Show(exception.Message, "Error en guardado de Registro de viaje", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
     }
