@@ -48,18 +48,21 @@
             // 
             this.groupBox1.Controls.Add(this.button1);
             this.groupBox1.Controls.Add(this.dataGridView1);
-            this.groupBox1.Location = new System.Drawing.Point(12, 12);
+            this.groupBox1.Location = new System.Drawing.Point(18, 18);
+            this.groupBox1.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(287, 241);
+            this.groupBox1.Padding = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.groupBox1.Size = new System.Drawing.Size(430, 319);
             this.groupBox1.TabIndex = 0;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Rol";
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(23, 176);
+            this.button1.Location = new System.Drawing.Point(34, 237);
+            this.button1.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(240, 34);
+            this.button1.Size = new System.Drawing.Size(360, 43);
             this.button1.TabIndex = 1;
             this.button1.Text = "Nuevo Rol";
             this.button1.UseVisualStyleBackColor = true;
@@ -76,11 +79,12 @@
             this.rolnombreDataGridViewTextBoxColumn,
             this.rolhabilitadoDataGridViewCheckBoxColumn});
             this.dataGridView1.DataSource = this.rolBindingSource;
-            this.dataGridView1.Location = new System.Drawing.Point(23, 43);
+            this.dataGridView1.Location = new System.Drawing.Point(34, 66);
+            this.dataGridView1.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.dataGridView1.MultiSelect = false;
             this.dataGridView1.Name = "dataGridView1";
             this.dataGridView1.ReadOnly = true;
-            this.dataGridView1.Size = new System.Drawing.Size(240, 103);
+            this.dataGridView1.Size = new System.Drawing.Size(360, 136);
             this.dataGridView1.TabIndex = 0;
             this.dataGridView1.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView1_CellContentClick);
             // 
@@ -124,10 +128,11 @@
             // 
             // Form1
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(311, 265);
+            this.ClientSize = new System.Drawing.Size(466, 351);
             this.Controls.Add(this.groupBox1);
+            this.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.Name = "Form1";
             this.Text = "ABM de Roles";
             this.Load += new System.EventHandler(this.Form1_Load);

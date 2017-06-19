@@ -35,6 +35,23 @@ namespace UberFrba.Entidades
                 throw new Exception(exception.Message);
             }
         }
+        public Automovil MapearDeUsuario(int usuario_id)
+        {
+            try
+            {
+                Conexion conexion = new Conexion();
+                SqlCommand store_procedure = conexion.IniciarStoreProcedure("sp_obtener_automovil_usuario");
+                store_procedure.Parameters.Add(new SqlParameter("@usuario_id", usuario_id));
+                DataTable respuesta_consulta = conexion.EjecutarConsultar(store_procedure);
+                if (respuesta_consulta.Rows.Count == 0)
+                    throw new Exception("Automovil no encontrado");
+                return MapearAutomovil(respuesta_consulta);
+            }
+            catch (Exception exception)
+            {
+                throw new Exception(exception.Message);
+            }
+        }
         private Automovil MapearAutomovil(DataTable data_table)
         {
             try

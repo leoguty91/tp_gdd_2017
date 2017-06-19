@@ -44,6 +44,8 @@ IF OBJECT_ID ('GGDP.tr_rol','TR') IS NOT NULL
    DROP TRIGGER GGDP.tr_rol;
 IF OBJECT_ID ('GGDP.tr_alta_cliente','TR') IS NOT NULL
    DROP TRIGGER GGDP.tr_alta_cliente;
+   IF OBJECT_ID ('GGDP.tr_alta_chofer','TR') IS NOT NULL
+   DROP TRIGGER GGDP.tr_alta_chofer;
 GO
 
 /* Eliminacion de Store Procedures */
@@ -101,6 +103,8 @@ IF (OBJECT_ID ('GGDP.sp_obtener_clientes') IS NOT NULL)
     DROP PROCEDURE GGDP.sp_obtener_clientes
 IF (OBJECT_ID ('GGDP.sp_obtener_automovil') IS NOT NULL)
     DROP PROCEDURE GGDP.sp_obtener_automovil
+IF (OBJECT_ID ('GGDP.sp_obtener_automovil_usuario') IS NOT NULL)
+    DROP PROCEDURE GGDP.sp_obtener_automovil_usuario
 IF (OBJECT_ID ('GGDP.sp_obtener_automoviles') IS NOT NULL)
     DROP PROCEDURE GGDP.sp_obtener_automoviles
 IF (OBJECT_ID ('GGDP.sp_alta_automovil') IS NOT NULL)
@@ -351,9 +355,9 @@ ALTER TABLE GGDP.Chofer
 GO
 
 /* Creacion de Indices */
-CREATE INDEX IX_Cliente ON GGDP.Cliente (clie_nombre, clie_apellido, clie_dni)
+CREATE INDEX IX_Cliente ON GGDP.Cliente(clie_nombre, clie_apellido, clie_dni)
 CREATE INDEX IX_Automovil ON GGDP.Automovil(auto_marca, auto_modelo, auto_patente, auto_chofer)
-CREATE INDEX IX_Chofer ON GGDP.Chofer (chof_nombre, chof_apellido, chof_dni)
+CREATE INDEX IX_Chofer ON GGDP.Chofer(chof_nombre, chof_apellido, chof_dni)
 CREATE INDEX IX_Marca ON GGDP.Marca(marc_nombre)
 GO
 
@@ -504,7 +508,7 @@ BEGIN
 END
 GO
 
-CREATE TRIGGER GGDP.tr_alta_cliente ON GGDP.Cliente INSTEAD OF INSERT
+CREATE TRIGGER GGDP.tr_alta_cliente ON GGDP.Cliente INSTEAD OF INSERT, UPDATE
 AS
 BEGIN
 	BEGIN TRANSACTION
@@ -525,7 +529,18 @@ BEGIN
 END
 GO
 
--- TODO Falta GGDP.tr_alta_chofer
+CREATE TRIGGER GGDP.tr_alta_chofer ON GGDP.Chofer AFTER INSERT, UPDATE
+AS
+BEGIN
+	BEGIN TRANSACTION
+
+	INSERT INTO GGDP.RolPorUsuario(rxu_rol, rxu_usuario)
+	SELECT rol_id, chof_usuario FROM GGDP.Rol, inserted
+	WHERE rol_nombre = 'Chofer'
+
+	COMMIT TRANSACTION
+END
+GO
 
 /* Creacion de Store Procedures */
 CREATE PROCEDURE GGDP.sp_login_fallido(@usuario VARCHAR(255)) AS BEGIN
@@ -819,6 +834,15 @@ GO
 
 CREATE PROCEDURE GGDP.sp_obtener_automovil(@automovil_id INT) AS BEGIN
 	SELECT auto_id, auto_marca, auto_modelo, auto_patente, auto_turno, auto_chofer, auto_habilitado FROM GGDP.Automovil WHERE auto_id = @automovil_id
+END
+GO
+
+CREATE PROCEDURE GGDP.sp_obtener_automovil_usuario(@usuario_id INT) AS BEGIN
+	SELECT auto_id, auto_marca, auto_modelo, auto_patente, auto_turno, auto_chofer, auto_habilitado
+	FROM GGDP.Automovil
+	JOIN Chofer ON auto_chofer = chof_id
+	JOIN Usuario ON chof_usuario = usua_id
+	WHERE usua_id = @usuario_id AND auto_habilitado = 1
 END
 GO
 
