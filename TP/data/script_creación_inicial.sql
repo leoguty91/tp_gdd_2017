@@ -439,6 +439,17 @@ FROM [gd_esquema].[Maestra]
 	JOIN GGDP.Turno ON gd_esquema.Maestra.Turno_Descripcion = GGDP.Turno.turn_descripcion
 GO
 
+-- Insercion de viajes
+INSERT INTO GGDP.Viaje(viaj_automovil, viaj_chofer, viaj_turno, viaj_cantidad_kilometros, viaj_fecha_inicio, viaj_fecha_fin, viaj_cliente)
+SELECT auto_id, chof_id, turn_id, Viaje_Cant_Kilometros, Viaje_Fecha, Viaje_Fecha, clie_id
+FROM [gd_esquema].[Maestra]
+	JOIN GGDP.Automovil ON gd_esquema.Maestra.Auto_Patente = GGDP.Automovil.auto_patente
+	JOIN GGDP.Chofer ON gd_esquema.Maestra.Chofer_Dni = GGDP.Chofer.chof_dni
+	JOIN GGDP.Turno ON gd_esquema.Maestra.Turno_Descripcion = GGDP.Turno.turn_descripcion
+	JOIN GGDP.Cliente ON gd_esquema.Maestra.Cliente_Dni = GGDP.Cliente.clie_dni
+WHERE Rendicion_Nro IS NULL AND Factura_Nro IS NULL
+GO
+
 /* Creacion de Vistas */
 CREATE VIEW GGDP.vw_automovil_listado AS
 	SELECT auto_id, marc_nombre, auto_modelo, auto_patente, auto_chofer, chof_nombre + ' ' + chof_apellido AS chof_nombre_apellido
