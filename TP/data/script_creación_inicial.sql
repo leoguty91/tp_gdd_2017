@@ -239,11 +239,12 @@ CREATE TABLE GGDP.Viaje(
 
 CREATE TABLE GGDP.Rendicion(
 	rend_id INT IDENTITY PRIMARY KEY NOT NULL,
+	rend_fecha datetime not null,
 	rend_chofer int not null ,
 	rend_turno int not null,
 	rend_importe numeric(18,2) not null
 );
-	
+
 CREATE TABLE GGDP.Turno (
     turn_id INT IDENTITY PRIMARY KEY NOT NULL,
 	turn_hora_inicio numeric(18,0) not null,
@@ -458,6 +459,7 @@ FROM [gd_esquema].[Maestra]
 WHERE Factura_Nro IS NOT NULL
 GROUP BY [Factura_Fecha_Inicio], [Factura_Fecha_Fin], clie_id
 GO
+-- TODO REVISAR
 INSERT INTO GGDP.FacturaPorViaje(fxv_factura, fxv_viaje)
 SELECT fact_id, viaj_id
 FROM [gd_esquema].[Maestra]
@@ -469,6 +471,30 @@ FROM [gd_esquema].[Maestra]
 	JOIN GGDP.Factura ON fact_fecha_inicio = Factura_Fecha_Inicio AND fact_cliente = clie_id
 WHERE Factura_Nro IS NOT NULL
 GO
+
+-- Insercion de rendiciones
+INSERT INTO GGDP.Rendicion(rend_fecha, rend_chofer, rend_turno, rend_importe)
+SELECT Rendicion_Fecha, chof_id, turn_id, SUM(Rendicion_Importe)
+FROM [gd_esquema].[Maestra]
+	JOIN GGDP.Chofer ON Chofer_Dni = chof_dni
+	JOIN GGDP.Turno ON Turno_Descripcion = turn_descripcion
+WHERE Rendicion_Nro IS NOT NULL
+GROUP BY Rendicion_Fecha, chof_id, turn_id
+GO
+/*
+-- TODO Terminar
+INSERT INTO GGDP.RendicionPorViaje(rxv_rendicion, rxv_viaje)
+SELECT rend_id, viaj_id
+FROM [gd_esquema].[Maestra]
+	JOIN GGDP.Automovil ON gd_esquema.Maestra.Auto_Patente = GGDP.Automovil.auto_patente
+	JOIN GGDP.Chofer ON Chofer_Dni = chof_dni
+	JOIN GGDP.Turno ON Turno_Descripcion = turn_descripcion
+	JOIN GGDP.Cliente ON Cliente_Dni = clie_dni
+	JOIN GGDP.Viaje ON viaj_automovil = auto_id AND viaj_chofer = chof_id AND viaj_turno = turn_id AND viaj_fecha_inicio = Viaje_Fecha AND viaj_cliente = clie_id
+	JOIN GGDP.Rendicion ON rend_fecha = Rendicion_Fecha AND rend_chofer = chof_id AND rend_turno = turn_id
+WHERE Rendicion_Nro IS NOT NULL
+GO
+*/
 
 /* Creacion de Vistas */
 CREATE VIEW GGDP.vw_automovil_listado AS
