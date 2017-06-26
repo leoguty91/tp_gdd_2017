@@ -45,17 +45,24 @@ namespace UberFrba.Rendicion_Viajes
 
                 this.vw_rendicionTableAdapter.Fill(this.gD1C2017DataSet.vw_rendicion);
                 DataView dv = new DataView(this.gD1C2017DataSet.vw_rendicion);
-
-                //string rowFilter = String.Format("[{0}] = '{1}'", "viaj_fecha_inicio", dateTimePickerFecha.Value);
-                //rowFilter += String.Format(" AND [{0}] = '{1}'", "viaj_chofer", chofer.id);
-                string rowFilter = String.Format("[{0}] = '{1}'", "viaj_chofer", chofer.id);
+                DateTime fecha_inicio = new DateTime(dateTimePickerFecha.Value.Year, dateTimePickerFecha.Value.Month, dateTimePickerFecha.Value.Day, 0, 0, 0);
+                DateTime fecha_fin = fecha_inicio.AddDays(1);
+                string rowFilter = String.Format("[{0}] >= '{1}' AND [{0}] <= '{2}'", "viaj_fecha_inicio", fecha_inicio, fecha_fin);
+                rowFilter += String.Format(" AND [{0}] = '{1}'", "viaj_chofer", chofer.id);
                 rowFilter += String.Format(" AND [{0}] = '{1}'", "viaj_turno", turno.id);
 
                 if (!String.IsNullOrWhiteSpace(rowFilter))
                     dv.RowFilter = rowFilter;
                 dataGridView1.DataSource = dv;
                 dataGridView1.Refresh();
-
+                double rendicion_total = 0;
+                foreach (DataRowView row_view in dv)
+                {
+                    DataRow row = row_view.Row;
+                    rendicion_total += Convert.ToDouble(row[11]);
+                }
+                rendicion_total = rendicion_total * Convert.ToDouble(textBoxPorcentaje.Text);
+                textBoxImporteTotal.Text = rendicion_total.ToString("0.##");
             }
             catch (Exception exception)
             {
@@ -65,10 +72,6 @@ namespace UberFrba.Rendicion_Viajes
 
         private void Form1_Load(object sender, EventArgs e)
         {
-            // TODO: esta línea de código carga datos en la tabla 'gD1C2017DataSet.vw_rendicion' Puede moverla o quitarla según sea necesario.
-            this.vw_rendicionTableAdapter.Fill(this.gD1C2017DataSet.vw_rendicion);
-            // TODO: esta línea de código carga datos en la tabla 'gD1C2017DataSet.vw_rendicion' Puede moverla o quitarla según sea necesario.
-            this.vw_rendicionTableAdapter.Fill(this.gD1C2017DataSet.vw_rendicion);
             // TODO: esta línea de código carga datos en la tabla 'gD1C2017DataSet.vw_rendicion' Puede moverla o quitarla según sea necesario.
             this.vw_rendicionTableAdapter.Fill(this.gD1C2017DataSet.vw_rendicion);
         }
