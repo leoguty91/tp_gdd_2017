@@ -55,13 +55,13 @@ namespace UberFrba.Rendicion_Viajes
                     dv.RowFilter = rowFilter;
                 dataGridView1.DataSource = dv;
                 dataGridView1.Refresh();
-                double rendicion_total = 0;
+                decimal rendicion_total = 0;
                 foreach (DataRowView row_view in dv)
                 {
                     DataRow row = row_view.Row;
-                    rendicion_total += Convert.ToDouble(row[11]);
+                    rendicion_total += Convert.ToDecimal(row[11]);
                 }
-                rendicion_total = rendicion_total * Convert.ToDouble(textBoxPorcentaje.Text);
+                rendicion_total = rendicion_total * Convert.ToDecimal(textBoxPorcentaje.Text);
                 textBoxImporteTotal.Text = rendicion_total.ToString("0.##");
             }
             catch (Exception exception)
@@ -74,6 +74,41 @@ namespace UberFrba.Rendicion_Viajes
         {
             // TODO: esta línea de código carga datos en la tabla 'gD1C2017DataSet.vw_rendicion' Puede moverla o quitarla según sea necesario.
             this.vw_rendicionTableAdapter.Fill(this.gD1C2017DataSet.vw_rendicion);
+        }
+
+        private void buttonGuardar_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                if (Convert.ToDecimal(textBoxImporteTotal.Text) == 0)
+                {
+                    throw new Exception("El importe no puede ser cero");
+                }
+                Rendicion rendicion = new Rendicion();
+                Chofer chofer_mapper = new Chofer();
+                Turno turno_mapper = new Turno();
+                Viaje viaje_mapper = new Viaje();
+                Chofer chofer = chofer_mapper.Mapear((comboBoxChofer.SelectedItem as dynamic).Value);
+                Turno turno = turno_mapper.Mapear((comboBoxTurno.SelectedItem as dynamic).Value);
+                rendicion.fecha = dateTimePickerFecha.Value;
+                rendicion.chofer = chofer;
+                rendicion.turno = turno;
+                rendicion.importe = Convert.ToDecimal(textBoxImporteTotal.Text);
+                rendicion.viajes = new List<Viaje>();
+                foreach (DataGridViewRow row in dataGridView1.Rows)
+                {
+                    int viaje_id = Convert.ToInt32(row.Cells[0].Value);
+                    Viaje viaje = viaje_mapper.Mapear(viaje_id);
+                    rendicion.viajes.Add(viaje);
+                }
+                string respuesta = rendicion.Guardar();
+                MessageBox.Show(respuesta, "Guardado de rendicion", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
+                Hide();
+            }
+            catch (Exception exception)
+            {
+                MessageBox.Show(exception.Message, "Error en guardado de rendicion", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
     }
 }

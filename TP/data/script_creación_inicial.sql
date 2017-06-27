@@ -138,6 +138,12 @@ IF (OBJECT_ID ('GGDP.sp_modificacion_chofer') IS NOT NULL)
     DROP PROCEDURE GGDP.sp_modificacion_chofer
 IF (OBJECT_ID ('GGDP.sp_alta_viaje') IS NOT NULL)
     DROP PROCEDURE GGDP.sp_alta_viaje
+IF (OBJECT_ID ('GGDP.sp_obtener_viaje') IS NOT NULL)
+    DROP PROCEDURE GGDP.sp_obtener_viaje
+IF (OBJECT_ID ('GGDP.sp_alta_rendicion') IS NOT NULL)
+    DROP PROCEDURE GGDP.sp_alta_rendicion
+IF (OBJECT_ID ('GGDP.sp_alta_rendicion_viaje') IS NOT NULL)
+    DROP PROCEDURE GGDP.sp_alta_rendicion_viaje
 GO
 
 /* Eliminacion de Tablas */
@@ -1125,6 +1131,44 @@ BEGIN
 	BEGIN TRANSACTION
 	INSERT INTO GGDP.Viaje(viaj_automovil, viaj_chofer, viaj_turno, viaj_cantidad_kilometros, viaj_fecha_inicio, viaj_fecha_fin, viaj_cliente)
 	VALUES(@automovil, @chofer, @turno, @cantidad_kilometros, @fecha_inicio, @fecha_fin, @cliente)
+	COMMIT TRANSACTION
+
+END
+GO
+
+CREATE PROCEDURE GGDP.sp_obtener_viaje(@viaje_id int) AS BEGIN
+	SELECT viaj_id, viaj_automovil, viaj_chofer, viaj_turno, viaj_cantidad_kilometros, viaj_fecha_inicio, viaj_fecha_fin, viaj_cliente FROM GGDP.Viaje WHERE viaj_id = @viaje_id
+END
+GO
+
+CREATE PROCEDURE GGDP.sp_alta_rendicion
+(
+	@fecha datetime,
+	@chofer int,
+	@turno int,
+	@importe numeric(18,2)
+) AS
+BEGIN
+
+	BEGIN TRANSACTION
+	INSERT INTO GGDP.Rendicion(rend_fecha, rend_chofer, rend_turno, rend_importe)
+	VALUES(@fecha, @chofer, @turno, @importe)
+	COMMIT TRANSACTION
+	SELECT rend_id FROM GGDP.Rendicion WHERE rend_fecha = @fecha AND rend_chofer = @chofer AND rend_turno = @turno
+
+END
+GO
+
+CREATE PROCEDURE GGDP.sp_alta_rendicion_viaje
+(
+	@rendicion int,
+	@viaje int
+) AS
+BEGIN
+
+	BEGIN TRANSACTION
+	INSERT INTO GGDP.RendicionPorViaje(rxv_rendicion, rxv_viaje)
+	VALUES(@rendicion, @viaje)
 	COMMIT TRANSACTION
 
 END
