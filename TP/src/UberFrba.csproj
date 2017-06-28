@@ -123,6 +123,7 @@
     <Compile Include="Entidades\Automovil.cs" />
     <Compile Include="Entidades\Chofer.cs" />
     <Compile Include="Entidades\Cliente.cs" />
+    <Compile Include="Entidades\Factura.cs" />
     <Compile Include="Entidades\Funcionalidad.cs" />
     <Compile Include="Entidades\Marca.cs" />
     <Compile Include="Entidades\Rendicion.cs" />

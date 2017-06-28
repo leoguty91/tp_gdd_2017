@@ -11674,6 +11674,8 @@ namespace UberFrba {
             
             private global::System.Data.DataColumn columnviaj_total;
             
+            private global::System.Data.DataColumn columnclie_id;
+            
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             public vw_rendicionDataTable() {
@@ -11805,6 +11807,14 @@ namespace UberFrba {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public global::System.Data.DataColumn clie_idColumn {
+                get {
+                    return this.columnclie_id;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             [global::System.ComponentModel.Browsable(false)]
             public int Count {
                 get {
@@ -11840,7 +11850,7 @@ namespace UberFrba {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public vw_rendicionRow Addvw_rendicionRow(int viaj_id, int viaj_chofer, string chof_nombre_apellido, int viaj_turno, string turn_descripcion, decimal turn_precio_base, decimal turn_valor_kilometro, decimal viaj_cantidad_kilometros, System.DateTime viaj_fecha_inicio, System.DateTime viaj_fecha_fin, string clie_nombre_apellido, decimal viaj_total) {
+            public vw_rendicionRow Addvw_rendicionRow(int viaj_id, int viaj_chofer, string chof_nombre_apellido, int viaj_turno, string turn_descripcion, decimal turn_precio_base, decimal turn_valor_kilometro, decimal viaj_cantidad_kilometros, System.DateTime viaj_fecha_inicio, System.DateTime viaj_fecha_fin, string clie_nombre_apellido, decimal viaj_total, int clie_id) {
                 vw_rendicionRow rowvw_rendicionRow = ((vw_rendicionRow)(this.NewRow()));
                 object[] columnValuesArray = new object[] {
                         viaj_id,
@@ -11854,7 +11864,8 @@ namespace UberFrba {
                         viaj_fecha_inicio,
                         viaj_fecha_fin,
                         clie_nombre_apellido,
-                        viaj_total};
+                        viaj_total,
+                        clie_id};
                 rowvw_rendicionRow.ItemArray = columnValuesArray;
                 this.Rows.Add(rowvw_rendicionRow);
                 return rowvw_rendicionRow;
@@ -11896,6 +11907,7 @@ namespace UberFrba {
                 this.columnviaj_fecha_fin = base.Columns["viaj_fecha_fin"];
                 this.columnclie_nombre_apellido = base.Columns["clie_nombre_apellido"];
                 this.columnviaj_total = base.Columns["viaj_total"];
+                this.columnclie_id = base.Columns["clie_id"];
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -11925,6 +11937,8 @@ namespace UberFrba {
                 base.Columns.Add(this.columnclie_nombre_apellido);
                 this.columnviaj_total = new global::System.Data.DataColumn("viaj_total", typeof(decimal), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columnviaj_total);
+                this.columnclie_id = new global::System.Data.DataColumn("clie_id", typeof(int), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnclie_id);
                 this.Constraints.Add(new global::System.Data.UniqueConstraint("Constraint1", new global::System.Data.DataColumn[] {
                                 this.columnviaj_id}, true));
                 this.columnviaj_id.AllowDBNull = false;
@@ -11943,6 +11957,7 @@ namespace UberFrba {
                 this.columnclie_nombre_apellido.ReadOnly = true;
                 this.columnclie_nombre_apellido.MaxLength = 481;
                 this.columnviaj_total.ReadOnly = true;
+                this.columnclie_id.AllowDBNull = false;
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -15788,6 +15803,17 @@ namespace UberFrba {
                 }
                 set {
                     this[this.tablevw_rendicion.viaj_totalColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public int clie_id {
+                get {
+                    return ((int)(this[this.tablevw_rendicion.clie_idColumn]));
+                }
+                set {
+                    this[this.tablevw_rendicion.clie_idColumn] = value;
                 }
             }
             
@@ -25745,6 +25771,7 @@ SELECT viaj_id, viaj_automovil, viaj_chofer, viaj_turno, viaj_cantidad_kilometro
             tableMapping.ColumnMappings.Add("viaj_fecha_fin", "viaj_fecha_fin");
             tableMapping.ColumnMappings.Add("clie_nombre_apellido", "clie_nombre_apellido");
             tableMapping.ColumnMappings.Add("viaj_total", "viaj_total");
+            tableMapping.ColumnMappings.Add("clie_id", "clie_id");
             this._adapter.TableMappings.Add(tableMapping);
         }
         
@@ -25763,7 +25790,8 @@ SELECT viaj_id, viaj_automovil, viaj_chofer, viaj_turno, viaj_cantidad_kilometro
             this._commandCollection[0].Connection = this.Connection;
             this._commandCollection[0].CommandText = "SELECT viaj_id, viaj_chofer, chof_nombre_apellido, viaj_turno, turn_descripcion, " +
                 "turn_precio_base, turn_valor_kilometro, viaj_cantidad_kilometros, viaj_fecha_ini" +
-                "cio, viaj_fecha_fin, clie_nombre_apellido, viaj_total FROM GGDP.vw_rendicion";
+                "cio, viaj_fecha_fin, clie_nombre_apellido, viaj_total, clie_id FROM GGDP.vw_rend" +
+                "icion";
             this._commandCollection[0].CommandType = global::System.Data.CommandType.Text;
         }
         

@@ -37,9 +37,9 @@
     <Shape ID="DesignTable:sp_obtener_roles_usuario" ZOrder="8" X="0" Y="0" Height="90" Width="158" AdapterExpanded="true" DataTableExpanded="true" OldAdapterHeight="0" OldDataTableHeight="0" SplitterPosition="0" />
     <Shape ID="DesignTable:sp_obtener_usuario" ZOrder="7" X="0" Y="0" Height="90" Width="158" AdapterExpanded="true" DataTableExpanded="true" OldAdapterHeight="0" OldDataTableHeight="0" SplitterPosition="0" />
     <Shape ID="DesignTable:sp_obtener_usuarios_no_clientes" ZOrder="6" X="0" Y="0" Height="90" Width="158" AdapterExpanded="true" DataTableExpanded="true" OldAdapterHeight="0" OldDataTableHeight="0" SplitterPosition="0" />
-    <Shape ID="DesignSources:QueriesTableAdapter" ZOrder="3" X="0" Y="0" Height="20" Width="158" AdapterExpanded="true" DataTableExpanded="true" OldAdapterHeight="0" OldDataTableHeight="0" SplitterPosition="0" />
     <Shape ID="DesignTable:vw_automovil_listado" ZOrder="2" X="2253" Y="0" Height="191" Width="269" AdapterExpanded="true" DataTableExpanded="true" OldAdapterHeight="0" OldDataTableHeight="0" SplitterPosition="140" />
     <Shape ID="DesignTable:vw_rendicion" ZOrder="1" X="2592" Y="0" Height="305" Width="221" AdapterExpanded="true" DataTableExpanded="true" OldAdapterHeight="0" OldDataTableHeight="0" SplitterPosition="254" />
+    <Shape ID="DesignSources:QueriesTableAdapter" ZOrder="3" X="0" Y="0" Height="20" Width="158" AdapterExpanded="true" DataTableExpanded="true" OldAdapterHeight="0" OldDataTableHeight="0" SplitterPosition="0" />
   </Shapes>
   <Connectors>
     <Connector ID="DesignRelation:fk_auto_chofer" ZOrder="37" LineWidth="11">

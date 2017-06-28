@@ -144,6 +144,10 @@ IF (OBJECT_ID ('GGDP.sp_alta_rendicion') IS NOT NULL)
     DROP PROCEDURE GGDP.sp_alta_rendicion
 IF (OBJECT_ID ('GGDP.sp_alta_rendicion_viaje') IS NOT NULL)
     DROP PROCEDURE GGDP.sp_alta_rendicion_viaje
+IF (OBJECT_ID ('GGDP.sp_alta_factura') IS NOT NULL)
+    DROP PROCEDURE GGDP.sp_alta_factura
+IF (OBJECT_ID ('GGDP.sp_alta_factura_viaje') IS NOT NULL)
+    DROP PROCEDURE GGDP.sp_alta_factura_viaje
 GO
 
 /* Eliminacion de Tablas */
@@ -511,7 +515,7 @@ CREATE VIEW GGDP.vw_automovil_listado AS
 GO
 
 CREATE VIEW GGDP.vw_rendicion AS
-	SELECT viaj_id, viaj_chofer, chof_nombre + ' ' + chof_apellido as chof_nombre_apellido, viaj_turno, turn_descripcion, turn_precio_base, turn_valor_kilometro, viaj_cantidad_kilometros, viaj_fecha_inicio, viaj_fecha_fin, clie_nombre + ' ' + clie_apellido AS clie_nombre_apellido, turn_precio_base + (turn_valor_kilometro * viaj_cantidad_kilometros) AS viaj_total
+	SELECT viaj_id, viaj_chofer, chof_nombre + ' ' + chof_apellido as chof_nombre_apellido, viaj_turno, turn_descripcion, turn_precio_base, turn_valor_kilometro, viaj_cantidad_kilometros, viaj_fecha_inicio, viaj_fecha_fin, clie_id, clie_nombre + ' ' + clie_apellido AS clie_nombre_apellido, turn_precio_base + (turn_valor_kilometro * viaj_cantidad_kilometros) AS viaj_total
 	FROM GGDP.Viaje
 	JOIN GGDP.Cliente ON viaj_cliente = clie_id
 	JOIN GGDP.Turno ON viaj_turno = turn_id
@@ -1169,6 +1173,41 @@ BEGIN
 	BEGIN TRANSACTION
 	INSERT INTO GGDP.RendicionPorViaje(rxv_rendicion, rxv_viaje)
 	VALUES(@rendicion, @viaje)
+	COMMIT TRANSACTION
+
+END
+GO
+
+CREATE PROCEDURE GGDP.sp_alta_factura
+(
+	@fecha_inicio datetime,
+	@fecha_fin datetime,
+	@cliente int,
+	@importe decimal (12,2),
+	@viajes_facturados numeric(18,0)
+
+) AS
+BEGIN
+
+	BEGIN TRANSACTION
+	INSERT INTO GGDP.Factura(fact_fecha_inicio, fact_fecha_fin, fact_cliente, fact_importe, fact_viajes_facturados)
+	VALUES(@fecha_inicio, @fecha_fin, @cliente, @importe, @viajes_facturados)
+	COMMIT TRANSACTION
+	SELECT fact_id FROM GGDP.Factura WHERE fact_fecha_inicio = @fecha_inicio AND fact_fecha_fin = @fecha_fin AND fact_cliente = @cliente
+
+END
+GO
+
+CREATE PROCEDURE GGDP.sp_alta_factura_viaje
+(
+	@factura int,
+	@viaje int
+) AS
+BEGIN
+
+	BEGIN TRANSACTION
+	INSERT INTO GGDP.FacturaPorViaje(fxv_factura, fxv_viaje)
+	VALUES(@factura, @viaje)
 	COMMIT TRANSACTION
 
 END
