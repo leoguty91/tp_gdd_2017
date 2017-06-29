@@ -18,6 +18,9 @@ GO
 IF (OBJECT_ID ('GGDP.vw_rendicion') IS NOT NULL)
   DROP VIEW GGDP.vw_rendicion;
 GO
+IF (OBJECT_ID ('GGDP.vw_chofer_mayor_recaudacion') IS NOT NULL)
+  DROP VIEW GGDP.vw_chofer_mayor_recaudacion;
+GO
 
 /* Eliminacion de Functions */
 IF (OBJECT_ID ('GGDP.fu_existe_usuario') IS NOT NULL)
@@ -92,8 +95,6 @@ IF (OBJECT_ID ('GGDP.sp_obtener_funcionalidad_nombre') IS NOT NULL)
 	DROP PROCEDURE GGDP.sp_obtener_funcionalidad_nombre	 
 IF (OBJECT_ID ('GGDP.sp_alta_usuario') IS NOT NULL)
     DROP PROCEDURE GGDP.sp_alta_usuario
-	IF (OBJECT_ID ('GGDP.sp_alta_usuario_rol') IS NOT NULL)
-    DROP PROCEDURE GGDP.sp_alta_usuario_rol
 IF (OBJECT_ID ('GGDP.sp_alta_cliente') IS NOT NULL)
     DROP PROCEDURE GGDP.sp_alta_cliente
 IF (OBJECT_ID ('GGDP.sp_baja_cliente') IS NOT NULL)
@@ -522,6 +523,17 @@ CREATE VIEW GGDP.vw_rendicion AS
 	JOIN GGDP.Chofer ON viaj_chofer = chof_id
 GO
 
+/*
+-- TODO
+CREATE VIEW GGDP.vw_chofer_mayor_recaudacion AS
+SELECT chof_id, chof_nombre + ' ' + chof_apellido, SUM(rend_importe) AS rendicion_total
+	FROM GGDP.Chofer
+	JOIN GGDP.Rendicion ON chof_id = rend_chofer
+	GROUP BY chof_id, chof_nombre + ' ' + chof_apellido
+	ORDER BY SUM(rend_importe) DESC
+GO
+*/
+
 /* Creacion de Functions*/
 CREATE FUNCTION GGDP.fu_existe_usuario(@usuario VARCHAR(255)) RETURNS BIT AS BEGIN
 	IF EXISTS(SELECT 1 FROM GGDP.Usuario WHERE usua_usuario = @usuario)
@@ -701,7 +713,7 @@ GO
 CREATE PROCEDURE GGDP.sp_alta_funcionalidad_rol(@funcionalidad INT, @rol INT) AS BEGIN
 	IF GGDP.fu_existe_funcionalidad_rol(@funcionalidad, @rol) = 0
 	BEGIN
-		INSERT RolPorFuncionalidad(rxf_funcionalidad, rxf_rol) VALUES(@funcionalidad, @rol)
+		INSERT GGDP.RolPorFuncionalidad(rxf_funcionalidad, rxf_rol) VALUES(@funcionalidad, @rol)
 	END
 END
 GO
@@ -709,7 +721,7 @@ GO
 CREATE PROCEDURE GGDP.sp_baja_funcionalidad_rol(@funcionalidad INT, @rol INT) AS BEGIN
 	IF GGDP.fu_existe_funcionalidad_rol(@funcionalidad, @rol) = 1
 	BEGIN
-		DELETE FROM RolPorFuncionalidad WHERE rxf_funcionalidad = @funcionalidad AND rxf_rol = @rol
+		DELETE FROM GGDP.RolPorFuncionalidad WHERE rxf_funcionalidad = @funcionalidad AND rxf_rol = @rol
 	END
 END
 GO
@@ -805,19 +817,6 @@ CREATE PROCEDURE GGDP.sp_alta_usuario(@usuario VARCHAR(255), @password VARCHAR(2
 	END
 	INSERT INTO GGDP.Usuario(usua_usuario, usua_password, usua_intentos, usua_habilitado)
 	VALUES (@usuario, HASHBYTES('SHA2_256', @password), 0, 1)
-	COMMIT TRANSACTION
-	SELECT usua_id FROM GGDP.Usuario WHERE usua_usuario = @usuario
-END
-GO
-
-CREATE PROCEDURE GGDP.sp_alta_usuario_rol(@usuario VARCHAR(255), @password VARCHAR(255), @rol VARCHAR(255)) AS BEGIN
-	BEGIN TRANSACTION
-	INSERT INTO GGDP.Usuario(usua_usuario, usua_password, usua_intentos, usua_habilitado)
-	VALUES (@usuario, HASHBYTES('SHA2_256', @password), 0, 1)
-	
-	INSERT INTO GGDP.RolPorUsuario(rxu_rol, rxu_usuario)
-	SELECT rol_id, usua_id FROM GGDP.Rol, GGDP.Usuario
-	WHERE rol_nombre = @rol AND usua_usuario = @usuario
 	COMMIT TRANSACTION
 	SELECT usua_id FROM GGDP.Usuario WHERE usua_usuario = @usuario
 END

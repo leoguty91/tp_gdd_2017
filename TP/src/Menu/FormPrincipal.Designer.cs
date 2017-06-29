@@ -161,7 +161,6 @@
             // 
             // listadoEstadisticoToolStripMenuItem
             // 
-            this.listadoEstadisticoToolStripMenuItem.Enabled = false;
             this.listadoEstadisticoToolStripMenuItem.Name = "listadoEstadisticoToolStripMenuItem";
             this.listadoEstadisticoToolStripMenuItem.Size = new System.Drawing.Size(238, 22);
             this.listadoEstadisticoToolStripMenuItem.Text = "Listado Estadistico";

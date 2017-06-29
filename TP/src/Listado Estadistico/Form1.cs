@@ -15,7 +15,32 @@ namespace UberFrba.Listado_Estadistico
         public Form1()
         {
             InitializeComponent();
+            cargaDatos();
             Show();
+        }
+        private void cargaDatos()
+        {
+            dateTimePickerFecha.CustomFormat = "yyyy";
+            dateTimePickerFecha.ShowUpDown = true;
+        }
+
+        private void buttonMostrar_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                if (comboBoxListado.SelectedIndex == -1)
+                {
+                    throw new Exception("Seleccione un listado");
+                }
+                if (comboBoxTrimestre.SelectedIndex == -1)
+                {
+                    throw new Exception("Seleccione un trimestre");
+                }
+            }
+            catch (Exception exception)
+            {
+                MessageBox.Show(exception.Message, "Error en listados", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
     }
 }
