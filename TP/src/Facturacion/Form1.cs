@@ -26,6 +26,8 @@ namespace UberFrba.Facturacion
             {
                 ComboBoxManager cbm = new ComboBoxManager();
                 comboBoxCliente = cbm.Cliente(comboBoxCliente);
+                dateTimePickerFecha.CustomFormat = "MM/yyyy";
+                dateTimePickerFecha.ShowUpDown = true;
             }
             catch (Exception exception)
             {
