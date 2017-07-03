@@ -50,8 +50,10 @@ IF OBJECT_ID ('GGDP.tr_rol','TR') IS NOT NULL
    DROP TRIGGER GGDP.tr_rol;
 IF OBJECT_ID ('GGDP.tr_alta_cliente','TR') IS NOT NULL
    DROP TRIGGER GGDP.tr_alta_cliente;
-   IF OBJECT_ID ('GGDP.tr_alta_chofer','TR') IS NOT NULL
+IF OBJECT_ID ('GGDP.tr_alta_chofer','TR') IS NOT NULL
    DROP TRIGGER GGDP.tr_alta_chofer;
+IF OBJECT_ID ('GGDP.tr_alta_usuario','TR') IS NOT NULL
+   DROP TRIGGER GGDP.tr_alta_usuario;
 GO
 
 /* Eliminacion de Store Procedures */
@@ -631,6 +633,22 @@ BEGIN
 END
 GO
 
+CREATE TRIGGER GGDP.tr_alta_usuario ON GGDP.Usuario INSTEAD OF INSERT
+AS
+BEGIN
+	BEGIN TRANSACTION
+	IF (SELECT COUNT(*) FROM GGDP.Usuario u, inserted WHERE u.usua_usuario = inserted.usua_usuario) = 1
+	BEGIN
+		RAISERROR('El usuario ya existe, debe ingresar otro', 16, 1)
+	END
+	IF (SELECT COUNT(*) FROM inserted WHERE usua_password = '') > 0
+	BEGIN
+		RAISERROR('El password no puede estar vacio', 16, 1)
+	END
+	COMMIT TRANSACTION
+END
+GO
+
 /* Creacion de Store Procedures */
 CREATE PROCEDURE GGDP.sp_login_fallido(@usuario VARCHAR(255)) AS BEGIN
 	UPDATE GGDP.Usuario
@@ -807,14 +825,6 @@ GO
 
 CREATE PROCEDURE GGDP.sp_alta_usuario(@usuario VARCHAR(255), @password VARCHAR(255)) AS BEGIN
 	BEGIN TRANSACTION
-	IF GGDP.fu_existe_usuario(@usuario) = 1
-	BEGIN
-		RAISERROR('El usuario ya existe', 16, 1)
-	END
-	IF @password = ''
-	BEGIN
-		RAISERROR('Debe ingresar un password', 16, 1)
-	END
 	INSERT INTO GGDP.Usuario(usua_usuario, usua_password, usua_intentos, usua_habilitado)
 	VALUES (@usuario, HASHBYTES('SHA2_256', @password), 0, 1)
 	COMMIT TRANSACTION
