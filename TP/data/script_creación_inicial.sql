@@ -73,7 +73,7 @@ IF (OBJECT_ID ('GGDP.sp_obtener_funcionalidades') IS NOT NULL)
 	DROP PROCEDURE GGDP.sp_obtener_funcionalidades
 IF (OBJECT_ID ('GGDP.sp_obtener_funcionalidades_rol') IS NOT NULL)
 	DROP PROCEDURE GGDP.sp_obtener_funcionalidades_rol
-	IF (OBJECT_ID ('GGDP.sp_obtener_funcionalidades_rol_tabla') IS NOT NULL)
+IF (OBJECT_ID ('GGDP.sp_obtener_funcionalidades_rol_tabla') IS NOT NULL)
 	DROP PROCEDURE GGDP.sp_obtener_funcionalidades_rol_tabla
 IF (OBJECT_ID ('GGDP.sp_alta_funcionalidad_rol') IS NOT NULL)
 	DROP PROCEDURE GGDP.sp_alta_funcionalidad_rol
@@ -462,6 +462,7 @@ FROM [gd_esquema].[Maestra]
 	JOIN GGDP.Turno ON Turno_Descripcion = turn_descripcion
 	JOIN GGDP.Cliente ON Cliente_Dni = clie_dni
 WHERE Rendicion_Nro IS NULL AND Factura_Nro IS NULL
+GROUP BY auto_id, chof_id, turn_id, Viaje_Cant_Kilometros, Viaje_Fecha, DATEADD(MINUTE, 10, Viaje_Fecha), clie_id
 GO
 
 -- Insercion de facturas
@@ -472,7 +473,7 @@ FROM [gd_esquema].[Maestra]
 WHERE Factura_Nro IS NOT NULL
 GROUP BY [Factura_Fecha_Inicio], [Factura_Fecha_Fin], clie_id
 GO
--- TODO REVISAR
+
 INSERT INTO GGDP.FacturaPorViaje(fxv_factura, fxv_viaje)
 SELECT fact_id, viaj_id
 FROM [gd_esquema].[Maestra]
@@ -480,7 +481,7 @@ FROM [gd_esquema].[Maestra]
 	JOIN GGDP.Chofer ON Chofer_Dni = chof_dni
 	JOIN GGDP.Turno ON Turno_Descripcion = turn_descripcion
 	JOIN GGDP.Cliente ON Cliente_Dni = clie_dni
-	JOIN GGDP.Viaje ON viaj_automovil = auto_id AND viaj_chofer = chof_id AND viaj_turno = turn_id AND viaj_fecha_inicio = Viaje_Fecha AND viaj_cliente = clie_id
+	JOIN GGDP.Viaje ON viaj_automovil = auto_id AND viaj_chofer = chof_id AND viaj_turno = turn_id AND viaj_fecha_inicio = Viaje_Fecha AND viaj_cliente = clie_id AND Viaje_Cant_Kilometros = viaj_cantidad_kilometros
 	JOIN GGDP.Factura ON fact_fecha_inicio = Factura_Fecha_Inicio AND fact_cliente = clie_id
 WHERE Factura_Nro IS NOT NULL
 GO
