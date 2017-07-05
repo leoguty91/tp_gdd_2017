@@ -493,7 +493,7 @@ FROM [gd_esquema].[Maestra]
 	JOIN GGDP.Chofer ON Chofer_Dni = chof_dni
 	JOIN GGDP.Turno ON Turno_Descripcion = turn_descripcion
 WHERE Rendicion_Nro IS NOT NULL
-GROUP BY Rendicion_Fecha, chof_id, turn_id
+GROUP BY Rendicion_Nro, Rendicion_Fecha, Rendicion_Importe, chof_id, turn_id
 GO
 /*
 -- TODO Terminar
@@ -504,9 +504,10 @@ FROM [gd_esquema].[Maestra]
 	JOIN GGDP.Chofer ON Chofer_Dni = chof_dni
 	JOIN GGDP.Turno ON Turno_Descripcion = turn_descripcion
 	JOIN GGDP.Cliente ON Cliente_Dni = clie_dni
-	JOIN GGDP.Viaje ON viaj_automovil = auto_id AND viaj_chofer = chof_id AND viaj_turno = turn_id AND viaj_fecha_inicio = Viaje_Fecha AND viaj_cliente = clie_id
-	JOIN GGDP.Rendicion ON rend_fecha = Rendicion_Fecha AND rend_chofer = chof_id AND rend_turno = turn_id
+	JOIN GGDP.Viaje ON viaj_automovil = auto_id AND viaj_chofer = chof_id AND viaj_turno = turn_id AND viaj_fecha_inicio = Viaje_Fecha AND viaj_cliente = clie_id AND Viaje_Cant_Kilometros = viaj_cantidad_kilometros
+	JOIN GGDP.Rendicion ON rend_fecha = Rendicion_Fecha AND rend_chofer = chof_id AND rend_turno = turn_id AND rend_importe = Rendicion_Importe
 WHERE Rendicion_Nro IS NOT NULL
+GROUP BY Rendicion_Nro, Rendicion_Fecha, Rendicion_Importe, rend_id, viaj_id
 GO
 */
 
