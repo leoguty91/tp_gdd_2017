@@ -21,6 +21,12 @@ GO
 IF (OBJECT_ID ('GGDP.vw_chofer_mayor_recaudacion') IS NOT NULL)
   DROP VIEW GGDP.vw_chofer_mayor_recaudacion;
 GO
+IF (OBJECT_ID ('GGDP.vw_chofer_viaje_largo') IS NOT NULL)
+  DROP VIEW GGDP.vw_chofer_viaje_largo;
+GO
+IF (OBJECT_ID ('GGDP.vw_cliente_mayor_consumo') IS NOT NULL)
+  DROP VIEW GGDP.vw_cliente_mayor_consumo;
+GO
 
 /* Eliminacion de Functions */
 IF (OBJECT_ID ('GGDP.fu_existe_usuario') IS NOT NULL)
@@ -533,16 +539,28 @@ CREATE VIEW GGDP.vw_rendicion AS
 	JOIN GGDP.Chofer ON viaj_chofer = chof_id
 GO
 
-/*
--- TODO
 CREATE VIEW GGDP.vw_chofer_mayor_recaudacion AS
-SELECT chof_id, chof_nombre + ' ' + chof_apellido, SUM(rend_importe) AS rendicion_total
+	SELECT TOP 5 chof_id, chof_nombre + ' ' + chof_apellido as chofer_nombre_apellido, SUM(rend_importe) AS rendicion_total
 	FROM GGDP.Chofer
 	JOIN GGDP.Rendicion ON chof_id = rend_chofer
 	GROUP BY chof_id, chof_nombre + ' ' + chof_apellido
 	ORDER BY SUM(rend_importe) DESC
 GO
-*/
+
+CREATE VIEW GGDP.vw_chofer_viaje_largo AS
+	SELECT DISTINCT TOP 5 chof_id, chof_nombre + ' ' + chof_apellido as chofer_nombre_apellido, viaj_cantidad_kilometros
+	FROM GGDP.Chofer
+	JOIN GGDP.Viaje ON chof_id = viaj_chofer
+	ORDER BY viaj_cantidad_kilometros DESC
+GO
+
+CREATE VIEW GGDP.vw_cliente_mayor_consumo AS
+	SELECT TOP 5 fact_cliente, clie_nombre + ' ' + clie_apellido AS cliente_nombre_apellido, SUM(fact_importe) as consumo_total
+	FROM GGDP.Factura
+	JOIN GGDP.Cliente ON fact_cliente = clie_id
+	GROUP BY fact_cliente, clie_nombre + ' ' + clie_apellido
+	ORDER BY SUM(fact_importe) DESC
+GO
 
 /* Creacion de Functions*/
 CREATE FUNCTION GGDP.fu_existe_usuario(@usuario VARCHAR(255)) RETURNS BIT AS BEGIN
