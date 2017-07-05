@@ -54,6 +54,12 @@ IF OBJECT_ID ('GGDP.tr_alta_chofer','TR') IS NOT NULL
    DROP TRIGGER GGDP.tr_alta_chofer;
 IF OBJECT_ID ('GGDP.tr_alta_usuario','TR') IS NOT NULL
    DROP TRIGGER GGDP.tr_alta_usuario;
+IF OBJECT_ID ('GGDP.tr_alta_viaje','TR') IS NOT NULL
+   DROP TRIGGER GGDP.tr_alta_viaje;
+IF OBJECT_ID ('GGDP.tr_alta_factura','TR') IS NOT NULL
+   DROP TRIGGER GGDP.tr_alta_factura;
+IF OBJECT_ID ('GGDP.tr_alta_automovil','TR') IS NOT NULL
+   DROP TRIGGER GGDP.tr_alta_automovil;
 GO
 
 /* Eliminacion de Store Procedures */
@@ -467,11 +473,11 @@ GO
 
 -- Insercion de facturas
 INSERT INTO GGDP.Factura(fact_fecha_inicio, fact_fecha_fin, fact_cliente, fact_importe, fact_viajes_facturados)
-SELECT [Factura_Fecha_Inicio], [Factura_Fecha_Fin], clie_id, SUM(Turno_Precio_Base + (Turno_Valor_Kilometro * Viaje_Cant_Kilometros)), COUNT(*)
+SELECT Factura_Fecha_Inicio, Factura_Fecha_Fin, clie_id, SUM(Turno_Precio_Base + (Turno_Valor_Kilometro * Viaje_Cant_Kilometros)), COUNT(*)
 FROM [gd_esquema].[Maestra]
 	JOIN GGDP.Cliente ON Cliente_Dni = clie_dni
 WHERE Factura_Nro IS NOT NULL
-GROUP BY [Factura_Fecha_Inicio], [Factura_Fecha_Fin], clie_id
+GROUP BY Factura_Fecha_Inicio, Factura_Fecha_Fin, clie_id
 GO
 
 INSERT INTO GGDP.FacturaPorViaje(fxv_factura, fxv_viaje)
@@ -601,7 +607,7 @@ BEGIN
 END
 GO
 
-CREATE TRIGGER GGDP.tr_alta_cliente ON GGDP.Cliente INSTEAD OF INSERT, UPDATE
+CREATE TRIGGER GGDP.tr_alta_cliente ON GGDP.Cliente INSTEAD OF INSERT
 AS
 BEGIN
 	BEGIN TRANSACTION
@@ -646,6 +652,50 @@ BEGIN
 	IF (SELECT COUNT(*) FROM inserted WHERE usua_password = '') > 0
 	BEGIN
 		RAISERROR('El password no puede estar vacio', 16, 1)
+	END
+	COMMIT TRANSACTION
+END
+GO
+
+CREATE TRIGGER GGDP.tr_alta_viaje ON GGDP.Viaje INSTEAD OF INSERT
+AS
+BEGIN
+	BEGIN TRANSACTION
+	IF (SELECT COUNT(*) FROM GGDP.Cliente c, inserted WHERE c.clie_id = inserted.viaj_cliente AND c.clie_habilitado = 0) > 0
+	BEGIN
+		RAISERROR('No se puede asignar un viaje a un cliente inhabilitado', 16, 1)
+	END
+	IF (SELECT COUNT(*) FROM GGDP.Automovil a, inserted WHERE a.auto_id = inserted.viaj_automovil AND a.auto_habilitado = 0) > 0
+	BEGIN
+		RAISERROR('No se puede asignar un viaje a un automovil inhabilitado', 16, 1)
+	END
+	COMMIT TRANSACTION
+END
+GO
+
+CREATE TRIGGER GGDP.tr_alta_factura ON GGDP.Factura INSTEAD OF INSERT
+AS
+BEGIN
+	BEGIN TRANSACTION
+	IF (SELECT COUNT(*) FROM GGDP.Cliente c, inserted WHERE c.clie_id = inserted.fact_cliente AND c.clie_habilitado = 0) > 0
+	BEGIN
+		RAISERROR('No se puede realizar una facturacion a un cliente inhabilitado', 16, 1)
+	END
+	COMMIT TRANSACTION
+END
+GO
+
+CREATE TRIGGER GGDP.tr_alta_automovil ON GGDP.Automovil INSTEAD OF INSERT
+AS
+BEGIN
+	BEGIN TRANSACTION
+	IF (SELECT COUNT(*) FROM GGDP.Automovil a, inserted WHERE a.auto_patente = inserted.auto_patente) > 0
+	BEGIN
+		RAISERROR('No se puede dar de alta un automovil con una patente ya registrada', 16, 1)
+	END
+	IF (SELECT COUNT(*) FROM GGDP.Automovil a, inserted WHERE a.auto_chofer = inserted.auto_chofer AND a.auto_habilitado = 1 AND inserted.auto_habilitado = 1) > 0
+	BEGIN
+		RAISERROR('No se puede dar de alta un automovil con un chofer asignado a otro auto activo', 16, 1)
 	END
 	COMMIT TRANSACTION
 END

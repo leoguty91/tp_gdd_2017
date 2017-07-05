@@ -6644,6 +6644,8 @@ namespace UberFrba {
             
             private global::System.Data.DataColumn columnturn_habilitado;
             
+            private global::System.Data.DataColumn columnturn_precio_base;
+            
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             public TurnoDataTable() {
@@ -6727,6 +6729,14 @@ namespace UberFrba {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public global::System.Data.DataColumn turn_precio_baseColumn {
+                get {
+                    return this.columnturn_precio_base;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             [global::System.ComponentModel.Browsable(false)]
             public int Count {
                 get {
@@ -6762,7 +6772,7 @@ namespace UberFrba {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public TurnoRow AddTurnoRow(decimal turn_hora_inicio, decimal turn_hora_fin, string turn_descripcion, decimal turn_valor_kilometro, bool turn_habilitado) {
+            public TurnoRow AddTurnoRow(decimal turn_hora_inicio, decimal turn_hora_fin, string turn_descripcion, decimal turn_valor_kilometro, bool turn_habilitado, decimal turn_precio_base) {
                 TurnoRow rowTurnoRow = ((TurnoRow)(this.NewRow()));
                 object[] columnValuesArray = new object[] {
                         null,
@@ -6770,7 +6780,8 @@ namespace UberFrba {
                         turn_hora_fin,
                         turn_descripcion,
                         turn_valor_kilometro,
-                        turn_habilitado};
+                        turn_habilitado,
+                        turn_precio_base};
                 rowTurnoRow.ItemArray = columnValuesArray;
                 this.Rows.Add(rowTurnoRow);
                 return rowTurnoRow;
@@ -6806,6 +6817,7 @@ namespace UberFrba {
                 this.columnturn_descripcion = base.Columns["turn_descripcion"];
                 this.columnturn_valor_kilometro = base.Columns["turn_valor_kilometro"];
                 this.columnturn_habilitado = base.Columns["turn_habilitado"];
+                this.columnturn_precio_base = base.Columns["turn_precio_base"];
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -6823,6 +6835,8 @@ namespace UberFrba {
                 base.Columns.Add(this.columnturn_valor_kilometro);
                 this.columnturn_habilitado = new global::System.Data.DataColumn("turn_habilitado", typeof(bool), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columnturn_habilitado);
+                this.columnturn_precio_base = new global::System.Data.DataColumn("turn_precio_base", typeof(decimal), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnturn_precio_base);
                 this.Constraints.Add(new global::System.Data.UniqueConstraint("Constraint1", new global::System.Data.DataColumn[] {
                                 this.columnturn_id}, true));
                 this.columnturn_id.AutoIncrement = true;
@@ -6836,6 +6850,7 @@ namespace UberFrba {
                 this.columnturn_descripcion.AllowDBNull = false;
                 this.columnturn_descripcion.MaxLength = 255;
                 this.columnturn_valor_kilometro.AllowDBNull = false;
+                this.columnturn_precio_base.AllowDBNull = false;
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -20487,6 +20502,17 @@ namespace UberFrba {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public decimal turn_precio_base {
+                get {
+                    return ((decimal)(this[this.tableTurno.turn_precio_baseColumn]));
+                }
+                set {
+                    this[this.tableTurno.turn_precio_baseColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             public bool Isturn_habilitadoNull() {
                 return this.IsNull(this.tableTurno.turn_habilitadoColumn);
             }
@@ -29076,8 +29102,8 @@ SELECT rend_id, rend_chofer, rend_turno, rend_importe, rend_viaje FROM GGDP.Rend
             this._commandCollection = new global::System.Data.SqlClient.SqlCommand[1];
             this._commandCollection[0] = new global::System.Data.SqlClient.SqlCommand();
             this._commandCollection[0].Connection = this.Connection;
-            this._commandCollection[0].CommandText = "SELECT rend_id, rend_chofer, rend_turno, rend_importe, rend_viaje FROM GGDP.Rendi" +
-                "cion";
+            this._commandCollection[0].CommandText = "SELECT rend_id, rend_chofer, rend_turno, rend_importe, rend_viaje, rend_fecha FRO" +
+                "M GGDP.Rendicion";
             this._commandCollection[0].CommandType = global::System.Data.CommandType.Text;
         }
         
@@ -30360,10 +30386,11 @@ SELECT rol_id, rol_nombre, rol_habilitado FROM GGDP.Rol WHERE (rol_id = @rol_id)
             tableMapping.ColumnMappings.Add("turn_descripcion", "turn_descripcion");
             tableMapping.ColumnMappings.Add("turn_valor_kilometro", "turn_valor_kilometro");
             tableMapping.ColumnMappings.Add("turn_habilitado", "turn_habilitado");
+            tableMapping.ColumnMappings.Add("turn_precio_base", "turn_precio_base");
             this._adapter.TableMappings.Add(tableMapping);
             this._adapter.DeleteCommand = new global::System.Data.SqlClient.SqlCommand();
             this._adapter.DeleteCommand.Connection = this.Connection;
-            this._adapter.DeleteCommand.CommandText = @"DELETE FROM [GGDP].[Turno] WHERE (([turn_id] = @Original_turn_id) AND ([turn_hora_inicio] = @Original_turn_hora_inicio) AND ([turn_hora_fin] = @Original_turn_hora_fin) AND ([turn_descripcion] = @Original_turn_descripcion) AND ([turn_valor_kilometro] = @Original_turn_valor_kilometro) AND ((@IsNull_turn_habilitado = 1 AND [turn_habilitado] IS NULL) OR ([turn_habilitado] = @Original_turn_habilitado)))";
+            this._adapter.DeleteCommand.CommandText = @"DELETE FROM [GGDP].[Turno] WHERE (([turn_id] = @Original_turn_id) AND ([turn_hora_inicio] = @Original_turn_hora_inicio) AND ([turn_hora_fin] = @Original_turn_hora_fin) AND ([turn_descripcion] = @Original_turn_descripcion) AND ([turn_valor_kilometro] = @Original_turn_valor_kilometro) AND ((@IsNull_turn_habilitado = 1 AND [turn_habilitado] IS NULL) OR ([turn_habilitado] = @Original_turn_habilitado)) AND ([turn_precio_base] = @Original_turn_precio_base))";
             this._adapter.DeleteCommand.CommandType = global::System.Data.CommandType.Text;
             this._adapter.DeleteCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@Original_turn_id", global::System.Data.SqlDbType.Int, 0, global::System.Data.ParameterDirection.Input, 0, 0, "turn_id", global::System.Data.DataRowVersion.Original, false, null, "", "", ""));
             this._adapter.DeleteCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@Original_turn_hora_inicio", global::System.Data.SqlDbType.Decimal, 0, global::System.Data.ParameterDirection.Input, 18, 0, "turn_hora_inicio", global::System.Data.DataRowVersion.Original, false, null, "", "", ""));
@@ -30372,26 +30399,29 @@ SELECT rol_id, rol_nombre, rol_habilitado FROM GGDP.Rol WHERE (rol_id = @rol_id)
             this._adapter.DeleteCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@Original_turn_valor_kilometro", global::System.Data.SqlDbType.Decimal, 0, global::System.Data.ParameterDirection.Input, 18, 2, "turn_valor_kilometro", global::System.Data.DataRowVersion.Original, false, null, "", "", ""));
             this._adapter.DeleteCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@IsNull_turn_habilitado", global::System.Data.SqlDbType.Int, 0, global::System.Data.ParameterDirection.Input, 0, 0, "turn_habilitado", global::System.Data.DataRowVersion.Original, true, null, "", "", ""));
             this._adapter.DeleteCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@Original_turn_habilitado", global::System.Data.SqlDbType.Bit, 0, global::System.Data.ParameterDirection.Input, 0, 0, "turn_habilitado", global::System.Data.DataRowVersion.Original, false, null, "", "", ""));
+            this._adapter.DeleteCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@Original_turn_precio_base", global::System.Data.SqlDbType.Decimal, 0, global::System.Data.ParameterDirection.Input, 18, 2, "turn_precio_base", global::System.Data.DataRowVersion.Original, false, null, "", "", ""));
             this._adapter.InsertCommand = new global::System.Data.SqlClient.SqlCommand();
             this._adapter.InsertCommand.Connection = this.Connection;
-            this._adapter.InsertCommand.CommandText = @"INSERT INTO [GGDP].[Turno] ([turn_hora_inicio], [turn_hora_fin], [turn_descripcion], [turn_valor_kilometro], [turn_habilitado]) VALUES (@turn_hora_inicio, @turn_hora_fin, @turn_descripcion, @turn_valor_kilometro, @turn_habilitado);
-SELECT turn_id, turn_hora_inicio, turn_hora_fin, turn_descripcion, turn_valor_kilometro, turn_habilitado FROM GGDP.Turno WHERE (turn_id = SCOPE_IDENTITY())";
+            this._adapter.InsertCommand.CommandText = @"INSERT INTO [GGDP].[Turno] ([turn_hora_inicio], [turn_hora_fin], [turn_descripcion], [turn_valor_kilometro], [turn_habilitado], [turn_precio_base]) VALUES (@turn_hora_inicio, @turn_hora_fin, @turn_descripcion, @turn_valor_kilometro, @turn_habilitado, @turn_precio_base);
+SELECT turn_id, turn_hora_inicio, turn_hora_fin, turn_descripcion, turn_valor_kilometro, turn_habilitado, turn_precio_base FROM GGDP.Turno WHERE (turn_id = SCOPE_IDENTITY())";
             this._adapter.InsertCommand.CommandType = global::System.Data.CommandType.Text;
             this._adapter.InsertCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@turn_hora_inicio", global::System.Data.SqlDbType.Decimal, 0, global::System.Data.ParameterDirection.Input, 18, 0, "turn_hora_inicio", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
             this._adapter.InsertCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@turn_hora_fin", global::System.Data.SqlDbType.Decimal, 0, global::System.Data.ParameterDirection.Input, 18, 0, "turn_hora_fin", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
             this._adapter.InsertCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@turn_descripcion", global::System.Data.SqlDbType.VarChar, 0, global::System.Data.ParameterDirection.Input, 0, 0, "turn_descripcion", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
             this._adapter.InsertCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@turn_valor_kilometro", global::System.Data.SqlDbType.Decimal, 0, global::System.Data.ParameterDirection.Input, 18, 2, "turn_valor_kilometro", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
             this._adapter.InsertCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@turn_habilitado", global::System.Data.SqlDbType.Bit, 0, global::System.Data.ParameterDirection.Input, 0, 0, "turn_habilitado", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
+            this._adapter.InsertCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@turn_precio_base", global::System.Data.SqlDbType.Decimal, 0, global::System.Data.ParameterDirection.Input, 18, 2, "turn_precio_base", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
             this._adapter.UpdateCommand = new global::System.Data.SqlClient.SqlCommand();
             this._adapter.UpdateCommand.Connection = this.Connection;
-            this._adapter.UpdateCommand.CommandText = @"UPDATE [GGDP].[Turno] SET [turn_hora_inicio] = @turn_hora_inicio, [turn_hora_fin] = @turn_hora_fin, [turn_descripcion] = @turn_descripcion, [turn_valor_kilometro] = @turn_valor_kilometro, [turn_habilitado] = @turn_habilitado WHERE (([turn_id] = @Original_turn_id) AND ([turn_hora_inicio] = @Original_turn_hora_inicio) AND ([turn_hora_fin] = @Original_turn_hora_fin) AND ([turn_descripcion] = @Original_turn_descripcion) AND ([turn_valor_kilometro] = @Original_turn_valor_kilometro) AND ((@IsNull_turn_habilitado = 1 AND [turn_habilitado] IS NULL) OR ([turn_habilitado] = @Original_turn_habilitado)));
-SELECT turn_id, turn_hora_inicio, turn_hora_fin, turn_descripcion, turn_valor_kilometro, turn_habilitado FROM GGDP.Turno WHERE (turn_id = @turn_id)";
+            this._adapter.UpdateCommand.CommandText = @"UPDATE [GGDP].[Turno] SET [turn_hora_inicio] = @turn_hora_inicio, [turn_hora_fin] = @turn_hora_fin, [turn_descripcion] = @turn_descripcion, [turn_valor_kilometro] = @turn_valor_kilometro, [turn_habilitado] = @turn_habilitado, [turn_precio_base] = @turn_precio_base WHERE (([turn_id] = @Original_turn_id) AND ([turn_hora_inicio] = @Original_turn_hora_inicio) AND ([turn_hora_fin] = @Original_turn_hora_fin) AND ([turn_descripcion] = @Original_turn_descripcion) AND ([turn_valor_kilometro] = @Original_turn_valor_kilometro) AND ((@IsNull_turn_habilitado = 1 AND [turn_habilitado] IS NULL) OR ([turn_habilitado] = @Original_turn_habilitado)) AND ([turn_precio_base] = @Original_turn_precio_base));
+SELECT turn_id, turn_hora_inicio, turn_hora_fin, turn_descripcion, turn_valor_kilometro, turn_habilitado, turn_precio_base FROM GGDP.Turno WHERE (turn_id = @turn_id)";
             this._adapter.UpdateCommand.CommandType = global::System.Data.CommandType.Text;
             this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@turn_hora_inicio", global::System.Data.SqlDbType.Decimal, 0, global::System.Data.ParameterDirection.Input, 18, 0, "turn_hora_inicio", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
             this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@turn_hora_fin", global::System.Data.SqlDbType.Decimal, 0, global::System.Data.ParameterDirection.Input, 18, 0, "turn_hora_fin", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
             this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@turn_descripcion", global::System.Data.SqlDbType.VarChar, 0, global::System.Data.ParameterDirection.Input, 0, 0, "turn_descripcion", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
             this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@turn_valor_kilometro", global::System.Data.SqlDbType.Decimal, 0, global::System.Data.ParameterDirection.Input, 18, 2, "turn_valor_kilometro", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
             this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@turn_habilitado", global::System.Data.SqlDbType.Bit, 0, global::System.Data.ParameterDirection.Input, 0, 0, "turn_habilitado", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
+            this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@turn_precio_base", global::System.Data.SqlDbType.Decimal, 0, global::System.Data.ParameterDirection.Input, 18, 2, "turn_precio_base", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
             this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@Original_turn_id", global::System.Data.SqlDbType.Int, 0, global::System.Data.ParameterDirection.Input, 0, 0, "turn_id", global::System.Data.DataRowVersion.Original, false, null, "", "", ""));
             this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@Original_turn_hora_inicio", global::System.Data.SqlDbType.Decimal, 0, global::System.Data.ParameterDirection.Input, 18, 0, "turn_hora_inicio", global::System.Data.DataRowVersion.Original, false, null, "", "", ""));
             this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@Original_turn_hora_fin", global::System.Data.SqlDbType.Decimal, 0, global::System.Data.ParameterDirection.Input, 18, 0, "turn_hora_fin", global::System.Data.DataRowVersion.Original, false, null, "", "", ""));
@@ -30399,6 +30429,7 @@ SELECT turn_id, turn_hora_inicio, turn_hora_fin, turn_descripcion, turn_valor_ki
             this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@Original_turn_valor_kilometro", global::System.Data.SqlDbType.Decimal, 0, global::System.Data.ParameterDirection.Input, 18, 2, "turn_valor_kilometro", global::System.Data.DataRowVersion.Original, false, null, "", "", ""));
             this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@IsNull_turn_habilitado", global::System.Data.SqlDbType.Int, 0, global::System.Data.ParameterDirection.Input, 0, 0, "turn_habilitado", global::System.Data.DataRowVersion.Original, true, null, "", "", ""));
             this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@Original_turn_habilitado", global::System.Data.SqlDbType.Bit, 0, global::System.Data.ParameterDirection.Input, 0, 0, "turn_habilitado", global::System.Data.DataRowVersion.Original, false, null, "", "", ""));
+            this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@Original_turn_precio_base", global::System.Data.SqlDbType.Decimal, 0, global::System.Data.ParameterDirection.Input, 18, 2, "turn_precio_base", global::System.Data.DataRowVersion.Original, false, null, "", "", ""));
             this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@turn_id", global::System.Data.SqlDbType.Int, 4, global::System.Data.ParameterDirection.Input, 0, 0, "turn_id", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
         }
         
@@ -30416,7 +30447,7 @@ SELECT turn_id, turn_hora_inicio, turn_hora_fin, turn_descripcion, turn_valor_ki
             this._commandCollection[0] = new global::System.Data.SqlClient.SqlCommand();
             this._commandCollection[0].Connection = this.Connection;
             this._commandCollection[0].CommandText = "SELECT turn_id, turn_hora_inicio, turn_hora_fin, turn_descripcion, turn_valor_kil" +
-                "ometro, turn_habilitado FROM GGDP.Turno";
+                "ometro, turn_habilitado, turn_precio_base FROM GGDP.Turno";
             this._commandCollection[0].CommandType = global::System.Data.CommandType.Text;
         }
         
@@ -30477,7 +30508,7 @@ SELECT turn_id, turn_hora_inicio, turn_hora_fin, turn_descripcion, turn_valor_ki
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
         [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
         [global::System.ComponentModel.DataObjectMethodAttribute(global::System.ComponentModel.DataObjectMethodType.Delete, true)]
-        public virtual int Delete(int Original_turn_id, decimal Original_turn_hora_inicio, decimal Original_turn_hora_fin, string Original_turn_descripcion, decimal Original_turn_valor_kilometro, global::System.Nullable<bool> Original_turn_habilitado) {
+        public virtual int Delete(int Original_turn_id, decimal Original_turn_hora_inicio, decimal Original_turn_hora_fin, string Original_turn_descripcion, decimal Original_turn_valor_kilometro, global::System.Nullable<bool> Original_turn_habilitado, decimal Original_turn_precio_base) {
             this.Adapter.DeleteCommand.Parameters[0].Value = ((int)(Original_turn_id));
             this.Adapter.DeleteCommand.Parameters[1].Value = ((decimal)(Original_turn_hora_inicio));
             this.Adapter.DeleteCommand.Parameters[2].Value = ((decimal)(Original_turn_hora_fin));
@@ -30496,6 +30527,7 @@ SELECT turn_id, turn_hora_inicio, turn_hora_fin, turn_descripcion, turn_valor_ki
                 this.Adapter.DeleteCommand.Parameters[5].Value = ((object)(1));
                 this.Adapter.DeleteCommand.Parameters[6].Value = global::System.DBNull.Value;
             }
+            this.Adapter.DeleteCommand.Parameters[7].Value = ((decimal)(Original_turn_precio_base));
             global::System.Data.ConnectionState previousConnectionState = this.Adapter.DeleteCommand.Connection.State;
             if (((this.Adapter.DeleteCommand.Connection.State & global::System.Data.ConnectionState.Open) 
                         != global::System.Data.ConnectionState.Open)) {
@@ -30516,7 +30548,7 @@ SELECT turn_id, turn_hora_inicio, turn_hora_fin, turn_descripcion, turn_valor_ki
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
         [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
         [global::System.ComponentModel.DataObjectMethodAttribute(global::System.ComponentModel.DataObjectMethodType.Insert, true)]
-        public virtual int Insert(decimal turn_hora_inicio, decimal turn_hora_fin, string turn_descripcion, decimal turn_valor_kilometro, global::System.Nullable<bool> turn_habilitado) {
+        public virtual int Insert(decimal turn_hora_inicio, decimal turn_hora_fin, string turn_descripcion, decimal turn_valor_kilometro, global::System.Nullable<bool> turn_habilitado, decimal turn_precio_base) {
             this.Adapter.InsertCommand.Parameters[0].Value = ((decimal)(turn_hora_inicio));
             this.Adapter.InsertCommand.Parameters[1].Value = ((decimal)(turn_hora_fin));
             if ((turn_descripcion == null)) {
@@ -30532,6 +30564,7 @@ SELECT turn_id, turn_hora_inicio, turn_hora_fin, turn_descripcion, turn_valor_ki
             else {
                 this.Adapter.InsertCommand.Parameters[4].Value = global::System.DBNull.Value;
             }
+            this.Adapter.InsertCommand.Parameters[5].Value = ((decimal)(turn_precio_base));
             global::System.Data.ConnectionState previousConnectionState = this.Adapter.InsertCommand.Connection.State;
             if (((this.Adapter.InsertCommand.Connection.State & global::System.Data.ConnectionState.Open) 
                         != global::System.Data.ConnectionState.Open)) {
@@ -30552,7 +30585,7 @@ SELECT turn_id, turn_hora_inicio, turn_hora_fin, turn_descripcion, turn_valor_ki
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
         [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
         [global::System.ComponentModel.DataObjectMethodAttribute(global::System.ComponentModel.DataObjectMethodType.Update, true)]
-        public virtual int Update(decimal turn_hora_inicio, decimal turn_hora_fin, string turn_descripcion, decimal turn_valor_kilometro, global::System.Nullable<bool> turn_habilitado, int Original_turn_id, decimal Original_turn_hora_inicio, decimal Original_turn_hora_fin, string Original_turn_descripcion, decimal Original_turn_valor_kilometro, global::System.Nullable<bool> Original_turn_habilitado, int turn_id) {
+        public virtual int Update(decimal turn_hora_inicio, decimal turn_hora_fin, string turn_descripcion, decimal turn_valor_kilometro, global::System.Nullable<bool> turn_habilitado, decimal turn_precio_base, int Original_turn_id, decimal Original_turn_hora_inicio, decimal Original_turn_hora_fin, string Original_turn_descripcion, decimal Original_turn_valor_kilometro, global::System.Nullable<bool> Original_turn_habilitado, decimal Original_turn_precio_base, int turn_id) {
             this.Adapter.UpdateCommand.Parameters[0].Value = ((decimal)(turn_hora_inicio));
             this.Adapter.UpdateCommand.Parameters[1].Value = ((decimal)(turn_hora_fin));
             if ((turn_descripcion == null)) {
@@ -30568,25 +30601,27 @@ SELECT turn_id, turn_hora_inicio, turn_hora_fin, turn_descripcion, turn_valor_ki
             else {
                 this.Adapter.UpdateCommand.Parameters[4].Value = global::System.DBNull.Value;
             }
-            this.Adapter.UpdateCommand.Parameters[5].Value = ((int)(Original_turn_id));
-            this.Adapter.UpdateCommand.Parameters[6].Value = ((decimal)(Original_turn_hora_inicio));
-            this.Adapter.UpdateCommand.Parameters[7].Value = ((decimal)(Original_turn_hora_fin));
+            this.Adapter.UpdateCommand.Parameters[5].Value = ((decimal)(turn_precio_base));
+            this.Adapter.UpdateCommand.Parameters[6].Value = ((int)(Original_turn_id));
+            this.Adapter.UpdateCommand.Parameters[7].Value = ((decimal)(Original_turn_hora_inicio));
+            this.Adapter.UpdateCommand.Parameters[8].Value = ((decimal)(Original_turn_hora_fin));
             if ((Original_turn_descripcion == null)) {
                 throw new global::System.ArgumentNullException("Original_turn_descripcion");
             }
             else {
-                this.Adapter.UpdateCommand.Parameters[8].Value = ((string)(Original_turn_descripcion));
+                this.Adapter.UpdateCommand.Parameters[9].Value = ((string)(Original_turn_descripcion));
             }
-            this.Adapter.UpdateCommand.Parameters[9].Value = ((decimal)(Original_turn_valor_kilometro));
+            this.Adapter.UpdateCommand.Parameters[10].Value = ((decimal)(Original_turn_valor_kilometro));
             if ((Original_turn_habilitado.HasValue == true)) {
-                this.Adapter.UpdateCommand.Parameters[10].Value = ((object)(0));
-                this.Adapter.UpdateCommand.Parameters[11].Value = ((bool)(Original_turn_habilitado.Value));
+                this.Adapter.UpdateCommand.Parameters[11].Value = ((object)(0));
+                this.Adapter.UpdateCommand.Parameters[12].Value = ((bool)(Original_turn_habilitado.Value));
             }
             else {
-                this.Adapter.UpdateCommand.Parameters[10].Value = ((object)(1));
-                this.Adapter.UpdateCommand.Parameters[11].Value = global::System.DBNull.Value;
+                this.Adapter.UpdateCommand.Parameters[11].Value = ((object)(1));
+                this.Adapter.UpdateCommand.Parameters[12].Value = global::System.DBNull.Value;
             }
-            this.Adapter.UpdateCommand.Parameters[12].Value = ((int)(turn_id));
+            this.Adapter.UpdateCommand.Parameters[13].Value = ((decimal)(Original_turn_precio_base));
+            this.Adapter.UpdateCommand.Parameters[14].Value = ((int)(turn_id));
             global::System.Data.ConnectionState previousConnectionState = this.Adapter.UpdateCommand.Connection.State;
             if (((this.Adapter.UpdateCommand.Connection.State & global::System.Data.ConnectionState.Open) 
                         != global::System.Data.ConnectionState.Open)) {
@@ -30607,8 +30642,8 @@ SELECT turn_id, turn_hora_inicio, turn_hora_fin, turn_descripcion, turn_valor_ki
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
         [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
         [global::System.ComponentModel.DataObjectMethodAttribute(global::System.ComponentModel.DataObjectMethodType.Update, true)]
-        public virtual int Update(decimal turn_hora_inicio, decimal turn_hora_fin, string turn_descripcion, decimal turn_valor_kilometro, global::System.Nullable<bool> turn_habilitado, int Original_turn_id, decimal Original_turn_hora_inicio, decimal Original_turn_hora_fin, string Original_turn_descripcion, decimal Original_turn_valor_kilometro, global::System.Nullable<bool> Original_turn_habilitado) {
-            return this.Update(turn_hora_inicio, turn_hora_fin, turn_descripcion, turn_valor_kilometro, turn_habilitado, Original_turn_id, Original_turn_hora_inicio, Original_turn_hora_fin, Original_turn_descripcion, Original_turn_valor_kilometro, Original_turn_habilitado, Original_turn_id);
+        public virtual int Update(decimal turn_hora_inicio, decimal turn_hora_fin, string turn_descripcion, decimal turn_valor_kilometro, global::System.Nullable<bool> turn_habilitado, decimal turn_precio_base, int Original_turn_id, decimal Original_turn_hora_inicio, decimal Original_turn_hora_fin, string Original_turn_descripcion, decimal Original_turn_valor_kilometro, global::System.Nullable<bool> Original_turn_habilitado, decimal Original_turn_precio_base) {
+            return this.Update(turn_hora_inicio, turn_hora_fin, turn_descripcion, turn_valor_kilometro, turn_habilitado, turn_precio_base, Original_turn_id, Original_turn_hora_inicio, Original_turn_hora_fin, Original_turn_descripcion, Original_turn_valor_kilometro, Original_turn_habilitado, Original_turn_precio_base, Original_turn_id);
         }
     }
     

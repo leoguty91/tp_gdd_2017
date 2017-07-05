@@ -36,7 +36,7 @@ namespace UberFrba.Abm_Automovil
         private void Form1_Load(object sender, EventArgs e)
         {
             // TODO: esta línea de código carga datos en la tabla 'gD1C2017DataSet1.vw_automovil_listado' Puede moverla o quitarla según sea necesario.
-            this.vw_automovil_listadoTableAdapter.Fill(this.gD1C2017DataSet1.vw_automovil_listado);
+            this.vw_automovil_listadoTableAdapter.Fill(this.gD1C2017DataSet.vw_automovil_listado);
         }
 
         private void dataGridView1_CellClick(object sender, DataGridViewCellEventArgs e)
@@ -62,8 +62,8 @@ namespace UberFrba.Abm_Automovil
             try
             {
                 string rowFilter = "";
-                this.vw_automovil_listadoTableAdapter.Fill(this.gD1C2017DataSet1.vw_automovil_listado);
-                DataView dv = new DataView(this.gD1C2017DataSet1.vw_automovil_listado);
+                this.vw_automovil_listadoTableAdapter.Fill(this.gD1C2017DataSet.vw_automovil_listado);
+                DataView dv = new DataView(this.gD1C2017DataSet.vw_automovil_listado);
                 if (comboBoxMarca.SelectedIndex != 0)
                 {
                     string marca_nombre = (comboBoxMarca.SelectedItem as dynamic).Text;

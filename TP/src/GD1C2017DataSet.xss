@@ -19,7 +19,7 @@
     <Shape ID="DesignTable:Rol" ZOrder="61" X="1211" Y="255" Height="134" Width="163" AdapterExpanded="true" DataTableExpanded="true" OldAdapterHeight="0" OldDataTableHeight="0" SplitterPosition="83" />
     <Shape ID="DesignTable:RolPorFuncionalidad" ZOrder="60" X="876" Y="70" Height="115" Width="265" AdapterExpanded="true" DataTableExpanded="true" OldAdapterHeight="0" OldDataTableHeight="0" SplitterPosition="64" />
     <Shape ID="DesignTable:RolPorUsuario" ZOrder="59" X="1444" Y="255" Height="115" Width="228" AdapterExpanded="true" DataTableExpanded="true" OldAdapterHeight="0" OldDataTableHeight="0" SplitterPosition="64" />
-    <Shape ID="DesignTable:Turno" ZOrder="58" X="313" Y="1114" Height="191" Width="179" AdapterExpanded="true" DataTableExpanded="true" OldAdapterHeight="0" OldDataTableHeight="0" SplitterPosition="140" />
+    <Shape ID="DesignTable:Turno" ZOrder="58" X="313" Y="1114" Height="210" Width="179" AdapterExpanded="true" DataTableExpanded="true" OldAdapterHeight="0" OldDataTableHeight="0" SplitterPosition="159" />
     <Shape ID="DesignTable:Viaje" ZOrder="57" X="70" Y="70" Height="229" Width="173" AdapterExpanded="true" DataTableExpanded="true" OldAdapterHeight="0" OldDataTableHeight="0" SplitterPosition="178" />
     <Shape ID="DesignTable:sp_alta_usuario" ZOrder="40" X="0" Y="0" Height="90" Width="158" AdapterExpanded="true" DataTableExpanded="true" OldAdapterHeight="0" OldDataTableHeight="0" SplitterPosition="0" />
     <Shape ID="DesignTable:sp_alta_usuario_rol" ZOrder="39" X="0" Y="0" Height="90" Width="158" AdapterExpanded="true" DataTableExpanded="true" OldAdapterHeight="0" OldDataTableHeight="0" SplitterPosition="0" />
@@ -39,7 +39,6 @@
     <Shape ID="DesignTable:sp_obtener_usuarios_no_clientes" ZOrder="25" X="0" Y="0" Height="90" Width="158" AdapterExpanded="true" DataTableExpanded="true" OldAdapterHeight="0" OldDataTableHeight="0" SplitterPosition="0" />
     <Shape ID="DesignTable:vw_automovil_listado" ZOrder="21" X="2253" Y="0" Height="191" Width="269" AdapterExpanded="true" DataTableExpanded="true" OldAdapterHeight="0" OldDataTableHeight="0" SplitterPosition="140" />
     <Shape ID="DesignTable:vw_rendicion" ZOrder="20" X="2592" Y="0" Height="305" Width="221" AdapterExpanded="true" DataTableExpanded="true" OldAdapterHeight="0" OldDataTableHeight="0" SplitterPosition="254" />
-    <Shape ID="DesignSources:QueriesTableAdapter" ZOrder="22" X="0" Y="0" Height="257" Width="300" AdapterExpanded="true" DataTableExpanded="true" OldAdapterHeight="0" OldDataTableHeight="0" SplitterPosition="16" />
     <Shape ID="DesignTable:Usuario" ZOrder="19" X="2883" Y="0" Height="172" Width="189" AdapterExpanded="true" DataTableExpanded="true" OldAdapterHeight="0" OldDataTableHeight="0" SplitterPosition="121" />
     <Shape ID="DesignTable:sp_alta_factura" ZOrder="18" X="3142" Y="0" Height="96" Width="300" AdapterExpanded="true" DataTableExpanded="true" OldAdapterHeight="0" OldDataTableHeight="0" SplitterPosition="46" />
     <Shape ID="DesignTable:sp_alta_rendicion" ZOrder="17" X="3512" Y="0" Height="96" Width="295" AdapterExpanded="true" DataTableExpanded="true" OldAdapterHeight="0" OldDataTableHeight="0" SplitterPosition="46" />
@@ -56,6 +55,7 @@
     <Shape ID="DesignTable:sp_obtener_turnos" ZOrder="6" X="7255" Y="0" Height="210" Width="251" AdapterExpanded="true" DataTableExpanded="true" OldAdapterHeight="0" OldDataTableHeight="0" SplitterPosition="159" />
     <Shape ID="DesignTable:sp_obtener_usuarios" ZOrder="5" X="7576" Y="0" Height="115" Width="262" AdapterExpanded="true" DataTableExpanded="true" OldAdapterHeight="0" OldDataTableHeight="0" SplitterPosition="64" />
     <Shape ID="DesignTable:sp_obtener_viaje" ZOrder="4" X="7908" Y="0" Height="229" Width="241" AdapterExpanded="true" DataTableExpanded="true" OldAdapterHeight="0" OldDataTableHeight="0" SplitterPosition="178" />
+    <Shape ID="DesignSources:QueriesTableAdapter" ZOrder="22" X="0" Y="0" Height="257" Width="300" AdapterExpanded="true" DataTableExpanded="true" OldAdapterHeight="0" OldDataTableHeight="0" SplitterPosition="16" />
   </Shapes>
   <Connectors>
     <Connector ID="DesignRelation:fk_auto_chofer" ZOrder="56" LineWidth="11">

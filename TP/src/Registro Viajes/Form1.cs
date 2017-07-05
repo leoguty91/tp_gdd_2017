@@ -94,8 +94,8 @@ namespace UberFrba.Registro_Viajes
                 }
                 catch (Exception exception)
                 {
-                    comboBoxAutomovil.SelectedItem = 0;
-                    throw new Exception(exception.Message);
+                    comboBoxAutomovil.SelectedIndex = 0;
+                    MessageBox.Show(exception.Message, "Seleccion de chofer error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             }
         }
