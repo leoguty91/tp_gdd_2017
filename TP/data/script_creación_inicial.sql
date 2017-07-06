@@ -66,6 +66,8 @@ IF OBJECT_ID ('GGDP.tr_alta_factura','TR') IS NOT NULL
    DROP TRIGGER GGDP.tr_alta_factura;
 IF OBJECT_ID ('GGDP.tr_alta_automovil','TR') IS NOT NULL
    DROP TRIGGER GGDP.tr_alta_automovil;
+IF OBJECT_ID ('GGDP.tr_alta_turno','TR') IS NOT NULL
+   DROP TRIGGER GGDP.tr_alta_turno;
 GO
 
 /* Eliminacion de Store Procedures */
@@ -630,7 +632,7 @@ AS
 BEGIN
 	BEGIN TRANSACTION
 
-	IF (SELECT COUNT(*) FROM GGDP.Cliente c, inserted WHERE c.clie_telefono = inserted.clie_telefono) = 1
+	IF (SELECT COUNT(*) FROM GGDP.Cliente c, inserted WHERE c.clie_telefono = inserted.clie_telefono) > 0
 	BEGIN
 		RAISERROR('El telefono ya existe, debe ingresar otro', 16, 1)
 	END
@@ -663,7 +665,7 @@ CREATE TRIGGER GGDP.tr_alta_usuario ON GGDP.Usuario INSTEAD OF INSERT
 AS
 BEGIN
 	BEGIN TRANSACTION
-	IF (SELECT COUNT(*) FROM GGDP.Usuario u, inserted WHERE u.usua_usuario = inserted.usua_usuario) = 1
+	IF (SELECT COUNT(*) FROM GGDP.Usuario u, inserted WHERE u.usua_usuario = inserted.usua_usuario) > 0
 	BEGIN
 		RAISERROR('El usuario ya existe, debe ingresar otro', 16, 1)
 	END
@@ -679,13 +681,25 @@ CREATE TRIGGER GGDP.tr_alta_viaje ON GGDP.Viaje INSTEAD OF INSERT
 AS
 BEGIN
 	BEGIN TRANSACTION
-	IF (SELECT COUNT(*) FROM GGDP.Cliente c, inserted WHERE c.clie_id = inserted.viaj_cliente AND c.clie_habilitado = 0) > 0
+	IF (SELECT COUNT(*) FROM GGDP.Cliente c, inserted i WHERE c.clie_id = i.viaj_cliente AND c.clie_habilitado = 0) > 0
 	BEGIN
 		RAISERROR('No se puede asignar un viaje a un cliente inhabilitado', 16, 1)
 	END
-	IF (SELECT COUNT(*) FROM GGDP.Automovil a, inserted WHERE a.auto_id = inserted.viaj_automovil AND a.auto_habilitado = 0) > 0
+	IF (SELECT COUNT(*) FROM GGDP.Automovil a, inserted i WHERE a.auto_id = i.viaj_automovil AND a.auto_habilitado = 0) > 0
 	BEGIN
 		RAISERROR('No se puede asignar un viaje a un automovil inhabilitado', 16, 1)
+	END
+	IF (SELECT COUNT(*) FROM GGDP.Turno t, inserted i WHERE t.turn_id = i.viaj_turno AND t.turn_habilitado = 0) > 0
+	BEGIN
+		RAISERROR('No se puede asignar un viaje a un turno inhabilitado', 16, 1)
+	END
+	IF (SELECT COUNT(*) FROM GGDP.Chofer c, inserted i WHERE c.chof_id = i.viaj_chofer AND c.chof_habilitado = 0) > 0
+	BEGIN
+		RAISERROR('No se puede asignar un viaje a un chofer inhabilitado', 16, 1)
+	END
+	IF (SELECT COUNT(*) FROM GGDP.Viaje v, inserted i WHERE v.viaj_cliente = i.viaj_cliente AND (v.viaj_fecha_inicio < i.viaj_fecha_inicio AND v.viaj_fecha_fin > i.viaj_fecha_inicio) OR (v.viaj_fecha_inicio < i.viaj_fecha_fin AND v.viaj_fecha_fin > i.viaj_fecha_fin)) > 0
+	BEGIN
+		RAISERROR('No se puede dar de alta un viaje donde el cliente ya ha realizado otro en el mismo horario', 16, 1)
 	END
 	COMMIT TRANSACTION
 END
@@ -714,6 +728,26 @@ BEGIN
 	IF (SELECT COUNT(*) FROM GGDP.Automovil a, inserted WHERE a.auto_chofer = inserted.auto_chofer AND a.auto_habilitado = 1 AND inserted.auto_habilitado = 1) > 0
 	BEGIN
 		RAISERROR('No se puede dar de alta un automovil con un chofer asignado a otro auto activo', 16, 1)
+	END
+	COMMIT TRANSACTION
+END
+GO
+
+CREATE TRIGGER GGDP.tr_alta_turno ON GGDP.Turno INSTEAD OF INSERT
+AS
+BEGIN
+	BEGIN TRANSACTION
+	IF (SELECT COUNT(*) FROM inserted i WHERE i.turn_hora_inicio = i.turn_hora_fin) > 0
+	BEGIN
+		RAISERROR('No se puede dar de alta un turno con la misma hora de inicio y fin', 16, 1)
+	END
+	IF (SELECT COUNT(*) FROM GGDP.Turno t, inserted i WHERE (t.turn_hora_inicio < i.turn_hora_inicio AND t.turn_hora_fin > i.turn_hora_inicio) OR (t.turn_hora_inicio < i.turn_hora_fin AND t.turn_hora_fin > i.turn_hora_fin)) > 0
+	BEGIN
+		RAISERROR('No se puede dar de alta un turno que superpone franja horaria con otro', 16, 1)
+	END
+	IF (SELECT COUNT(*) FROM inserted i WHERE i.turn_hora_inicio > i.turn_hora_fin OR i.turn_hora_inicio > 24 OR i.turn_hora_inicio < 0 OR i.turn_hora_fin > 24 OR i.turn_hora_fin < 0) > 0
+	BEGIN
+		RAISERROR('No se puede dar de alta un turno que excede las 24 horas', 16, 1)
 	END
 	COMMIT TRANSACTION
 END
