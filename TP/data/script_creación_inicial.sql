@@ -167,6 +167,8 @@ IF (OBJECT_ID ('GGDP.sp_alta_rendicion_viaje') IS NOT NULL)
     DROP PROCEDURE GGDP.sp_alta_rendicion_viaje
 IF (OBJECT_ID ('GGDP.sp_alta_factura') IS NOT NULL)
     DROP PROCEDURE GGDP.sp_alta_factura
+IF (OBJECT_ID ('GGDP.sp_obtener_factura') IS NOT NULL)
+    DROP PROCEDURE GGDP.sp_obtener_factura
 IF (OBJECT_ID ('GGDP.sp_alta_factura_viaje') IS NOT NULL)
     DROP PROCEDURE GGDP.sp_alta_factura_viaje
 GO
@@ -230,17 +232,17 @@ CREATE TABLE GGDP.Cliente(
 
 CREATE TABLE GGDP.Automovil(
 	auto_id INT IDENTITY PRIMARY KEY,
-	auto_marca INT,
-	auto_modelo VARCHAR(255),
-	auto_patente VARCHAR(10) UNIQUE,
-	auto_turno INT,
-	auto_chofer INT,
+	auto_marca INT NOT NULL,
+	auto_modelo VARCHAR(255) NOT NULL,
+	auto_patente VARCHAR(10) NOT NULL UNIQUE,
+	auto_turno INT NOT NULL,
+	auto_chofer INT NOT NULL,
 	auto_habilitado BIT
 );
 
 CREATE TABLE GGDP.Marca(
 	marc_id INT IDENTITY PRIMARY KEY,
-	marc_nombre VARCHAR(255)
+	marc_nombre VARCHAR(255) NOT NULL
 );
 
 CREATE TABLE GGDP.Chofer(
@@ -288,11 +290,11 @@ CREATE TABLE GGDP.Turno (
 
 CREATE TABLE GGDP.Factura (
     fact_id INT IDENTITY PRIMARY KEY NOT NULL,
-	fact_fecha_inicio datetime,
-	fact_fecha_fin datetime,
-	fact_cliente int,
-	fact_importe decimal (12,2),
-	fact_viajes_facturados numeric(18,0)
+	fact_fecha_inicio datetime NOT NULL,
+	fact_fecha_fin datetime NOT NULL,
+	fact_cliente int NOT NULL,
+	fact_importe decimal (12,2) NOT NULL,
+	fact_viajes_facturados numeric(18,0) NOT NULL
 );
 
 CREATE TABLE GGDP.FacturaPorViaje (
@@ -637,13 +639,12 @@ AS
 BEGIN
 	BEGIN TRANSACTION
 
-	IF (SELECT COUNT(*) FROM GGDP.Cliente c, inserted WHERE c.clie_telefono = inserted.clie_telefono) > 0
+	IF (SELECT COUNT(*) FROM GGDP.Cliente c, inserted i WHERE c.clie_telefono = i.clie_telefono) > 0
 	BEGIN
 		RAISERROR('El telefono ya existe, debe ingresar otro', 16, 1)
 	END
 	INSERT INTO GGDP.Cliente(clie_nombre, clie_apellido, clie_dni, clie_mail, clie_telefono, clie_direccion, clie_codigo_postal, clie_fecha_nacimiento, clie_habilitado, clie_usuario)
-	SELECT clie_nombre, clie_apellido, clie_dni, clie_mail, clie_telefono, clie_direccion, clie_codigo_postal, clie_fecha_nacimiento, clie_habilitado, clie_usuario
-	FROM inserted
+	SELECT clie_nombre, clie_apellido, clie_dni, clie_mail, clie_telefono, clie_direccion, clie_codigo_postal, clie_fecha_nacimiento, clie_habilitado, clie_usuario FROM inserted
 
 	INSERT INTO GGDP.RolPorUsuario(rxu_rol, rxu_usuario)
 	SELECT rol_id, clie_usuario FROM GGDP.Rol, inserted
@@ -670,7 +671,7 @@ CREATE TRIGGER GGDP.tr_alta_usuario ON GGDP.Usuario INSTEAD OF INSERT
 AS
 BEGIN
 	BEGIN TRANSACTION
-	IF (SELECT COUNT(*) FROM GGDP.Usuario u, inserted WHERE u.usua_usuario = inserted.usua_usuario) > 0
+	IF (SELECT COUNT(*) FROM GGDP.Usuario u, inserted i WHERE u.usua_usuario = i.usua_usuario) > 0
 	BEGIN
 		RAISERROR('El usuario ya existe, debe ingresar otro', 16, 1)
 	END
@@ -678,6 +679,8 @@ BEGIN
 	BEGIN
 		RAISERROR('El password no puede estar vacio', 16, 1)
 	END
+	INSERT INTO GGDP.Usuario(usua_usuario, usua_password, usua_intentos, usua_habilitado)
+	SELECT usua_usuario, usua_password, usua_intentos, usua_habilitado FROM inserted
 	COMMIT TRANSACTION
 END
 GO
@@ -706,6 +709,8 @@ BEGIN
 	BEGIN
 		RAISERROR('No se puede dar de alta un viaje donde el cliente ya ha realizado otro en el mismo horario', 16, 1)
 	END
+	INSERT INTO GGDP.Viaje(viaj_automovil, viaj_chofer, viaj_turno, viaj_cantidad_kilometros, viaj_fecha_inicio, viaj_fecha_fin, viaj_cliente)
+	SELECT viaj_automovil, viaj_chofer, viaj_turno, viaj_cantidad_kilometros, viaj_fecha_inicio, viaj_fecha_fin, viaj_cliente FROM inserted
 	COMMIT TRANSACTION
 END
 GO
@@ -714,10 +719,12 @@ CREATE TRIGGER GGDP.tr_alta_factura ON GGDP.Factura INSTEAD OF INSERT
 AS
 BEGIN
 	BEGIN TRANSACTION
-	IF (SELECT COUNT(*) FROM GGDP.Cliente c, inserted WHERE c.clie_id = inserted.fact_cliente AND c.clie_habilitado = 0) > 0
+	IF (SELECT COUNT(*) FROM GGDP.Cliente c, inserted i WHERE c.clie_id = i.fact_cliente AND c.clie_habilitado = 0) > 0
 	BEGIN
 		RAISERROR('No se puede realizar una facturacion a un cliente inhabilitado', 16, 1)
 	END
+	INSERT INTO GGDP.Factura(fact_fecha_inicio, fact_fecha_fin, fact_cliente, fact_importe, fact_viajes_facturados)
+	SELECT fact_fecha_inicio, fact_fecha_fin, fact_cliente, fact_importe, fact_viajes_facturados FROM inserted
 	COMMIT TRANSACTION
 END
 GO
@@ -726,14 +733,16 @@ CREATE TRIGGER GGDP.tr_alta_automovil ON GGDP.Automovil INSTEAD OF INSERT
 AS
 BEGIN
 	BEGIN TRANSACTION
-	IF (SELECT COUNT(*) FROM GGDP.Automovil a, inserted WHERE a.auto_patente = inserted.auto_patente) > 0
+	IF (SELECT COUNT(*) FROM GGDP.Automovil a, inserted i WHERE a.auto_patente = i.auto_patente) > 0
 	BEGIN
 		RAISERROR('No se puede dar de alta un automovil con una patente ya registrada', 16, 1)
 	END
-	IF (SELECT COUNT(*) FROM GGDP.Automovil a, inserted WHERE a.auto_chofer = inserted.auto_chofer AND a.auto_habilitado = 1 AND inserted.auto_habilitado = 1) > 0
+	IF (SELECT COUNT(*) FROM GGDP.Automovil a, inserted i WHERE a.auto_chofer = i.auto_chofer AND a.auto_habilitado = 1 AND i.auto_habilitado = 1) > 0
 	BEGIN
 		RAISERROR('No se puede dar de alta un automovil con un chofer asignado a otro auto activo', 16, 1)
 	END
+	INSERT INTO GGDP.Automovil(auto_marca, auto_modelo, auto_patente, auto_turno, auto_chofer, auto_habilitado)
+	SELECT auto_marca, auto_modelo, auto_patente, auto_turno, auto_chofer, auto_habilitado FROM inserted
 	COMMIT TRANSACTION
 END
 GO
@@ -754,6 +763,8 @@ BEGIN
 	BEGIN
 		RAISERROR('No se puede dar de alta un turno que excede las 24 horas', 16, 1)
 	END
+	INSERT INTO GGDP.Turno(turn_hora_inicio, turn_hora_fin, turn_descripcion, turn_valor_kilometro, turn_precio_base, turn_habilitado)
+	SELECT turn_hora_inicio, turn_hora_fin, turn_descripcion, turn_valor_kilometro, turn_precio_base, turn_habilitado FROM inserted
 	COMMIT TRANSACTION
 END
 GO
@@ -766,6 +777,12 @@ BEGIN
 	BEGIN
 		RAISERROR('No se puede realizar un rendicion ya hecha', 16, 1)
 	END
+	IF (SELECT COUNT(*) FROM GGDP.Chofer c, inserted i WHERE c.chof_id = i.rend_chofer AND c.chof_habilitado = 0) > 0
+	BEGIN
+		RAISERROR('No se puede realizar una rendicion a un chofer inhabilitado', 16, 1)
+	END
+	INSERT INTO GGDP.Rendicion(rend_fecha, rend_chofer, rend_turno, rend_importe)
+	SELECT rend_fecha, rend_chofer, rend_turno, rend_importe FROM inserted
 	COMMIT TRANSACTION
 END
 GO
@@ -1316,7 +1333,6 @@ GO
 CREATE PROCEDURE GGDP.sp_alta_factura
 (
 	@fecha_inicio datetime,
-	@fecha_fin datetime,
 	@cliente int,
 	@importe decimal (12,2),
 	@viajes_facturados numeric(18,0)
@@ -1326,10 +1342,15 @@ BEGIN
 
 	BEGIN TRANSACTION
 	INSERT INTO GGDP.Factura(fact_fecha_inicio, fact_fecha_fin, fact_cliente, fact_importe, fact_viajes_facturados)
-	VALUES(@fecha_inicio, @fecha_fin, @cliente, @importe, @viajes_facturados)
+	VALUES(DATETIMEFROMPARTS(YEAR(@fecha_inicio), MONTH(@fecha_inicio), 1, 0, 0, 0, 0), DATETIMEFROMPARTS(YEAR(@fecha_inicio), MONTH(@fecha_inicio), DAY(EOMONTH(@fecha_inicio)), 0, 0, 0, 0), @cliente, @importe, @viajes_facturados)
 	COMMIT TRANSACTION
-	SELECT fact_id FROM GGDP.Factura WHERE fact_fecha_inicio = @fecha_inicio AND fact_fecha_fin = @fecha_fin AND fact_cliente = @cliente
 
+END
+GO
+
+CREATE PROCEDURE GGDP.sp_obtener_factura(@fecha_inicio datetime, @cliente int) AS BEGIN
+	SELECT fact_id, fact_fecha_inicio, fact_fecha_fin, fact_cliente, fact_importe, fact_viajes_facturados 
+	FROM GGDP.Factura WHERE fact_fecha_inicio = DATETIMEFROMPARTS(YEAR(@fecha_inicio), MONTH(@fecha_inicio), 1, 0, 0, 0, 0) AND fact_fecha_fin = DATETIMEFROMPARTS(YEAR(@fecha_inicio), MONTH(@fecha_inicio), DAY(EOMONTH(@fecha_inicio)), 0, 0, 0, 0) AND fact_cliente = @cliente
 END
 GO
 

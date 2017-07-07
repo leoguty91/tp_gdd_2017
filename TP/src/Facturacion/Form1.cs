@@ -85,7 +85,6 @@ namespace UberFrba.Facturacion
                 Viaje viaje_mapper = new Viaje();
                 Cliente cliente = cliente_mapper.Mapear((comboBoxCliente.SelectedItem as dynamic).Value);
                 factura.fecha_inicio = dateTimePickerFecha.Value;
-                factura.fecha_fin = dateTimePickerFecha.Value.AddMonths(1);
                 factura.cliente = cliente;
                 factura.importe = Convert.ToDecimal(textBoxImporteTotal.Text);
                 factura.viajes = new List<Viaje>();
