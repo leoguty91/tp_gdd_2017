@@ -68,6 +68,8 @@ IF OBJECT_ID ('GGDP.tr_alta_automovil','TR') IS NOT NULL
    DROP TRIGGER GGDP.tr_alta_automovil;
 IF OBJECT_ID ('GGDP.tr_alta_turno','TR') IS NOT NULL
    DROP TRIGGER GGDP.tr_alta_turno;
+IF OBJECT_ID ('GGDP.tr_alta_rendicion','TR') IS NOT NULL
+   DROP TRIGGER GGDP.tr_alta_rendicion;
 GO
 
 /* Eliminacion de Store Procedures */
@@ -159,6 +161,8 @@ IF (OBJECT_ID ('GGDP.sp_obtener_viaje') IS NOT NULL)
     DROP PROCEDURE GGDP.sp_obtener_viaje
 IF (OBJECT_ID ('GGDP.sp_alta_rendicion') IS NOT NULL)
     DROP PROCEDURE GGDP.sp_alta_rendicion
+IF (OBJECT_ID ('GGDP.sp_obtener_rendicion') IS NOT NULL)
+    DROP PROCEDURE GGDP.sp_obtener_rendicion
 IF (OBJECT_ID ('GGDP.sp_alta_rendicion_viaje') IS NOT NULL)
     DROP PROCEDURE GGDP.sp_alta_rendicion_viaje
 IF (OBJECT_ID ('GGDP.sp_alta_factura') IS NOT NULL)
@@ -359,12 +363,12 @@ ALTER TABLE GGDP.Rendicion
 
 ALTER TABLE GGDP.Factura
 	ADD CONSTRAINT fk_fact_cliente FOREIGN KEY (fact_cliente) REFERENCES GGDP.Cliente(clie_id)
-	
+
 ALTER TABLE GGDP.FacturaPorViaje
 	ADD CONSTRAINT fk_fxv_factura FOREIGN KEY (fxv_factura) REFERENCES GGDP.Factura(fact_id)
 ALTER TABLE GGDP.FacturaPorViaje
 	ADD CONSTRAINT fk_fxv_viaje FOREIGN KEY (fxv_viaje) REFERENCES GGDP.Viaje(viaj_id)
-	
+
 ALTER TABLE GGDP.RendicionPorViaje
 	ADD CONSTRAINT fk_rxv_rendicion FOREIGN KEY (rxv_rendicion) REFERENCES GGDP.Rendicion(rend_id)
 ALTER TABLE GGDP.RendicionPorViaje
@@ -460,7 +464,6 @@ GO
 -- Insercion de automoviles
 INSERT INTO GGDP.Automovil(auto_patente, auto_marca, auto_modelo, auto_turno, auto_chofer, auto_habilitado)
 SELECT DISTINCT ([Auto_Patente]), marc_id, [Auto_Modelo], 1, chof_id, 1
---SELECT DISTINCT ([Auto_Patente]), marc_id, [Auto_Modelo], turn_id, chof_id, 1 -- Un auto puede estar en varios turnos, ver como se resuelve esto
 FROM [gd_esquema].[Maestra]
 	JOIN GGDP.Marca ON gd_esquema.Maestra.Auto_Marca = GGDP.Marca.marc_nombre
 	JOIN GGDP.Chofer ON gd_esquema.Maestra.Chofer_Dni = GGDP.Chofer.chof_dni
@@ -481,12 +484,11 @@ GO
 
 -- Insercion de facturas
 INSERT INTO GGDP.Factura(fact_fecha_inicio, fact_fecha_fin, fact_cliente, fact_importe, fact_viajes_facturados)
-SELECT Factura_Fecha_Inicio, Factura_Fecha_Fin, clie_id, SUM(Turno_Precio_Base + (Turno_Valor_Kilometro * Viaje_Cant_Kilometros)), COUNT(*)
+SELECT Factura_Fecha_Inicio, Factura_Fecha_Fin, clie_id, SUM(Turno_Precio_Base + (Turno_Valor_Kilometro * Viaje_Cant_Kilometros)), 0
 FROM [gd_esquema].[Maestra]
 	JOIN GGDP.Cliente ON Cliente_Dni = clie_dni
 WHERE Factura_Nro IS NOT NULL
 GROUP BY Factura_Fecha_Inicio, Factura_Fecha_Fin, clie_id
-GO
 
 INSERT INTO GGDP.FacturaPorViaje(fxv_factura, fxv_viaje)
 SELECT fact_id, viaj_id
@@ -498,19 +500,23 @@ FROM [gd_esquema].[Maestra]
 	JOIN GGDP.Viaje ON viaj_automovil = auto_id AND viaj_chofer = chof_id AND viaj_turno = turn_id AND viaj_fecha_inicio = Viaje_Fecha AND viaj_cliente = clie_id AND Viaje_Cant_Kilometros = viaj_cantidad_kilometros
 	JOIN GGDP.Factura ON fact_fecha_inicio = Factura_Fecha_Inicio AND fact_cliente = clie_id
 WHERE Factura_Nro IS NOT NULL
+GROUP BY Chofer_Dni, Viaje_Cant_Kilometros, Viaje_Fecha, Turno_Descripcion, Cliente_Dni, fact_id, viaj_id
+GO
+
+UPDATE GGDP.Factura SET fact_viajes_facturados = (SELECT COUNT(*) FROM GGDP.FacturaPorViaje WHERE fxv_factura = fact_id GROUP BY fxv_factura)
 GO
 
 -- Insercion de rendiciones
+-- TODO La rendicion de importe no esta bien, corregir
 INSERT INTO GGDP.Rendicion(rend_fecha, rend_chofer, rend_turno, rend_importe)
 SELECT Rendicion_Fecha, chof_id, turn_id, SUM(Rendicion_Importe)
 FROM [gd_esquema].[Maestra]
 	JOIN GGDP.Chofer ON Chofer_Dni = chof_dni
 	JOIN GGDP.Turno ON Turno_Descripcion = turn_descripcion
 WHERE Rendicion_Nro IS NOT NULL
-GROUP BY Rendicion_Nro, Rendicion_Fecha, Rendicion_Importe, chof_id, turn_id
+GROUP BY Rendicion_Nro, Rendicion_Fecha, chof_id, turn_id
 GO
-/*
--- TODO Terminar
+
 INSERT INTO GGDP.RendicionPorViaje(rxv_rendicion, rxv_viaje)
 SELECT rend_id, viaj_id
 FROM [gd_esquema].[Maestra]
@@ -519,11 +525,10 @@ FROM [gd_esquema].[Maestra]
 	JOIN GGDP.Turno ON Turno_Descripcion = turn_descripcion
 	JOIN GGDP.Cliente ON Cliente_Dni = clie_dni
 	JOIN GGDP.Viaje ON viaj_automovil = auto_id AND viaj_chofer = chof_id AND viaj_turno = turn_id AND viaj_fecha_inicio = Viaje_Fecha AND viaj_cliente = clie_id AND Viaje_Cant_Kilometros = viaj_cantidad_kilometros
-	JOIN GGDP.Rendicion ON rend_fecha = Rendicion_Fecha AND rend_chofer = chof_id AND rend_turno = turn_id AND rend_importe = Rendicion_Importe
+	JOIN GGDP.Rendicion ON rend_fecha = Rendicion_Fecha AND rend_chofer = chof_id AND rend_turno = turn_id
 WHERE Rendicion_Nro IS NOT NULL
-GROUP BY Rendicion_Nro, Rendicion_Fecha, Rendicion_Importe, rend_id, viaj_id
+GROUP BY Chofer_Dni, Viaje_Cant_Kilometros, Viaje_Fecha, Turno_Descripcion, Cliente_Dni, Rendicion_Importe, rend_id, viaj_id
 GO
-*/
 
 /* Creacion de Vistas */
 CREATE VIEW GGDP.vw_automovil_listado AS
@@ -748,6 +753,18 @@ BEGIN
 	IF (SELECT COUNT(*) FROM inserted i WHERE i.turn_hora_inicio > i.turn_hora_fin OR i.turn_hora_inicio > 24 OR i.turn_hora_inicio < 0 OR i.turn_hora_fin > 24 OR i.turn_hora_fin < 0) > 0
 	BEGIN
 		RAISERROR('No se puede dar de alta un turno que excede las 24 horas', 16, 1)
+	END
+	COMMIT TRANSACTION
+END
+GO
+
+CREATE TRIGGER GGDP.tr_alta_rendicion ON GGDP.Rendicion INSTEAD OF INSERT
+AS
+BEGIN
+	BEGIN TRANSACTION
+	IF (SELECT COUNT(*) FROM GGDP.Rendicion r, inserted i WHERE r.rend_chofer = i.rend_chofer AND CONVERT(DATE, r.rend_fecha) = CONVERT(DATE, i.rend_fecha)) > 0
+	BEGIN
+		RAISERROR('No se puede realizar un rendicion ya hecha', 16, 1)
 	END
 	COMMIT TRANSACTION
 END
@@ -1271,8 +1288,13 @@ BEGIN
 	INSERT INTO GGDP.Rendicion(rend_fecha, rend_chofer, rend_turno, rend_importe)
 	VALUES(@fecha, @chofer, @turno, @importe)
 	COMMIT TRANSACTION
-	SELECT rend_id FROM GGDP.Rendicion WHERE rend_fecha = @fecha AND rend_chofer = @chofer AND rend_turno = @turno
+	RETURN SELECT rend_id FROM GGDP.Rendicion WHERE rend_fecha = @fecha AND rend_chofer = @chofer AND rend_turno = @turno
 
+END
+GO
+
+CREATE PROCEDURE GGDP.sp_obtener_rendicion(@fecha datetime, @chofer int, @turno int) AS BEGIN
+	SELECT rend_id, rend_fecha, rend_chofer, rend_turno, rend_importe FROM GGDP.Rendicion WHERE CONVERT(date, rend_fecha) = CONVERT(date, @fecha) AND rend_chofer = @chofer AND rend_turno = @turno
 END
 GO
 

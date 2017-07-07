@@ -44,10 +44,6 @@
             this.label1 = new System.Windows.Forms.Label();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
-            this.vwrendicionBindingSource = new System.Windows.Forms.BindingSource(this.components);
-            this.gD1C2017DataSet = new UberFrba.GD1C2017DataSet();
-            this.vw_rendicionTableAdapter = new UberFrba.GD1C2017DataSetTableAdapters.vw_rendicionTableAdapter();
-            this.vwrendicionBindingSource1 = new System.Windows.Forms.BindingSource(this.components);
             this.viajidDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.viajchoferDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.chofnombreapellidoDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -61,12 +57,16 @@
             this.clie_id = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.clienombreapellidoDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.viajtotalDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.vwrendicionBindingSource1 = new System.Windows.Forms.BindingSource(this.components);
+            this.gD1C2017DataSet = new UberFrba.GD1C2017DataSet();
+            this.vwrendicionBindingSource = new System.Windows.Forms.BindingSource(this.components);
+            this.vw_rendicionTableAdapter = new UberFrba.GD1C2017DataSetTableAdapters.vw_rendicionTableAdapter();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.vwrendicionBindingSource)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.gD1C2017DataSet)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.vwrendicionBindingSource1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.gD1C2017DataSet)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.vwrendicionBindingSource)).BeginInit();
             this.SuspendLayout();
             // 
             // groupBox1
@@ -84,9 +84,9 @@
             this.groupBox1.Controls.Add(this.dateTimePickerFecha);
             this.groupBox1.Controls.Add(this.label1);
             this.groupBox1.Location = new System.Drawing.Point(8, 8);
-            this.groupBox1.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.groupBox1.Margin = new System.Windows.Forms.Padding(2);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Padding = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.groupBox1.Padding = new System.Windows.Forms.Padding(2);
             this.groupBox1.Size = new System.Drawing.Size(170, 294);
             this.groupBox1.TabIndex = 0;
             this.groupBox1.TabStop = false;
@@ -95,7 +95,7 @@
             // buttonFiltrado
             // 
             this.buttonFiltrado.Location = new System.Drawing.Point(23, 262);
-            this.buttonFiltrado.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.buttonFiltrado.Margin = new System.Windows.Forms.Padding(2);
             this.buttonFiltrado.Name = "buttonFiltrado";
             this.buttonFiltrado.Size = new System.Drawing.Size(62, 21);
             this.buttonFiltrado.TabIndex = 11;
@@ -106,7 +106,7 @@
             // buttonGuardar
             // 
             this.buttonGuardar.Location = new System.Drawing.Point(89, 262);
-            this.buttonGuardar.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.buttonGuardar.Margin = new System.Windows.Forms.Padding(2);
             this.buttonGuardar.Name = "buttonGuardar";
             this.buttonGuardar.Size = new System.Drawing.Size(61, 21);
             this.buttonGuardar.TabIndex = 10;
@@ -118,7 +118,7 @@
             // 
             this.textBoxImporteTotal.Enabled = false;
             this.textBoxImporteTotal.Location = new System.Drawing.Point(23, 232);
-            this.textBoxImporteTotal.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.textBoxImporteTotal.Margin = new System.Windows.Forms.Padding(2);
             this.textBoxImporteTotal.Name = "textBoxImporteTotal";
             this.textBoxImporteTotal.Size = new System.Drawing.Size(127, 20);
             this.textBoxImporteTotal.TabIndex = 9;
@@ -136,7 +136,7 @@
             // textBoxPorcentaje
             // 
             this.textBoxPorcentaje.Location = new System.Drawing.Point(23, 184);
-            this.textBoxPorcentaje.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.textBoxPorcentaje.Margin = new System.Windows.Forms.Padding(2);
             this.textBoxPorcentaje.Name = "textBoxPorcentaje";
             this.textBoxPorcentaje.Size = new System.Drawing.Size(127, 20);
             this.textBoxPorcentaje.TabIndex = 7;
@@ -156,7 +156,7 @@
             // 
             this.comboBoxTurno.FormattingEnabled = true;
             this.comboBoxTurno.Location = new System.Drawing.Point(23, 136);
-            this.comboBoxTurno.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.comboBoxTurno.Margin = new System.Windows.Forms.Padding(2);
             this.comboBoxTurno.Name = "comboBoxTurno";
             this.comboBoxTurno.Size = new System.Drawing.Size(127, 21);
             this.comboBoxTurno.TabIndex = 5;
@@ -175,7 +175,7 @@
             // 
             this.comboBoxChofer.FormattingEnabled = true;
             this.comboBoxChofer.Location = new System.Drawing.Point(23, 92);
-            this.comboBoxChofer.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.comboBoxChofer.Margin = new System.Windows.Forms.Padding(2);
             this.comboBoxChofer.Name = "comboBoxChofer";
             this.comboBoxChofer.Size = new System.Drawing.Size(127, 21);
             this.comboBoxChofer.TabIndex = 3;
@@ -195,7 +195,7 @@
             this.dateTimePickerFecha.CustomFormat = "";
             this.dateTimePickerFecha.Format = System.Windows.Forms.DateTimePickerFormat.Short;
             this.dateTimePickerFecha.Location = new System.Drawing.Point(23, 45);
-            this.dateTimePickerFecha.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.dateTimePickerFecha.Margin = new System.Windows.Forms.Padding(2);
             this.dateTimePickerFecha.Name = "dateTimePickerFecha";
             this.dateTimePickerFecha.Size = new System.Drawing.Size(127, 20);
             this.dateTimePickerFecha.TabIndex = 1;
@@ -214,10 +214,10 @@
             // 
             this.groupBox2.Controls.Add(this.dataGridView1);
             this.groupBox2.Location = new System.Drawing.Point(182, 8);
-            this.groupBox2.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.groupBox2.Margin = new System.Windows.Forms.Padding(2);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Padding = new System.Windows.Forms.Padding(2, 2, 2, 2);
-            this.groupBox2.Size = new System.Drawing.Size(765, 294);
+            this.groupBox2.Padding = new System.Windows.Forms.Padding(2);
+            this.groupBox2.Size = new System.Drawing.Size(1042, 294);
             this.groupBox2.TabIndex = 1;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Detalle";
@@ -244,31 +244,12 @@
             this.viajtotalDataGridViewTextBoxColumn});
             this.dataGridView1.DataSource = this.vwrendicionBindingSource1;
             this.dataGridView1.Location = new System.Drawing.Point(17, 30);
-            this.dataGridView1.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.dataGridView1.Margin = new System.Windows.Forms.Padding(2);
             this.dataGridView1.Name = "dataGridView1";
             this.dataGridView1.ReadOnly = true;
             this.dataGridView1.RowTemplate.Height = 28;
-            this.dataGridView1.Size = new System.Drawing.Size(723, 252);
+            this.dataGridView1.Size = new System.Drawing.Size(1003, 252);
             this.dataGridView1.TabIndex = 0;
-            // 
-            // vwrendicionBindingSource
-            // 
-            this.vwrendicionBindingSource.DataMember = "vw_rendicion";
-            this.vwrendicionBindingSource.DataSource = this.gD1C2017DataSet;
-            // 
-            // gD1C2017DataSet
-            // 
-            this.gD1C2017DataSet.DataSetName = "GD1C2017DataSet";
-            this.gD1C2017DataSet.SchemaSerializationMode = System.Data.SchemaSerializationMode.IncludeSchema;
-            // 
-            // vw_rendicionTableAdapter
-            // 
-            this.vw_rendicionTableAdapter.ClearBeforeFill = true;
-            // 
-            // vwrendicionBindingSource1
-            // 
-            this.vwrendicionBindingSource1.DataMember = "vw_rendicion";
-            this.vwrendicionBindingSource1.DataSource = this.gD1C2017DataSet;
             // 
             // viajidDataGridViewTextBoxColumn
             // 
@@ -366,11 +347,30 @@
             this.viajtotalDataGridViewTextBoxColumn.Name = "viajtotalDataGridViewTextBoxColumn";
             this.viajtotalDataGridViewTextBoxColumn.ReadOnly = true;
             // 
+            // vwrendicionBindingSource1
+            // 
+            this.vwrendicionBindingSource1.DataMember = "vw_rendicion";
+            this.vwrendicionBindingSource1.DataSource = this.gD1C2017DataSet;
+            // 
+            // gD1C2017DataSet
+            // 
+            this.gD1C2017DataSet.DataSetName = "GD1C2017DataSet";
+            this.gD1C2017DataSet.SchemaSerializationMode = System.Data.SchemaSerializationMode.IncludeSchema;
+            // 
+            // vwrendicionBindingSource
+            // 
+            this.vwrendicionBindingSource.DataMember = "vw_rendicion";
+            this.vwrendicionBindingSource.DataSource = this.gD1C2017DataSet;
+            // 
+            // vw_rendicionTableAdapter
+            // 
+            this.vw_rendicionTableAdapter.ClearBeforeFill = true;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(969, 310);
+            this.ClientSize = new System.Drawing.Size(1235, 310);
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.groupBox1);
             this.Name = "Form1";
@@ -380,9 +380,9 @@
             this.groupBox1.PerformLayout();
             this.groupBox2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.vwrendicionBindingSource)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.gD1C2017DataSet)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.vwrendicionBindingSource1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.gD1C2017DataSet)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.vwrendicionBindingSource)).EndInit();
             this.ResumeLayout(false);
 
         }
