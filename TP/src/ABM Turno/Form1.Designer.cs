@@ -30,16 +30,16 @@
         {
             this.components = new System.ComponentModel.Container();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
-            this.dataGridView1 = new System.Windows.Forms.DataGridView();
-            this.gD1C2017DataSet = new UberFrba.GD1C2017DataSet();
-            this.turnoBindingSource = new System.Windows.Forms.BindingSource(this.components);
-            this.turnoTableAdapter = new UberFrba.GD1C2017DataSetTableAdapters.TurnoTableAdapter();
-            this.textBoxDescripcion = new System.Windows.Forms.TextBox();
-            this.label1 = new System.Windows.Forms.Label();
-            this.buttonFiltrar = new System.Windows.Forms.Button();
             this.buttonAltaTurno = new System.Windows.Forms.Button();
+            this.dataGridView1 = new System.Windows.Forms.DataGridView();
+            this.turnoBindingSource = new System.Windows.Forms.BindingSource(this.components);
+            this.gD1C2017DataSet = new UberFrba.GD1C2017DataSet();
+            this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.buttonFiltrar = new System.Windows.Forms.Button();
+            this.label1 = new System.Windows.Forms.Label();
+            this.textBoxDescripcion = new System.Windows.Forms.TextBox();
+            this.turnoTableAdapter = new UberFrba.GD1C2017DataSetTableAdapters.TurnoTableAdapter();
             this.turnidDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.turnhorainicioDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.turnhorafinDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -47,46 +47,49 @@
             this.turnvalorkilometroDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.turnhabilitadoDataGridViewCheckBoxColumn = new System.Windows.Forms.DataGridViewCheckBoxColumn();
             this.groupBox1.SuspendLayout();
-            this.groupBox2.SuspendLayout();
             this.groupBox3.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.gD1C2017DataSet)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.turnoBindingSource)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.gD1C2017DataSet)).BeginInit();
+            this.groupBox2.SuspendLayout();
             this.SuspendLayout();
             // 
             // groupBox1
             // 
             this.groupBox1.Controls.Add(this.groupBox3);
             this.groupBox1.Controls.Add(this.groupBox2);
-            this.groupBox1.Location = new System.Drawing.Point(30, 31);
+            this.groupBox1.Location = new System.Drawing.Point(20, 20);
+            this.groupBox1.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(861, 346);
+            this.groupBox1.Padding = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.groupBox1.Size = new System.Drawing.Size(656, 225);
             this.groupBox1.TabIndex = 0;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Turnos";
-            // 
-            // groupBox2
-            // 
-            this.groupBox2.Controls.Add(this.buttonFiltrar);
-            this.groupBox2.Controls.Add(this.label1);
-            this.groupBox2.Controls.Add(this.textBoxDescripcion);
-            this.groupBox2.Location = new System.Drawing.Point(24, 43);
-            this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(224, 275);
-            this.groupBox2.TabIndex = 0;
-            this.groupBox2.TabStop = false;
-            this.groupBox2.Text = "Filtrado";
             // 
             // groupBox3
             // 
             this.groupBox3.Controls.Add(this.buttonAltaTurno);
             this.groupBox3.Controls.Add(this.dataGridView1);
-            this.groupBox3.Location = new System.Drawing.Point(269, 43);
+            this.groupBox3.Location = new System.Drawing.Point(179, 28);
+            this.groupBox3.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Size = new System.Drawing.Size(568, 275);
+            this.groupBox3.Padding = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.groupBox3.Size = new System.Drawing.Size(462, 179);
             this.groupBox3.TabIndex = 1;
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "Listado de Turnos";
+            // 
+            // buttonAltaTurno
+            // 
+            this.buttonAltaTurno.Location = new System.Drawing.Point(167, 141);
+            this.buttonAltaTurno.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.buttonAltaTurno.Name = "buttonAltaTurno";
+            this.buttonAltaTurno.Size = new System.Drawing.Size(113, 21);
+            this.buttonAltaTurno.TabIndex = 3;
+            this.buttonAltaTurno.Text = "Nuevo Turno";
+            this.buttonAltaTurno.UseVisualStyleBackColor = true;
+            this.buttonAltaTurno.Click += new System.EventHandler(this.buttonAltaTurno_Click);
             // 
             // dataGridView1
             // 
@@ -102,63 +105,71 @@
             this.turnvalorkilometroDataGridViewTextBoxColumn,
             this.turnhabilitadoDataGridViewCheckBoxColumn});
             this.dataGridView1.DataSource = this.turnoBindingSource;
-            this.dataGridView1.Location = new System.Drawing.Point(34, 45);
+            this.dataGridView1.Location = new System.Drawing.Point(23, 29);
+            this.dataGridView1.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.dataGridView1.Name = "dataGridView1";
             this.dataGridView1.ReadOnly = true;
             this.dataGridView1.RowTemplate.Height = 28;
-            this.dataGridView1.Size = new System.Drawing.Size(511, 151);
+            this.dataGridView1.Size = new System.Drawing.Size(422, 98);
             this.dataGridView1.TabIndex = 0;
             this.dataGridView1.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView1_CellClick);
-            // 
-            // gD1C2017DataSet
-            // 
-            this.gD1C2017DataSet.DataSetName = "GD1C2017DataSet";
-            this.gD1C2017DataSet.SchemaSerializationMode = System.Data.SchemaSerializationMode.IncludeSchema;
             // 
             // turnoBindingSource
             // 
             this.turnoBindingSource.DataMember = "Turno";
             this.turnoBindingSource.DataSource = this.gD1C2017DataSet;
             // 
-            // turnoTableAdapter
+            // gD1C2017DataSet
             // 
-            this.turnoTableAdapter.ClearBeforeFill = true;
+            this.gD1C2017DataSet.DataSetName = "GD1C2017DataSet";
+            this.gD1C2017DataSet.SchemaSerializationMode = System.Data.SchemaSerializationMode.IncludeSchema;
             // 
-            // textBoxDescripcion
+            // groupBox2
             // 
-            this.textBoxDescripcion.Location = new System.Drawing.Point(26, 91);
-            this.textBoxDescripcion.Name = "textBoxDescripcion";
-            this.textBoxDescripcion.Size = new System.Drawing.Size(171, 26);
-            this.textBoxDescripcion.TabIndex = 0;
-            // 
-            // label1
-            // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(22, 62);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(92, 20);
-            this.label1.TabIndex = 1;
-            this.label1.Text = "Descripcion";
+            this.groupBox2.Controls.Add(this.buttonFiltrar);
+            this.groupBox2.Controls.Add(this.label1);
+            this.groupBox2.Controls.Add(this.textBoxDescripcion);
+            this.groupBox2.Location = new System.Drawing.Point(16, 28);
+            this.groupBox2.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.groupBox2.Name = "groupBox2";
+            this.groupBox2.Padding = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.groupBox2.Size = new System.Drawing.Size(149, 179);
+            this.groupBox2.TabIndex = 0;
+            this.groupBox2.TabStop = false;
+            this.groupBox2.Text = "Filtrado";
             // 
             // buttonFiltrar
             // 
-            this.buttonFiltrar.Location = new System.Drawing.Point(27, 164);
+            this.buttonFiltrar.Location = new System.Drawing.Point(18, 107);
+            this.buttonFiltrar.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.buttonFiltrar.Name = "buttonFiltrar";
-            this.buttonFiltrar.Size = new System.Drawing.Size(170, 32);
+            this.buttonFiltrar.Size = new System.Drawing.Size(113, 21);
             this.buttonFiltrar.TabIndex = 2;
             this.buttonFiltrar.Text = "Filtrar";
             this.buttonFiltrar.UseVisualStyleBackColor = true;
             this.buttonFiltrar.Click += new System.EventHandler(this.buttonFiltrar_Click);
             // 
-            // buttonAltaTurno
+            // label1
             // 
-            this.buttonAltaTurno.Location = new System.Drawing.Point(197, 220);
-            this.buttonAltaTurno.Name = "buttonAltaTurno";
-            this.buttonAltaTurno.Size = new System.Drawing.Size(170, 32);
-            this.buttonAltaTurno.TabIndex = 3;
-            this.buttonAltaTurno.Text = "Nuevo Turno";
-            this.buttonAltaTurno.UseVisualStyleBackColor = true;
-            this.buttonAltaTurno.Click += new System.EventHandler(this.buttonAltaTurno_Click);
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(15, 40);
+            this.label1.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(63, 13);
+            this.label1.TabIndex = 1;
+            this.label1.Text = "Descripcion";
+            // 
+            // textBoxDescripcion
+            // 
+            this.textBoxDescripcion.Location = new System.Drawing.Point(17, 59);
+            this.textBoxDescripcion.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.textBoxDescripcion.Name = "textBoxDescripcion";
+            this.textBoxDescripcion.Size = new System.Drawing.Size(115, 20);
+            this.textBoxDescripcion.TabIndex = 0;
+            // 
+            // turnoTableAdapter
+            // 
+            this.turnoTableAdapter.ClearBeforeFill = true;
             // 
             // turnidDataGridViewTextBoxColumn
             // 
@@ -198,7 +209,6 @@
             this.turnvalorkilometroDataGridViewTextBoxColumn.HeaderText = "Valor km";
             this.turnvalorkilometroDataGridViewTextBoxColumn.Name = "turnvalorkilometroDataGridViewTextBoxColumn";
             this.turnvalorkilometroDataGridViewTextBoxColumn.ReadOnly = true;
-            this.turnvalorkilometroDataGridViewTextBoxColumn.Width = 168;
             // 
             // turnhabilitadoDataGridViewCheckBoxColumn
             // 
@@ -210,20 +220,21 @@
             // 
             // Form1
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(903, 389);
+            this.ClientSize = new System.Drawing.Size(687, 253);
             this.Controls.Add(this.groupBox1);
+            this.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.Name = "Form1";
             this.Text = "ABM de Turnos";
             this.Load += new System.EventHandler(this.Form1_Load);
             this.groupBox1.ResumeLayout(false);
-            this.groupBox2.ResumeLayout(false);
-            this.groupBox2.PerformLayout();
             this.groupBox3.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.gD1C2017DataSet)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.turnoBindingSource)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.gD1C2017DataSet)).EndInit();
+            this.groupBox2.ResumeLayout(false);
+            this.groupBox2.PerformLayout();
             this.ResumeLayout(false);
 
         }
