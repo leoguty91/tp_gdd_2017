@@ -29,11 +29,11 @@
         private void InitializeComponent()
         {
             this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.comboBoxListado = new System.Windows.Forms.ComboBox();
-            this.comboBoxTrimestre = new System.Windows.Forms.ComboBox();
-            this.dateTimePickerFecha = new System.Windows.Forms.DateTimePicker();
-            this.buttonMostrar = new System.Windows.Forms.Button();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
+            this.buttonMostrar = new System.Windows.Forms.Button();
+            this.dateTimePickerFecha = new System.Windows.Forms.DateTimePicker();
+            this.comboBoxTrimestre = new System.Windows.Forms.ComboBox();
+            this.comboBoxListado = new System.Windows.Forms.ComboBox();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.SuspendLayout();
@@ -47,24 +47,39 @@
             this.groupBox1.Controls.Add(this.comboBoxListado);
             this.groupBox1.Location = new System.Drawing.Point(20, 24);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(789, 369);
+            this.groupBox1.Size = new System.Drawing.Size(725, 255);
             this.groupBox1.TabIndex = 0;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Listados";
             // 
-            // comboBoxListado
+            // dataGridView1
             // 
-            this.comboBoxListado.FormattingEnabled = true;
-            this.comboBoxListado.Items.AddRange(new object[] {
-            "Choferes con mayor recaudacion",
-            "Choferes con el viaje mas largo realizado",
-            "Clientes con mayor consumo",
-            "Clientes que utilizo mas veces el mismo automovil en los viajes que ha realizado"});
-            this.comboBoxListado.Location = new System.Drawing.Point(21, 36);
-            this.comboBoxListado.Name = "comboBoxListado";
-            this.comboBoxListado.Size = new System.Drawing.Size(211, 21);
-            this.comboBoxListado.TabIndex = 0;
-            this.comboBoxListado.Text = "Seleccion el tipo de listado";
+            this.dataGridView1.AllowUserToAddRows = false;
+            this.dataGridView1.AllowUserToDeleteRows = false;
+            this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dataGridView1.Location = new System.Drawing.Point(21, 91);
+            this.dataGridView1.Name = "dataGridView1";
+            this.dataGridView1.ReadOnly = true;
+            this.dataGridView1.Size = new System.Drawing.Size(677, 144);
+            this.dataGridView1.TabIndex = 4;
+            // 
+            // buttonMostrar
+            // 
+            this.buttonMostrar.Location = new System.Drawing.Point(581, 33);
+            this.buttonMostrar.Name = "buttonMostrar";
+            this.buttonMostrar.Size = new System.Drawing.Size(117, 20);
+            this.buttonMostrar.TabIndex = 3;
+            this.buttonMostrar.Text = "Mostrar";
+            this.buttonMostrar.UseVisualStyleBackColor = true;
+            this.buttonMostrar.Click += new System.EventHandler(this.buttonMostrar_Click);
+            // 
+            // dateTimePickerFecha
+            // 
+            this.dateTimePickerFecha.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
+            this.dateTimePickerFecha.Location = new System.Drawing.Point(467, 33);
+            this.dateTimePickerFecha.Name = "dateTimePickerFecha";
+            this.dateTimePickerFecha.Size = new System.Drawing.Size(94, 20);
+            this.dateTimePickerFecha.TabIndex = 2;
             // 
             // comboBoxTrimestre
             // 
@@ -80,40 +95,25 @@
             this.comboBoxTrimestre.TabIndex = 1;
             this.comboBoxTrimestre.Text = "Seleccione el trimestre";
             // 
-            // dateTimePickerFecha
+            // comboBoxListado
             // 
-            this.dateTimePickerFecha.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
-            this.dateTimePickerFecha.Location = new System.Drawing.Point(493, 36);
-            this.dateTimePickerFecha.Name = "dateTimePickerFecha";
-            this.dateTimePickerFecha.Size = new System.Drawing.Size(105, 20);
-            this.dateTimePickerFecha.TabIndex = 2;
-            // 
-            // buttonMostrar
-            // 
-            this.buttonMostrar.Location = new System.Drawing.Point(636, 36);
-            this.buttonMostrar.Name = "buttonMostrar";
-            this.buttonMostrar.Size = new System.Drawing.Size(117, 20);
-            this.buttonMostrar.TabIndex = 3;
-            this.buttonMostrar.Text = "Mostrar";
-            this.buttonMostrar.UseVisualStyleBackColor = true;
-            this.buttonMostrar.Click += new System.EventHandler(this.buttonMostrar_Click);
-            // 
-            // dataGridView1
-            // 
-            this.dataGridView1.AllowUserToAddRows = false;
-            this.dataGridView1.AllowUserToDeleteRows = false;
-            this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridView1.Location = new System.Drawing.Point(21, 91);
-            this.dataGridView1.Name = "dataGridView1";
-            this.dataGridView1.ReadOnly = true;
-            this.dataGridView1.Size = new System.Drawing.Size(731, 248);
-            this.dataGridView1.TabIndex = 4;
+            this.comboBoxListado.FormattingEnabled = true;
+            this.comboBoxListado.Items.AddRange(new object[] {
+            "Choferes con mayor recaudacion",
+            "Choferes con el viaje mas largo realizado",
+            "Clientes con mayor consumo",
+            "Clientes que utilizo mas veces el mismo automovil en los viajes que ha realizado"});
+            this.comboBoxListado.Location = new System.Drawing.Point(21, 36);
+            this.comboBoxListado.Name = "comboBoxListado";
+            this.comboBoxListado.Size = new System.Drawing.Size(211, 21);
+            this.comboBoxListado.TabIndex = 0;
+            this.comboBoxListado.Text = "Seleccion el tipo de listado";
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(833, 415);
+            this.ClientSize = new System.Drawing.Size(767, 301);
             this.Controls.Add(this.groupBox1);
             this.Name = "Form1";
             this.Text = "Listado Estadistico";

@@ -18,15 +18,6 @@ GO
 IF (OBJECT_ID ('GGDP.vw_rendicion') IS NOT NULL)
   DROP VIEW GGDP.vw_rendicion;
 GO
-IF (OBJECT_ID ('GGDP.vw_chofer_mayor_recaudacion') IS NOT NULL)
-  DROP VIEW GGDP.vw_chofer_mayor_recaudacion;
-GO
-IF (OBJECT_ID ('GGDP.vw_chofer_viaje_largo') IS NOT NULL)
-  DROP VIEW GGDP.vw_chofer_viaje_largo;
-GO
-IF (OBJECT_ID ('GGDP.vw_cliente_mayor_consumo') IS NOT NULL)
-  DROP VIEW GGDP.vw_cliente_mayor_consumo;
-GO
 
 /* Eliminacion de Functions */
 IF (OBJECT_ID ('GGDP.fu_existe_usuario') IS NOT NULL)
@@ -171,6 +162,14 @@ IF (OBJECT_ID ('GGDP.sp_obtener_factura') IS NOT NULL)
     DROP PROCEDURE GGDP.sp_obtener_factura
 IF (OBJECT_ID ('GGDP.sp_alta_factura_viaje') IS NOT NULL)
     DROP PROCEDURE GGDP.sp_alta_factura_viaje
+IF (OBJECT_ID ('GGDP.sp_chofer_mayor_recaudacion') IS NOT NULL)
+	DROP PROCEDURE GGDP.sp_chofer_mayor_recaudacion;
+IF (OBJECT_ID ('GGDP.sp_chofer_viaje_largo') IS NOT NULL)
+	DROP PROCEDURE GGDP.sp_chofer_viaje_largo;
+IF (OBJECT_ID ('GGDP.sp_cliente_mayor_consumo') IS NOT NULL)
+	DROP PROCEDURE GGDP.sp_cliente_mayor_consumo;
+IF (OBJECT_ID ('GGDP.sp_cliente_mismo_automovil_viajes') IS NOT NULL)
+	DROP PROCEDURE GGDP.sp_cliente_mismo_automovil_viajes;
 GO
 
 /* Eliminacion de Tablas */
@@ -548,29 +547,6 @@ CREATE VIEW GGDP.vw_rendicion AS
 	JOIN GGDP.Chofer ON viaj_chofer = chof_id
 GO
 
-CREATE VIEW GGDP.vw_chofer_mayor_recaudacion AS
-	SELECT TOP 5 chof_id, chof_nombre + ' ' + chof_apellido as chofer_nombre_apellido, SUM(rend_importe) AS rendicion_total
-	FROM GGDP.Chofer
-	JOIN GGDP.Rendicion ON chof_id = rend_chofer
-	GROUP BY chof_id, chof_nombre + ' ' + chof_apellido
-	ORDER BY SUM(rend_importe) DESC
-GO
-
-CREATE VIEW GGDP.vw_chofer_viaje_largo AS
-	SELECT DISTINCT TOP 5 chof_id, chof_nombre + ' ' + chof_apellido as chofer_nombre_apellido, viaj_cantidad_kilometros
-	FROM GGDP.Chofer
-	JOIN GGDP.Viaje ON chof_id = viaj_chofer
-	ORDER BY viaj_cantidad_kilometros DESC
-GO
-
-CREATE VIEW GGDP.vw_cliente_mayor_consumo AS
-	SELECT TOP 5 fact_cliente, clie_nombre + ' ' + clie_apellido AS cliente_nombre_apellido, SUM(fact_importe) as consumo_total
-	FROM GGDP.Factura
-	JOIN GGDP.Cliente ON fact_cliente = clie_id
-	GROUP BY fact_cliente, clie_nombre + ' ' + clie_apellido
-	ORDER BY SUM(fact_importe) DESC
-GO
-
 /* Creacion de Functions*/
 CREATE FUNCTION GGDP.fu_existe_usuario(@usuario VARCHAR(255)) RETURNS BIT AS BEGIN
 	IF EXISTS(SELECT 1 FROM GGDP.Usuario WHERE usua_usuario = @usuario)
@@ -647,24 +623,43 @@ BEGIN
 END
 GO
 
-CREATE TRIGGER GGDP.tr_alta_cliente ON GGDP.Cliente INSTEAD OF INSERT
+CREATE TRIGGER GGDP.tr_alta_cliente ON GGDP.Cliente INSTEAD OF INSERT, UPDATE
 AS
 BEGIN
 	BEGIN TRY
 		BEGIN TRANSACTION
-
-		IF EXISTS (SELECT * FROM inserted i WHERE EXISTS (SELECT * FROM GGDP.Cliente c WHERE c.clie_telefono = i.clie_telefono AND c.clie_id != i.clie_id))
-		--IF (SELECT COUNT(*) FROM GGDP.Cliente c, inserted i WHERE c.clie_telefono = i.clie_telefono AND c.clie_id <> i.clie_id) > 0
+		IF (SELECT COUNT(*) FROM GGDP.Cliente c, inserted i WHERE c.clie_id != i.clie_id AND c.clie_telefono = i.clie_telefono) > 0
 		BEGIN
 			RAISERROR('El telefono ya existe, debe ingresar otro', 16, 1)
 		END
-		INSERT INTO GGDP.Cliente(clie_nombre, clie_apellido, clie_dni, clie_mail, clie_telefono, clie_direccion, clie_codigo_postal, clie_fecha_nacimiento, clie_habilitado, clie_usuario)
-		SELECT clie_nombre, clie_apellido, clie_dni, clie_mail, clie_telefono, clie_direccion, clie_codigo_postal, clie_fecha_nacimiento, clie_habilitado, clie_usuario FROM inserted
+		IF EXISTS(SELECT * FROM inserted)
+		BEGIN
+			IF EXISTS(SELECT * FROM deleted)
+			BEGIN
+				UPDATE GGDP.Cliente
+				SET clie_nombre = i.clie_nombre,
+					clie_apellido = i.clie_apellido,
+					clie_dni = i.clie_dni,
+					clie_mail = i.clie_mail,
+					clie_telefono = i.clie_telefono,
+					clie_direccion = i.clie_direccion,
+					clie_codigo_postal = i.clie_codigo_postal,
+					clie_fecha_nacimiento = i.clie_fecha_nacimiento,
+					clie_habilitado = i.clie_habilitado,
+					clie_usuario = i.clie_usuario
+				FROM inserted i
+				INNER JOIN GGDP.Cliente c ON i.clie_id = c.clie_id
+			END
+			ELSE
+			BEGIN
+				INSERT INTO GGDP.Cliente(clie_nombre, clie_apellido, clie_dni, clie_mail, clie_telefono, clie_direccion, clie_codigo_postal, clie_fecha_nacimiento, clie_habilitado, clie_usuario)
+				SELECT clie_nombre, clie_apellido, clie_dni, clie_mail, clie_telefono, clie_direccion, clie_codigo_postal, clie_fecha_nacimiento, clie_habilitado, clie_usuario FROM inserted
 
-		INSERT INTO GGDP.RolPorUsuario(rxu_rol, rxu_usuario)
-		SELECT rol_id, clie_usuario FROM GGDP.Rol, inserted
-		WHERE rol_nombre = 'Cliente'
-
+				INSERT INTO GGDP.RolPorUsuario(rxu_rol, rxu_usuario)
+				SELECT rol_id, clie_usuario FROM GGDP.Rol, inserted
+				WHERE rol_nombre = 'Cliente'
+			END
+		END
 		COMMIT TRANSACTION
 	END TRY
 	BEGIN CATCH
@@ -795,21 +790,39 @@ BEGIN
 END
 GO
 
-CREATE TRIGGER GGDP.tr_alta_automovil ON GGDP.Automovil INSTEAD OF INSERT
+CREATE TRIGGER GGDP.tr_alta_automovil ON GGDP.Automovil INSTEAD OF INSERT, UPDATE
 AS
 BEGIN
 	BEGIN TRY
 		BEGIN TRANSACTION
-		IF (SELECT COUNT(*) FROM GGDP.Automovil a, inserted i WHERE a.auto_patente = i.auto_patente) > 0
+		IF (SELECT COUNT(*) FROM GGDP.Automovil a, inserted i WHERE a.auto_id != i.auto_id AND a.auto_patente = i.auto_patente) > 0
 		BEGIN
 			RAISERROR('No se puede dar de alta un automovil con una patente ya registrada', 16, 1)
 		END
-		IF (SELECT COUNT(*) FROM GGDP.Automovil a, inserted i WHERE a.auto_chofer = i.auto_chofer AND a.auto_habilitado = 1 AND i.auto_habilitado = 1) > 0
+		IF (SELECT COUNT(*) FROM GGDP.Automovil a, inserted i WHERE a.auto_id != i.auto_id AND a.auto_chofer = i.auto_chofer AND a.auto_habilitado = 1 AND i.auto_habilitado = 1) > 0
 		BEGIN
 			RAISERROR('No se puede dar de alta un automovil con un chofer asignado a otro auto activo', 16, 1)
 		END
-		INSERT INTO GGDP.Automovil(auto_marca, auto_modelo, auto_patente, auto_turno, auto_chofer, auto_habilitado)
-		SELECT auto_marca, auto_modelo, auto_patente, auto_turno, auto_chofer, auto_habilitado FROM inserted
+		IF EXISTS(SELECT * FROM inserted)
+		BEGIN
+			IF EXISTS(SELECT * FROM deleted)
+			BEGIN
+				UPDATE GGDP.Automovil
+				SET auto_marca = i.auto_marca,
+					auto_modelo = i.auto_modelo,
+					auto_patente = i.auto_patente,
+					auto_turno = i.auto_turno,
+					auto_chofer = i.auto_chofer,
+					auto_habilitado = i.auto_habilitado
+				FROM inserted i
+				INNER JOIN GGDP.Automovil a ON i.auto_id = a.auto_id
+			END
+			ELSE
+			BEGIN
+				INSERT INTO GGDP.Automovil(auto_marca, auto_modelo, auto_patente, auto_turno, auto_chofer, auto_habilitado)
+				SELECT auto_marca, auto_modelo, auto_patente, auto_turno, auto_chofer, auto_habilitado FROM inserted
+			END
+		END
 		COMMIT TRANSACTION
 	END TRY
 	BEGIN CATCH
@@ -826,7 +839,7 @@ BEGIN
 END
 GO
 
-CREATE TRIGGER GGDP.tr_alta_turno ON GGDP.Turno INSTEAD OF INSERT
+CREATE TRIGGER GGDP.tr_alta_turno ON GGDP.Turno INSTEAD OF INSERT, UPDATE
 AS
 BEGIN
 	BEGIN TRY
@@ -835,16 +848,34 @@ BEGIN
 		BEGIN
 			RAISERROR('No se puede dar de alta un turno con la misma hora de inicio y fin', 16, 1)
 		END
-		IF (SELECT COUNT(*) FROM GGDP.Turno t, inserted i WHERE (t.turn_hora_inicio < i.turn_hora_inicio AND t.turn_hora_fin > i.turn_hora_inicio) OR (t.turn_hora_inicio < i.turn_hora_fin AND t.turn_hora_fin > i.turn_hora_fin)) > 0
+		IF (SELECT COUNT(*) FROM GGDP.Turno t, inserted i WHERE t.turn_id != i.turn_id AND (t.turn_hora_inicio < i.turn_hora_inicio AND t.turn_hora_fin > i.turn_hora_inicio) OR (t.turn_hora_inicio < i.turn_hora_fin AND t.turn_hora_fin > i.turn_hora_fin)) > 0
 		BEGIN
 			RAISERROR('No se puede dar de alta un turno que superpone franja horaria con otro', 16, 1)
 		END
-		IF (SELECT COUNT(*) FROM inserted i WHERE i.turn_hora_inicio > i.turn_hora_fin OR i.turn_hora_inicio > 24 OR i.turn_hora_inicio < 0 OR i.turn_hora_fin > 24 OR i.turn_hora_fin < 0) > 0
+		IF (SELECT COUNT(*) FROM GGDP.Turno t, inserted i WHERE i.turn_hora_inicio > i.turn_hora_fin OR i.turn_hora_inicio > 24 OR i.turn_hora_inicio < 0 OR i.turn_hora_fin > 24 OR i.turn_hora_fin < 0) > 0
 		BEGIN
 			RAISERROR('No se puede dar de alta un turno que excede las 24 horas', 16, 1)
 		END
-		INSERT INTO GGDP.Turno(turn_hora_inicio, turn_hora_fin, turn_descripcion, turn_valor_kilometro, turn_precio_base, turn_habilitado)
-		SELECT turn_hora_inicio, turn_hora_fin, turn_descripcion, turn_valor_kilometro, turn_precio_base, turn_habilitado FROM inserted
+		IF EXISTS(SELECT * FROM inserted)
+		BEGIN
+			IF EXISTS(SELECT * FROM deleted)
+			BEGIN
+				UPDATE GGDP.Turno
+				SET turn_hora_inicio = i.turn_hora_inicio,
+					turn_hora_fin = i.turn_hora_fin,
+					turn_descripcion = i.turn_descripcion,
+					turn_valor_kilometro = i.turn_valor_kilometro,
+					turn_precio_base = i.turn_precio_base,
+					turn_habilitado = i.turn_habilitado
+				FROM inserted i
+				INNER JOIN GGDP.Turno t ON i.turn_id = t.turn_id
+			END
+			ELSE
+			BEGIN
+				INSERT INTO GGDP.Turno(turn_hora_inicio, turn_hora_fin, turn_descripcion, turn_valor_kilometro, turn_precio_base, turn_habilitado)
+				SELECT turn_hora_inicio, turn_hora_fin, turn_descripcion, turn_valor_kilometro, turn_precio_base, turn_habilitado FROM inserted
+			END
+		END
 		COMMIT TRANSACTION
 	END TRY
 	BEGIN CATCH
@@ -1471,5 +1502,52 @@ BEGIN
 	VALUES(@factura, @viaje)
 	COMMIT TRANSACTION
 
+END
+GO
+
+CREATE PROCEDURE GGDP.sp_chofer_mayor_recaudacion (@fecha_inicio datetime, @fecha_fin datetime) AS
+BEGIN
+	SELECT TOP 5 chof_id as Chofer_ID, chof_nombre + ' ' + chof_apellido as Chofer, SUM(rend_importe) AS Rendicion
+	FROM GGDP.Chofer
+	JOIN GGDP.Rendicion ON chof_id = rend_chofer
+	WHERE rend_fecha BETWEEN @fecha_inicio AND @fecha_fin
+	GROUP BY chof_id, chof_nombre + ' ' + chof_apellido
+	ORDER BY SUM(rend_importe) DESC
+END
+GO
+
+CREATE PROCEDURE GGDP.sp_chofer_viaje_largo (@fecha_inicio datetime, @fecha_fin datetime) AS
+BEGIN
+	SELECT DISTINCT TOP 5 chof_id as Chofer_ID, viaj_id as Viaje_ID, chof_nombre + ' ' + chof_apellido as Chofer, viaj_cantidad_kilometros as Kilometros
+	FROM GGDP.Chofer
+	JOIN GGDP.Viaje ON chof_id = viaj_chofer
+	WHERE viaj_fecha_fin BETWEEN @fecha_inicio AND @fecha_fin
+	ORDER BY viaj_cantidad_kilometros DESC
+END
+GO
+
+CREATE PROCEDURE GGDP.sp_cliente_mayor_consumo (@fecha_inicio datetime, @fecha_fin datetime) AS
+BEGIN
+	SELECT TOP 5 fact_cliente as Factura, clie_nombre + ' ' + clie_apellido AS Cliente, SUM(fact_importe) as Consumo
+	FROM GGDP.Factura
+	JOIN GGDP.Cliente ON fact_cliente = clie_id
+	WHERE fact_fecha_inicio BETWEEN @fecha_inicio AND @fecha_fin
+	GROUP BY fact_cliente, clie_nombre + ' ' + clie_apellido
+	ORDER BY SUM(fact_importe) DESC
+END
+GO
+
+CREATE PROCEDURE GGDP.sp_cliente_mismo_automovil_viajes (@fecha_inicio datetime, @fecha_fin datetime) AS
+BEGIN
+	SELECT TOP 5 clie_nombre + ' ' + clie_apellido AS Cliente, marc_nombre + ' ' + auto_modelo + ' ' + auto_patente AS Automovil, COUNT(*) as Cantidad_veces_usado
+	FROM GGDP.Factura
+	JOIN GGDP.Cliente ON fact_cliente = clie_id
+	JOIN GGDP.FacturaPorViaje ON fact_id = fxv_factura
+	JOIN GGDP.Viaje ON fxv_viaje = viaj_id
+	JOIN GGDP.Automovil ON viaj_automovil = auto_id
+	JOIN GGDP.Marca on auto_marca = marc_id
+	WHERE fact_fecha_inicio BETWEEN @fecha_inicio AND @fecha_fin
+	GROUP BY clie_nombre + ' ' + clie_apellido, marc_nombre + ' ' + auto_modelo + ' ' + auto_patente
+	ORDER BY COUNT(*) DESC
 END
 GO
