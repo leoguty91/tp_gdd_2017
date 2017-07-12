@@ -252,7 +252,6 @@ CREATE TABLE GGDP.Chofer(
 	chof_mail VARCHAR(50) NOT NULL,
 	chof_telefono NUMERIC(18, 0) NOT NULL,
 	chof_direccion VARCHAR(255) NOT NULL,
-	chof_codigo_postal VARCHAR(8) NOT NULL,
 	chof_fecha_nacimiento datetime NOT NULL,
     chof_habilitado BIT,
 	chof_usuario INT NOT NULL
@@ -448,8 +447,8 @@ SELECT DISTINCT(Cliente_Dni), Cliente_Nombre, Cliente_Apellido, Cliente_Telefono
 GO
 
 -- Insercion de choferes
-INSERT INTO GGDP.Chofer(chof_mail, chof_nombre, chof_apellido, chof_dni, chof_telefono, chof_direccion, chof_codigo_postal, chof_fecha_nacimiento, chof_habilitado, chof_usuario)
-SELECT DISTINCT (Chofer_Mail), Chofer_Nombre, Chofer_Apellido, Chofer_Dni, Chofer_Telefono, Chofer_Direccion, 1, Chofer_Fecha_Nac, 1, usua_id FROM [gd_esquema].[Maestra], GGDP.Usuario WHERE usua_usuario = CAST(Chofer_Dni AS varchar(255))
+INSERT INTO GGDP.Chofer(chof_mail, chof_nombre, chof_apellido, chof_dni, chof_telefono, chof_direccion, chof_fecha_nacimiento, chof_habilitado, chof_usuario)
+SELECT DISTINCT (Chofer_Mail), Chofer_Nombre, Chofer_Apellido, Chofer_Dni, Chofer_Telefono, Chofer_Direccion, Chofer_Fecha_Nac, 1, usua_id FROM [gd_esquema].[Maestra], GGDP.Usuario WHERE usua_usuario = CAST(Chofer_Dni AS varchar(255))
 GO
 
 -- Insercion de marcas de autos
@@ -1329,17 +1328,17 @@ CREATE PROCEDURE GGDP.sp_modificacion_turno
 GO
 
 CREATE PROCEDURE GGDP.sp_obtener_chofer(@chofer_id int) AS BEGIN
-	SELECT chof_id, chof_nombre, chof_apellido, chof_dni, chof_mail, chof_telefono, chof_direccion, chof_codigo_postal, chof_fecha_nacimiento, chof_habilitado, chof_usuario FROM GGDP.Chofer WHERE chof_id = @chofer_id
+	SELECT chof_id, chof_nombre, chof_apellido, chof_dni, chof_mail, chof_telefono, chof_direccion, chof_fecha_nacimiento, chof_habilitado, chof_usuario FROM GGDP.Chofer WHERE chof_id = @chofer_id
 END
 GO
 
 CREATE PROCEDURE GGDP.sp_obtener_chofer_usuario(@usuario_id int) AS BEGIN
-	SELECT chof_id, chof_nombre, chof_apellido, chof_dni, chof_mail, chof_telefono, chof_direccion, chof_codigo_postal, chof_fecha_nacimiento, chof_habilitado, chof_usuario FROM GGDP.Chofer WHERE chof_usuario = @usuario_id
+	SELECT chof_id, chof_nombre, chof_apellido, chof_dni, chof_mail, chof_telefono, chof_direccion, chof_fecha_nacimiento, chof_habilitado, chof_usuario FROM GGDP.Chofer WHERE chof_usuario = @usuario_id
 END
 GO
 
 CREATE PROCEDURE GGDP.sp_obtener_choferes AS BEGIN
-	SELECT chof_id, chof_nombre, chof_apellido, chof_dni, chof_mail, chof_telefono, chof_direccion, chof_codigo_postal, chof_fecha_nacimiento, chof_habilitado, chof_usuario FROM GGDP.Chofer
+	SELECT chof_id, chof_nombre, chof_apellido, chof_dni, chof_mail, chof_telefono, chof_direccion, chof_fecha_nacimiento, chof_habilitado, chof_usuario FROM GGDP.Chofer
 END
 GO
 
@@ -1351,7 +1350,6 @@ CREATE PROCEDURE GGDP.sp_alta_chofer
 	@mail VARCHAR(50),
 	@telefono NUMERIC(18, 0),
 	@direccion VARCHAR(255),
-	@codigo_postal VARCHAR(8),
 	@fecha_nacimiento datetime,
     @habilitado BIT,
 	@usuario INT
@@ -1359,8 +1357,8 @@ CREATE PROCEDURE GGDP.sp_alta_chofer
 BEGIN
 
 	BEGIN TRANSACTION
-	INSERT INTO GGDP.Chofer(chof_nombre, chof_apellido, chof_dni, chof_mail, chof_telefono, chof_direccion, chof_codigo_postal, chof_fecha_nacimiento, chof_habilitado, chof_usuario)
-	VALUES(@nombre, @apellido, @dni, @mail, @telefono, @direccion, @codigo_postal, @fecha_nacimiento, @habilitado, @usuario)
+	INSERT INTO GGDP.Chofer(chof_nombre, chof_apellido, chof_dni, chof_mail, chof_telefono, chof_direccion, chof_fecha_nacimiento, chof_habilitado, chof_usuario)
+	VALUES(@nombre, @apellido, @dni, @mail, @telefono, @direccion, @fecha_nacimiento, @habilitado, @usuario)
 	COMMIT TRANSACTION
 
 END
@@ -1375,7 +1373,6 @@ CREATE PROCEDURE GGDP.sp_modificacion_chofer
 	@mail VARCHAR(50),
 	@telefono NUMERIC(18, 0),
 	@direccion VARCHAR(255),
-	@codigo_postal VARCHAR(8),
 	@fecha_nacimiento DATETIME,
 	@habilitado BIT
 ) AS
@@ -1393,7 +1390,6 @@ CREATE PROCEDURE GGDP.sp_modificacion_chofer
 					chof_mail = ISNULL(@mail, chof_mail),
 					chof_telefono = ISNULL(@telefono, chof_telefono),
 					chof_direccion = ISNULL(@direccion, chof_direccion),
-					chof_codigo_postal = ISNULL(@codigo_postal, chof_codigo_postal),
 					chof_fecha_nacimiento = ISNULL(@fecha_nacimiento, chof_fecha_nacimiento),
 					chof_habilitado = ISNULL(@habilitado, chof_habilitado)
 				WHERE chof_id = @chofer_id

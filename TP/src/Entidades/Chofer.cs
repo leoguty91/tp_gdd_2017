@@ -18,7 +18,6 @@ namespace UberFrba.Entidades
         public string mail { get; set; }
         public int telefono { get; set; }
         public string direccion { get; set; }
-        public string codigo_postal { get; set; }
         public DateTime fecha_nacimiento { get; set; }
         public bool habilitado { get; set; }
         public Usuario usuario { get; set; }
@@ -72,10 +71,9 @@ namespace UberFrba.Entidades
                         mail = row.ItemArray[4].ToString(),
                         telefono = Convert.ToInt32(row.ItemArray[5]),
                         direccion = row.ItemArray[6].ToString(),
-                        codigo_postal = row.ItemArray[7].ToString(),
-                        fecha_nacimiento = Convert.ToDateTime(row.ItemArray[8]),
-                        habilitado = (bool)row.ItemArray[9],
-                        usuario = usuario_mapper.Mapear((int)row.ItemArray[10]),
+                        fecha_nacimiento = Convert.ToDateTime(row.ItemArray[7]),
+                        habilitado = (bool)row.ItemArray[8],
+                        usuario = usuario_mapper.Mapear((int)row.ItemArray[9]),
                     };
                 }
                 throw new Exception("Hubo un error al mapear el chofer");
@@ -125,7 +123,6 @@ namespace UberFrba.Entidades
             store_procedure.Parameters.Add(new SqlParameter("@mail", mail));
             store_procedure.Parameters.Add(new SqlParameter("@telefono", telefono));
             store_procedure.Parameters.Add(new SqlParameter("@direccion", direccion));
-            store_procedure.Parameters.Add(new SqlParameter("@codigo_postal", codigo_postal));
             store_procedure.Parameters.Add(new SqlParameter("@fecha_nacimiento", fecha_nacimiento.Date));
             store_procedure.Parameters.Add(new SqlParameter("@habilitado", habilitado));
             conexion.EjecutarConsultar(store_procedure);

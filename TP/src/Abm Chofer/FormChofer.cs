@@ -51,7 +51,6 @@ namespace UberFrba.Abm_Chofer
                     textBoxDNI.Text = Convert.ToString(chofer.dni);
                     textBoxTelefono.Text = Convert.ToString(chofer.telefono);
                     textBoxDireccion.Text = chofer.direccion;
-                    textBoxCodigoPostal.Text = chofer.codigo_postal;
                     dateTimePickerFechaNacimiento.Value = chofer.fecha_nacimiento;
                     comboBoxUsuarios.Enabled = false;
                     comboBoxUsuarios.DisplayMember = "Text";
@@ -71,6 +70,19 @@ namespace UberFrba.Abm_Chofer
             {
                 if ((comboBoxUsuarios.SelectedItem as dynamic).Value == 0)
                     throw new Exception("Debe seleccionar un usuario");
+                if (textBoxNombre.Text == "")
+                    throw new Exception("Debe ingresar un nombre");
+                if (textBoxApellido.Text == "")
+                    throw new Exception("Debe ingresar un apellido");
+                int valueParsed;
+                if (!Int32.TryParse(textBoxDNI.Text.Trim(), out valueParsed))
+                    throw new Exception("Debe ingresar un DNI numerico");
+                if (textBoxMail.Text == "")
+                    throw new Exception("Debe ingresar un mail");
+                if (!Int32.TryParse(textBoxTelefono.Text.Trim(), out valueParsed))
+                    throw new Exception("Debe ingresar un telefono numerico");
+                if (textBoxDireccion.Text == "")
+                    throw new Exception("Debe ingresar una direccion");
                 Usuario usuario_mapper = new Usuario();
                 int usuario_id = (int)(comboBoxUsuarios.SelectedItem as dynamic).Value;
                 chofer.usuario = usuario_mapper.Mapear(usuario_id);
@@ -80,7 +92,6 @@ namespace UberFrba.Abm_Chofer
                 chofer.mail = textBoxMail.Text;
                 chofer.telefono = Convert.ToInt32(textBoxTelefono.Text);
                 chofer.direccion = textBoxDireccion.Text;
-                chofer.codigo_postal = textBoxCodigoPostal.Text;
                 chofer.fecha_nacimiento = dateTimePickerFechaNacimiento.Value.Date;
                 chofer.habilitado = checkBox1.Checked;
                 string respuesta = chofer.Guardar();

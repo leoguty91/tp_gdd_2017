@@ -24,6 +24,10 @@ namespace UberFrba.Registro_Usuario
         {
             try
             {
+                if (textBoxUsername.Text == "")
+                    throw new Exception("Debe ingresar un nombre de usuaro");
+                if (textBoxPassword.Text == "")
+                    throw new Exception("Debe ingresar un password");
                 Conexion conexion = new Conexion();
                 SqlCommand store_procedure = conexion.IniciarStoreProcedure("sp_alta_usuario");
                 store_procedure.Parameters.Add(new SqlParameter("@usuario", textBoxUsername.Text));

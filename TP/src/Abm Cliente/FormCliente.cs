@@ -73,6 +73,21 @@ namespace UberFrba.Abm_Cliente
             {
                 if ((comboBoxUsuarios.SelectedItem as dynamic).Value == 0)
                     throw new Exception("Debe seleccionar un usuario");
+                if (textBoxNombre.Text == "")
+                    throw new Exception("Debe ingresar un nombre");
+                if (textBoxApellido.Text == "")
+                    throw new Exception("Debe ingresar un apellido");
+                int valueParsed;
+                if (!Int32.TryParse(textBoxDNI.Text.Trim(), out valueParsed))
+                    throw new Exception("Debe ingresar un DNI numerico");
+                if (textBoxMail.Text == "")
+                    throw new Exception("Debe ingresar un mail");
+                if (!Int32.TryParse(textBoxTelefono.Text.Trim(), out valueParsed))
+                    throw new Exception("Debe ingresar un telefono numerico");
+                if (textBoxDireccion.Text == "")
+                    throw new Exception("Debe ingresar una direccion");
+                if (textBoxCodigoPostal.Text == "")
+                    throw new Exception("Debe ingresar un codigo postal");
                 Usuario usuario_mapper = new Usuario();
                 int usuario_id = (int)(comboBoxUsuarios.SelectedItem as dynamic).Value;
                 cliente.usuario = usuario_mapper.Mapear(usuario_id);

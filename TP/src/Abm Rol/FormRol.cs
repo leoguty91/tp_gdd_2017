@@ -117,40 +117,39 @@ namespace UberFrba.Abm_Rol
 
         private void button1_Click(object sender, EventArgs e)
         {
-            if (ValidateChildren())
+            try
             {
-                try
+                if (textBox1.Text == "")
+                    throw new Exception("Debe ingresar un nombre al rol");
+                Conexion conexion = new Conexion();
+                SqlCommand store_procedure;
+                if (this.nuevo_rol)
                 {
-                    Conexion conexion = new Conexion();
-                    SqlCommand store_procedure;
-                    if (this.nuevo_rol)
-                    {
-                        store_procedure = conexion.IniciarStoreProcedure("sp_alta_rol");
-                    }
-                    else
-                    {
-                        store_procedure = conexion.IniciarStoreProcedure("sp_modificacion_rol");
-                        store_procedure.Parameters.Add(new SqlParameter("@rol", rol.id));
-                    }
-                    store_procedure.Parameters.Add(new SqlParameter("@nombre", textBox1.Text));
-                    store_procedure.Parameters.Add(new SqlParameter("@habilitado", checkBox1.Checked));
-                    conexion.EjecutarConsultar(store_procedure);
-                    actualizaFuncionalidades(textBox1.Text);
-                    string mensaje_ok;
-                    if (this.nuevo_rol)
-                    {
-                        mensaje_ok = String.Format("Se ha creado el rol {0}", textBox1.Text);
-                    }
-                    else
-                    {
-                        mensaje_ok = String.Format("Se ha modificado el rol {0}", textBox1.Text);
-                    }
-                    MessageBox.Show(mensaje_ok, "Guardado de rol", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
+                    store_procedure = conexion.IniciarStoreProcedure("sp_alta_rol");
                 }
-                catch (Exception exception)
+                else
                 {
-                    MessageBox.Show(exception.Message, "Guardado de rol error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    store_procedure = conexion.IniciarStoreProcedure("sp_modificacion_rol");
+                    store_procedure.Parameters.Add(new SqlParameter("@rol", rol.id));
                 }
+                store_procedure.Parameters.Add(new SqlParameter("@nombre", textBox1.Text));
+                store_procedure.Parameters.Add(new SqlParameter("@habilitado", checkBox1.Checked));
+                conexion.EjecutarConsultar(store_procedure);
+                actualizaFuncionalidades(textBox1.Text);
+                string mensaje_ok;
+                if (this.nuevo_rol)
+                {
+                    mensaje_ok = String.Format("Se ha creado el rol {0}", textBox1.Text);
+                }
+                else
+                {
+                    mensaje_ok = String.Format("Se ha modificado el rol {0}", textBox1.Text);
+                }
+                MessageBox.Show(mensaje_ok, "Guardado de rol", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
+            }
+            catch (Exception exception)
+            {
+                MessageBox.Show(exception.Message, "Guardado de rol error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
         private void actualizaFuncionalidades(string rol_nombre)

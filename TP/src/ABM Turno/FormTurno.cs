@@ -50,6 +50,18 @@ namespace UberFrba.ABM_Turno
         {
             try
             {
+                int valueParsed;
+                if (!Int32.TryParse(textBoxHoraInicio.Text.Trim(), out valueParsed))
+                    throw new Exception("Debe ingresar una hora de inicio numerica");
+                if (!Int32.TryParse(textBoxHoraFin.Text.Trim(), out valueParsed))
+                    throw new Exception("Debe ingresar una hora de fin numerica");
+                if (textBoxDescripcion.Text == "")
+                    throw new Exception("Debe ingresar una descripcion");
+                decimal valueParse;
+                if (!Decimal.TryParse(textBoxValorKM.Text.Trim(), out valueParse))
+                    throw new Exception("Debe ingresar un valor de kilometraje decimal");
+                if (!Decimal.TryParse(textBoxPrecioBase.Text.Trim(), out valueParse))
+                    throw new Exception("Debe ingresar un valor de precio base decimal");
                 turno.habilitado = checkBoxHabilitado.Checked;
                 turno.hora_inicio = Convert.ToInt32(textBoxHoraInicio.Text);
                 turno.hora_fin = Convert.ToInt32(textBoxHoraFin.Text);

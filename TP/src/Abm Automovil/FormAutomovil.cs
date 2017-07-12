@@ -62,6 +62,10 @@ namespace UberFrba.Abm_Automovil
                     throw new Exception("Debe seleccionar un turno");
                 if ((comboBoxChofer.SelectedItem as dynamic).Value == 0)
                     throw new Exception("Debe seleccionar un chofer");
+                if (textBoxModelo.Text == "")
+                    throw new Exception("Debe ingresar un modelo de automovil");
+                if (textBoxPatente.Text == "")
+                    throw new Exception("Debe ingresar una patente");
                 Marca marca_mapper = new Marca();
                 Turno turno_mapper = new Turno();
                 Chofer chofer_mapper = new Chofer();

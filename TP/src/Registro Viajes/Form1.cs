@@ -108,6 +108,9 @@ namespace UberFrba.Registro_Viajes
         {
             try
             {
+                int valueParsed;
+                if (!Int32.TryParse(textBoxKilometrosRecorridos.Text.Trim(), out valueParsed))
+                    throw new Exception("Debe ingresar una cantidad de kilometros del tipo numerico");
                 Viaje viaje = new Viaje();
                 Chofer chofer_mapper = new Chofer();
                 Turno turno_mapper = new Turno();
