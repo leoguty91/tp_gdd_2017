@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using UberFrba.Entidades;
+using UberFrba.Helpers;
 using UberFrba.UI;
 
 namespace UberFrba.Facturacion
@@ -28,6 +29,7 @@ namespace UberFrba.Facturacion
                 comboBoxCliente = cbm.Cliente(comboBoxCliente);
                 dateTimePickerFecha.CustomFormat = "MM/yyyy";
                 dateTimePickerFecha.ShowUpDown = true;
+                dateTimePickerFecha.Value = FechaSistema.getDateTime();
             }
             catch (Exception exception)
             {

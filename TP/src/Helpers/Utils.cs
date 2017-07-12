@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Security.Cryptography;
 using UberFrba.Entidades;
+using System.Configuration;
 
 namespace UberFrba.Helpers
 {
@@ -24,6 +25,13 @@ namespace UberFrba.Helpers
         public static void Registrar(Usuario usuario)
         {
             instance = usuario;
+        }
+    }
+    public class FechaSistema
+    {
+        public static DateTime getDateTime()
+        {
+            return Convert.ToDateTime(ConfigurationManager.AppSettings["FechaSistema"]);
         }
     }
     class Utils

@@ -508,7 +508,6 @@ UPDATE GGDP.Factura SET fact_viajes_facturados = (SELECT COUNT(*) FROM GGDP.Fact
 GO
 
 -- Insercion de rendiciones
--- TODO La rendicion de importe no esta bien, corregir
 INSERT INTO GGDP.Rendicion(rend_fecha, rend_chofer, rend_turno, rend_importe)
 SELECT Rendicion_Fecha, chof_id, turn_id, SUM(Rendicion_Importe)
 FROM [gd_esquema].[Maestra]

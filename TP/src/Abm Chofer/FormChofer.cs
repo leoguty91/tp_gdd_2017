@@ -27,6 +27,7 @@ namespace UberFrba.Abm_Chofer
             {
                 if (chofer_id == Entidad.NUEVO)
                 {
+                    dateTimePickerFechaNacimiento.Value = FechaSistema.getDateTime();
                     chofer = new Chofer();
                     Usuario usuario_mapper = new Usuario();
                     List<Usuario> usuarios = usuario_mapper.ObtenerUsuarios();

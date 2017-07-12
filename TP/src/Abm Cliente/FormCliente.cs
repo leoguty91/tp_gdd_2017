@@ -29,6 +29,7 @@ namespace UberFrba.Abm_Cliente
             {
                 if (cliente_id == Entidad.NUEVO)
                 {
+                    dateTimePickerFechaNacimiento.Value = FechaSistema.getDateTime();
                     cliente = new Cliente();
                     Usuario usuario_mapper = new Usuario();
                     List<Usuario> usuarios = usuario_mapper.ObtenerUsuarios();

@@ -45,6 +45,10 @@ namespace UberFrba.Registro_Viajes
                 comboBoxAutomovil = cbm.Automovil(comboBoxAutomovil, automovil_seleccionado);
                 comboBoxCliente = cbm.Cliente(comboBoxCliente);
                 comboBoxTurno = cbm.Turno(comboBoxTurno);
+                dateTimePickerFechaInicio.Value = FechaSistema.getDateTime();
+                dateTimePickerFechaFin.Value = FechaSistema.getDateTime();
+                dateTimePickerFechaInicio.CustomFormat = "dd/MM/yyyy - HH:mm";
+                dateTimePickerFechaFin.CustomFormat = "dd/MM/yyyy - HH:mm";
             }
             catch (Exception exception)
             {

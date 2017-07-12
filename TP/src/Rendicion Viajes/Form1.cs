@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using UberFrba.Entidades;
+using UberFrba.Helpers;
 using UberFrba.UI;
 
 namespace UberFrba.Rendicion_Viajes
@@ -27,6 +28,7 @@ namespace UberFrba.Rendicion_Viajes
                 ComboBoxManager cbm = new ComboBoxManager();
                 comboBoxChofer = cbm.Chofer(comboBoxChofer);
                 comboBoxTurno = cbm.Turno(comboBoxTurno);
+                dateTimePickerFecha.Value = FechaSistema.getDateTime();
             }
             catch (Exception exception)
             {

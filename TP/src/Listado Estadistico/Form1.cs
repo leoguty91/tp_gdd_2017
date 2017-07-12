@@ -34,6 +34,7 @@ namespace UberFrba.Listado_Estadistico
         {
             dateTimePickerFecha.CustomFormat = "yyyy";
             dateTimePickerFecha.ShowUpDown = true;
+            dateTimePickerFecha.Value = FechaSistema.getDateTime();
         }
 
         private void buttonMostrar_Click(object sender, EventArgs e)
